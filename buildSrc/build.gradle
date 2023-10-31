@@ -18,12 +18,12 @@ dependencies {
 gradlePlugin {
 	plugins {
 		sonatype {
-			id = 'com.konfigyr.crypto.sonatype'
-			implementationClass = 'com.konfigyr.SonatypePlugin'
+			id = 'com.konfigyr.sonatype'
+			implementationClass = 'com.konfigyr.publish.SonatypePlugin'
 		}
 		deploy {
-			id = 'com.konfigyr.crypto.deploy'
-			implementationClass = 'com.konfigyr.DeployPlugin'
+			id = 'com.konfigyr.deploy'
+			implementationClass = 'com.konfigyr.publish.DeployPlugin'
 		}
 	}
 }
