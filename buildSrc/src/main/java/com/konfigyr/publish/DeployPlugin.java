@@ -1,4 +1,4 @@
-package com.konfigyr.crypto.publish;
+package com.konfigyr.publish;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

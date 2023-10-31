@@ -3,8 +3,8 @@ plugins {
     id 'checkstyle'
     id 'java-library'
     id 'maven-publish'
-    id 'com.konfigyr.crypto.sonatype'
-    id 'com.konfigyr.crypto.deploy'
+    id 'com.konfigyr.sonatype'
+    id 'com.konfigyr.deploy'
     id 'io.spring.javaformat' version '0.0.39'
 }
 

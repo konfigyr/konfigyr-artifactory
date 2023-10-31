@@ -1,4 +1,4 @@
-package com.konfigyr.crypto.publish;
+package com.konfigyr.publish;
 
 import io.github.gradlenexus.publishplugin.NexusPublishExtension;
 import io.github.gradlenexus.publishplugin.NexusPublishPlugin;

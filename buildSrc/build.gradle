@@ -19,11 +19,11 @@ gradlePlugin {
 	plugins {
 		sonatype {
 			id = 'com.konfigyr.crypto.sonatype'
-			implementationClass = 'com.konfigyr.crypto.publish.SonatypePlugin'
+			implementationClass = 'com.konfigyr.SonatypePlugin'
 		}
 		deploy {
 			id = 'com.konfigyr.crypto.deploy'
-			implementationClass = 'com.konfigyr.crypto.publish.DeployPlugin'
+			implementationClass = 'com.konfigyr.DeployPlugin'
 		}
 	}
 }
