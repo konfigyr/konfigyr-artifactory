@@ -8,12 +8,7 @@ on:
 jobs:
   build:
     name: Build
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        jdk: [17, 21, 25]
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -21,10 +16,10 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@v5
 
-      - name: Set up JDK ${{ matrix.jdk }}
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: ${{ matrix.jdk }}
+          java-version: 17
           distribution: temurin
 
       - name: Set up Gradle
