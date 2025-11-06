@@ -33,6 +33,10 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.1")
 }
 
+checkstyle {
+    toolVersion = "12.1.1"
+}
+
 publishing {
     publications {
         create<MavenPublication>("artifactory") {
