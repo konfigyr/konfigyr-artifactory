@@ -37,20 +37,6 @@ checkstyle {
     toolVersion = "12.1.1"
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("artifactory") {
-            groupId = "com.konfigyr"
-            artifactId = "konfigyr-artifactory"
-            version = "1.0.0"
-            from(components.getByName("java"))
-        }
-    }
-    repositories {
-        mavenLocal()
-    }
-}
-
 tasks.withType<JavaCompile>().configureEach {
     options.release = 17
 }

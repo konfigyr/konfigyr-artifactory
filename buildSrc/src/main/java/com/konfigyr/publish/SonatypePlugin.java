@@ -4,6 +4,7 @@ import io.github.gradlenexus.publishplugin.NexusPublishExtension;
 import io.github.gradlenexus.publishplugin.NexusPublishPlugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.net.URI;
@@ -12,7 +13,7 @@ import java.net.URI;
  * @author : Vladimir Spasic
  * @since : 08.09.23, Fri
  **/
-public class SonatypePlugin implements Plugin<Project> {
+public class SonatypePlugin implements Plugin<@NotNull Project> {
 
 	private static final String GROUP_NAME = "com.konfigyr";
 	private static final URI REPOSITORY_URL = URI.create("https://ossrh-staging-api.central.sonatype.com/service/local/");
@@ -38,7 +39,7 @@ public class SonatypePlugin implements Plugin<Project> {
 			}
 		}));
 
-		project.task("release", it -> {
+		project.getTasks().register("release", it -> {
 			it.setGroup("publishing");
 			it.setDescription("Closes and releases.the Sonatype Staging repository where the artifacts are uploaded");
 			it.dependsOn(project.getTasks().findByName("closeAndReleaseSonatypeStagingRepository"));
