@@ -15,8 +15,8 @@ import java.net.URI;
 public class SonatypePlugin implements Plugin<Project> {
 
 	private static final String GROUP_NAME = "com.konfigyr";
-	private static final URI REPOSITORY_URL = URI.create("https://s01.oss.sonatype.org/service/local/");
-	private static final URI SNAPSHOT_REPOSITORY_URL = URI.create("https://s01.oss.sonatype.org/content/repositories/snapshots/");
+	private static final URI REPOSITORY_URL = URI.create("https://ossrh-staging-api.central.sonatype.com/service/local/");
+	private static final URI SNAPSHOT_REPOSITORY_URL = URI.create("https://central.sonatype.com/repository/maven-snapshots/");
 
 	@Override
 	public void apply(@Nonnull Project project) {
