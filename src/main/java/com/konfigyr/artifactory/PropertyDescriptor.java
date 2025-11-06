@@ -1,279 +1,168 @@
 package com.konfigyr.artifactory;
 
-import io.avaje.jsonb.Json;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 /**
- * Record that defines the description of a configuration property of an {@link Artifact}.
+ * Describes the metadata of a configuration property discovered within an {@link Artifact}.
  * <p>
- * The descriptors are associated to an {@link Artifact} through {@link Release releases}.
- * Each release can introduce changes to a {@link PropertyDescriptor}, new properties can
- * be added, existing ones can be updated, deprecated or removed. Because of these changes
- * it is important to know which configuration properties can be used for a specific
- * version of the artifact.
+ * A {@code PropertyDescriptor} represents the structural and semantic definition of a configuration property
+ * that can be declared by a Spring Boot module, library, or application. It provides immutable access to the
+ * property’s identifying name, data type, description, default value, and any additional semantic hints or
+ * deprecation metadata.
  *
- * @param name unique property name, can't be {@literal null}
- * @param type property type descriptor, can't be {@literal null}
- * @param dataType data type for the property value, can't be {@literal null}
- * @param typeName original type name of the property, can be {@literal null}
- * @param description description of the configuration property, can be {@literal null}
- * @param defaultValue default value of the configuration property, can be {@literal null}
- * @param hints list of possible configuration property values, can't be {@literal null}
- * @param deprecation deprecation information, if any is available
- * @author : Vladimir Spasic
- * @since : 16.03.23, Thu
- **/
-@Json
-public record PropertyDescriptor(@Nonnull @Json.Property("name") String name,
-		@Nonnull @Json.Property("type") PropertyType type, @Nonnull @Json.Property("data_type") DataType dataType,
-		@Nullable @Json.Property("type_name") String typeName,
-		@Nullable @Json.Property("description") String description,
-		@Nullable @Json.Property("default_value") String defaultValue,
-		@Nonnull @Json.Property("hints") List<String> hints,
-		@Nullable @Json.Property("deprecation") Deprecation deprecation)
-		implements
-			Serializable,
-			Comparable<PropertyDescriptor> {
+ * <h2>Property Descriptor Purpose</h2>
+ * Within the Konfigyr {@code Artifactory}, a {@code PropertyDescriptor} serves as:
+ * <ul>
+ *   <li>A lightweight, immutable projection of configuration metadata extracted from build artifacts.</li>
+ *   <li>A descriptor used for displaying configuration properties within namespaces and services.</li>
+ *   <li>A reference point for provenance tracking, linking a property definition to specific artifact versions.</li>
+ *   <li>An input source for configuration validation, schema export, or documentation generation.</li>
+ * </ul>
+ *
+ * @author Vladimir Spasic
+ * @see Deprecation
+ * @see <a href="https://docs.spring.io/spring-boot/specification/configuration-metadata/index.html">Spring Boot configuration metadata</a>
+ * @see <a href="https://docs.spring.io/spring-boot/how-to/properties-and-configuration.html">Spring Boot documentation</a>
+ * @since 1.0.0
+ */
+public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Serializable {
 
-	@Serial
-	private static final long serialVersionUID = 8577934242497894399L;
+	/**
+	 * Creates a new instance of the {@link DefaultPropertyDescriptor.Builder} used to create a
+	 * new instance of the {@link DefaultPropertyDescriptor} using the fluent builder API.
+	 *
+	 * @return default property descriptor builder, never {@literal null}
+	 */
+	static DefaultPropertyDescriptor.Builder builder() {
+		return new DefaultPropertyDescriptor.Builder();
+	}
+
+	/**
+	 * Returns the logical property name.
+	 * <p>
+	 * For example, {@code spring.datasource.url} or {@code server.port}.
+	 *
+	 * @return the property name, never {@literal null}.
+	 */
+	@NonNull
+	String name();
+
+	/**
+	 * Returns the JSON Schema definition that describes the structure, type, and validation rules of the
+	 * property's value.
+	 * <p>
+	 * The schema serves as the contract between the backend and the user interface. It enables type-safe
+	 * editing, validation, and rendering of complex configuration structures such as objects, lists, or maps.
+	 * <p>
+	 * Examples:
+	 * <ul>
+	 *   <li>For a simple scalar property with type of <code>java.lang.String</code>:
+	 *     <pre>{@code {"type": "string"}}</pre>
+	 *   </li>
+	 *   <li>For a dynamic configuration property with type <code>com.example.Account</code>:
+	 *     <pre>{@code
+	 *     {
+	 *       "type": "object",
+	 *       "properties": {
+	 *         "name": {"type": "string"},
+	 *         "age": {"type": "integer"},
+	 *         "enabled": {"type": "boolean"}
+	 *       },
+	 *       "required": ["name", "age", "enabled"]
+	 *     }
+	 *     }</pre>
+	 *   </li>
+	 *   <li>For a collection of dynamic configuration values with type <code>com.example.Account[]</code>:
+	 *     <pre>{@code
+	 *     {
+	 *       "type": "array",
+	 *       "items": {
+	 *         "type": "object",
+	 *         "properties": {
+	 *           "name": {"type": "string"},
+	 *           "age": {"type": "integer"},
+	 *           "enabled": {"type": "boolean"}
+	 *         },
+	 *         "required": ["name", "age", "enabled"]
+	 *       }
+	 *     }
+	 *     }</pre>
+	 *   </li>
+	 *   <li>For a map of dynamic configuration values with type <code>java.util.Map&lt;java.lang.String,com.example.Account&gt;</code>:
+	 *     <pre>{@code
+	 *     {
+	 *       "type": "object",
+	 *       "propertyNames" : {
+	 *         "type" : "string"
+	 *       },
+	 *       "additionalProperties" : {
+	 *         "type": "object",
+	 *         "properties": {
+	 *           "name": {"type": "string"},
+	 *           "age": {"type": "integer"},
+	 *           "enabled": {"type": "boolean"}
+	 *         },
+	 *         "required": ["name", "age", "enabled"]
+	 *       }
+	 *     }
+	 *     }</pre>
+	 *   </li>
+	 * </ul>
+	 *
+	 * @return a JSON Schema node describing the property's value structure, never {@code null}.
+	 * @see <a href="https://json-schema.org/draft/2020-12/json-schema-core.html">JSON Schema</a>
+	 */
+	@NonNull
+	String schema();
+
+	/**
+	 * Returns the fully qualified Java type name of the property value.
+	 * <p>
+	 * For example, {@code java.lang.String} or {@code java.util.Boolean}. This information is mainly used for
+	 * introspection.
+	 *
+	 * @return the fully qualified type name, never {@literal null}.
+	 */
+	@Nullable
+	String typeName();
+
+	/**
+	 * Returns a human-readable description of the property’s purpose.
+	 * <p>
+	 * This may include guidance on expected values, usage context, or side effects of changing the configuration.
+	 *
+	 * @return a textual description of the property, may be {@literal null}.
+	 */
+	@Nullable
+	String description();
+
+	/**
+	 * Returns the default value for this property, if defined.
+	 * <p>
+	 * The default value is usually determined by the library or framework providing the configuration property.
+	 *
+	 * @return the default property value, or {@literal null} if none is defined.
+	 */
+	@Nullable
+	String defaultValue();
+
+	/**
+	 * Returns deprecation metadata associated with this property, if applicable.
+	 * <p>
+	 * If a property is deprecated, the {@link Deprecation} object provides the reason, replacement suggestion,
+	 * and since-which-version metadata.
+	 *
+	 * @return deprecation metadata, may be {@literal null}.
+	 */
+	@Nullable
+	Deprecation deprecation();
 
 	@Override
-	public int compareTo(@Nonnull PropertyDescriptor o) {
-		return Comparator.comparing(PropertyDescriptor::name).compare(this, o);
+	default int compareTo(@NonNull PropertyDescriptor other) {
+		return Comparator.comparing(PropertyDescriptor::name).compare(this, other);
 	}
-
-	/**
-	 * Creates a new instance of the {@link PropertyDescriptor.Builder} used to create a
-	 * new instance of the {@link PropertyDescriptor} using the fluent builder API.
-	 * @return property builder, never {@literal null}
-	 */
-	public static @Nonnull Builder builder() {
-		return new Builder();
-	}
-
-	/**
-	 * Builder class used to create new instances of the {@link PropertyDescriptor}.
-	 */
-	public static class Builder {
-
-		private String name;
-
-		private PropertyType type = PropertyType.STRING;
-
-		private DataType dataType = DataType.ATOMIC;
-
-		private String typeName;
-
-		private String description;
-
-		private String defaultValue;
-
-		private Deprecation deprecation;
-
-		private final List<String> hints = new ArrayList<>();
-
-		private Builder() {
-		}
-
-		/**
-		 * Specify the full name of the property. Konfigyr Artifactory treats this value
-		 * as case-sensitive, it does not transform the property names, nor it specifies
-		 * any specific conventions. The conventions depend on the {@link Artifact} for
-		 * which this property is defined for.
-		 * <p>
-		 * The name of the property is considered unique per {@link Artifact}, any
-		 * duplicates would be rejected.
-		 * @param name property name
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder name(String name) {
-			this.name = name;
-			return this;
-		}
-
-		/**
-		 * Define the configuration {@link PropertyType} that this
-		 * {@link PropertyDescriptor} should have.
-		 * <p>
-		 * This can be used to provide helpful type information, or hints, either to the
-		 * user when entering values or by the value converters during serialization.
-		 * <p>
-		 * If nothing is specified, the {@link PropertyType#STRING} would be used as a
-		 * default.
-		 * @param type property type
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder type(PropertyType type) {
-			this.type = type;
-			return this;
-		}
-
-		/**
-		 * What should be the {@link DataType} of the value for this
-		 * {@link PropertyDescriptor}.
-		 * <p>
-		 * If nothing is specified, the {@link DataType#ATOMIC} would be used as a
-		 * default.
-		 * @param type value data type
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder dataType(DataType type) {
-			this.dataType = type;
-			return this;
-		}
-
-		/**
-		 * Defines what was the type name of the expected property value in the language
-		 * in which this {@link Artifact} was written.
-		 * <p>
-		 * For instance if the language is Java and type is a string, it should be
-		 * {@code java.lang.String}.
-		 * <p>
-		 * This attribute is purely used for informational purposes with intention of
-		 * helping the user decide how to define the value for this
-		 * <p>
-		 * May be omitted if no value type information is available.
-		 * {@link PropertyDescriptor}.
-		 * @param typeName original type name
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder typeName(String typeName) {
-			this.typeName = typeName;
-			return this;
-		}
-
-		/**
-		 * Describe the {@link PropertyDescriptor}, what is the actual purpose of this
-		 * configuration property. It is recommended that descriptions are a short
-		 * paragraphs, providing a concise summary.
-		 * <p>
-		 * This description should be displayed to users when defining the value for the
-		 * configuration property for the {@link Artifact}
-		 * <p>
-		 * May be omitted if no description is available.
-		 * @param description configuration property description
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder description(String description) {
-			this.description = description;
-			return this;
-		}
-
-		/**
-		 * Specify the default value which will be used if the property is not specified.
-		 * <p>
-		 * May be omitted if the default value is not known or set.
-		 * @param value default value
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder defaultValue(String value) {
-			this.defaultValue = value;
-			return this;
-		}
-
-		/**
-		 * Add a hint to this {@link PropertyDescriptor}. Usually hint is a suggested
-		 * value that this configuration property can have.
-		 * @param hint value hint
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder hint(String hint) {
-			if (hint != null && !hint.isBlank()) {
-				this.hints.add(hint);
-			}
-			return this;
-		}
-
-		/**
-		 * Add hints to this {@link PropertyDescriptor}. Usually hint is a suggested value
-		 * that this configuration property can have.
-		 * @param hints value hints
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder hints(String... hints) {
-			for (String hint : hints) {
-				hint(hint);
-			}
-			return this;
-		}
-
-		/**
-		 * Add hints to this {@link PropertyDescriptor}. Usually hint is a suggested value
-		 * that this configuration property can have.
-		 * @param hints value hints
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder hints(Iterable<String> hints) {
-			for (String hint : hints) {
-				hint(hint);
-			}
-			return this;
-		}
-
-		/**
-		 * If the {@link PropertyDescriptor} is deprecated, please specify the reason why
-		 * was it deprecated.
-		 * @param reason deprecation reason
-		 * @return builder instance
-		 */
-		public @Nonnull Builder deprecation(String reason) {
-			return deprecation(reason, null);
-		}
-
-		/**
-		 * If the {@link PropertyDescriptor} is deprecated, please specify the reason why
-		 * was it deprecated and which property should be used as a replacement, if any.
-		 * @param reason deprecation reason
-		 * @param replacement name of the property that replaces it
-		 * @return builder instance
-		 */
-		public @Nonnull Builder deprecation(String reason, String replacement) {
-			return deprecation(new Deprecation(reason, replacement));
-		}
-
-		/**
-		 * If the {@link PropertyDescriptor} is deprecated, please specify the deprecation
-		 * information.
-		 * @param deprecation deprecation information
-		 * @return builder instance
-		 */
-		@Nonnull
-		public PropertyDescriptor.Builder deprecation(Deprecation deprecation) {
-			this.deprecation = deprecation;
-			return this;
-		}
-
-		/**
-		 * Creates the {@link PropertyDescriptor} as a result of this builder.
-		 * @return property descriptor, never {@literal null}.
-		 */
-		@Nonnull
-		public PropertyDescriptor build() {
-			if (name == null || name.isBlank()) {
-				throw new IllegalArgumentException("Property name can not be blank");
-			}
-
-			return new PropertyDescriptor(name, type, dataType, typeName, description, defaultValue, hints,
-					deprecation);
-		}
-
-	}
-
 }

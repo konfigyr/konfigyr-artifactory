@@ -9,7 +9,7 @@ package com.konfigyr.artifactory;
 public enum ReleaseState {
 
 	/**
-	 * The {@link Component} package has been uploaded and the Konfigyr Artifactory is
+	 * The {@link ArtifactMetadata} package has been uploaded, and the Konfigyr Artifactory is
 	 * processing the data and drafting a new {@link Release} with the specified version.
 	 * <p>
 	 * The {@link Release} in this state should not be consumed Konfigyr Clients as it is
@@ -18,16 +18,16 @@ public enum ReleaseState {
 	PENDING,
 
 	/**
-	 * The {@link Component} has been full processed and the {@link Release} should be
+	 * The {@link ArtifactMetadata} has been full processed and the {@link Release} should be
 	 * made available by Konfigyr Clients.
 	 */
 	RELEASED,
 
 	/**
-	 * In case the uploaded {@link Component} encountered any errors during it's
-	 * processing, the {@link Release} should be moved to a {@link #FAILED} state.
+	 * In case the uploaded {@link ArtifactMetadata} encountered any errors during it's
+	 * processing, the {@link Release} should be moved to a {@code #FAILED} state.
 	 * <p>
-	 * Users may attempt to upload the {@link Component} again if the package contained
+	 * Users may attempt to upload the {@link ArtifactMetadata} again if the package contained
 	 * corrupted data or may retry the operation.
 	 * <p>
 	 * The {@link Release} in this state should not be consumed Konfigyr Clients.

@@ -20,9 +20,11 @@ public abstract class DeployExtension {
 	private final Property<String> repositoryUsername;
 
 	private final Property<String> repositoryPassword;
+
 	static DeployExtension resolve(Project project) {
 		return project.getRootProject().getExtensions().getByType(DeployExtension.class);
 	}
+
 	public DeployExtension(ObjectFactory factory, ProviderFactory providers) {
 		signingKey = factory.property(String.class).value(providers.environmentVariable("GPG_SIGNING_KEY"));
 		signingSecret = factory.property(String.class).value(providers.environmentVariable("GPG_SIGNING_SECRET"));
