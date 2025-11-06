@@ -3,8 +3,8 @@ plugins {
     id("checkstyle")
     id("java-library")
     id("maven-publish")
-//    id("com.konfigyr.sonatype")
-//    id("com.konfigyr.deploy")
+    id("com.konfigyr.sonatype")
+    id("com.konfigyr.deploy")
 }
 
 group = "com.konfigyr"
