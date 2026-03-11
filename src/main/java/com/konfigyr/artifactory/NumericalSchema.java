@@ -23,6 +23,11 @@ public sealed abstract class NumericalSchema<T extends Number> extends JsonSchem
 	private final Boolean exclusiveMinimum;
 	private final Boolean exclusiveMaximum;
 
+	/**
+	 * Creates a new instance of the {@link NumericalSchema} class using the values from the given builder.
+	 *
+	 * @param builder the builder instance, never {@literal null}.
+	 */
 	protected NumericalSchema(Builder<T, ?> builder) {
 		super(builder);
 		this.format = builder.format;
@@ -161,6 +166,12 @@ public sealed abstract class NumericalSchema<T extends Number> extends JsonSchem
 		private Boolean exclusiveMinimum;
 		private Boolean exclusiveMaximum;
 
+		/**
+		 * Creates a new instance of the abstract numerical {@link Builder} class with the given
+		 * JSON schema type.
+		 *
+		 * @param type the JSON schema type, must not be {@literal null}.
+		 */
 		protected Builder(JsonSchemaType type) {
 			super(type);
 		}

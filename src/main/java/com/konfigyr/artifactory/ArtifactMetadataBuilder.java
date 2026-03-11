@@ -17,9 +17,19 @@ import java.util.List;
  */
 public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B extends ArtifactMetadataBuilder<T, B>> extends ArtifactBuilder<T, B> {
 
+	/**
+	 * The checksum of all property descriptors within this metadata.
+	 */
 	protected String checksum;
+
+	/**
+	 * The collection of property descriptors that are a part of the artifact.
+	 */
 	protected final List<PropertyDescriptor> properties;
 
+	/**
+	 * Creates a new {@link ArtifactMetadataBuilder} instance.
+	 */
 	protected ArtifactMetadataBuilder() {
 		properties = new ArrayList<>();
 	}

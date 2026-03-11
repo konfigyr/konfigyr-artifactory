@@ -18,6 +18,7 @@ import java.util.Collection;
  * <p>
  * This module would register the following abstract type mappings:
  * <table>
+ *     <caption>Type mappings</caption>
  *     <thead>
  *         <tr>
  *             <th>Type</th>
@@ -66,6 +67,10 @@ import java.util.Collection;
  */
 public class ArtifactoryJacksonModule extends SimpleModule {
 
+	/**
+	 * Creates a new instance of the {@link ArtifactoryJacksonModule} with the following name:
+	 * {@code artifactory-jackson-module} and unspecified {@link tools.jackson.core.Version}.
+	 */
 	public ArtifactoryJacksonModule() {
 		super("artifactory-jackson-module");
 	}

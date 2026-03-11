@@ -16,17 +16,53 @@ import java.net.URI;
  */
 public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuilder<T, B>> {
 
+	/**
+	 * The {@code groupId} coordinate for this {@link Artifact}.
+	 */
 	protected String groupId;
+
+	/**
+	 * The {@code artifactId} coordinate for this {@link Artifact}.
+	 */
 	protected String artifactId;
+
+	/**
+	 * The {@code version} coordinate for this {@link Artifact}.
+	 */
 	protected String version;
+
+	/**
+	 * The human-readable name for this {@link Artifact}.
+	 */
 	protected String name;
+
+	/**
+	 * The textual description for this {@link Artifact}.
+	 */
 	protected String description;
+
+	/**
+	 * The external URL for documentation or homepage for this {@link Artifact}.
+	 */
 	protected URI website;
+
+	/**
+	 * The source control repository location for this {@link Artifact}.
+	 */
 	protected URI repository;
 
+	/**
+	 * Creates a new instance of the {@link ArtifactBuilder}.
+	 */
 	protected ArtifactBuilder() {
 	}
 
+	/**
+	 * Utility method that returns the type-self builder return value that is used
+	 * to chain builder methods.
+	 *
+	 * @return the type-self builder return value, never {@literal null}.
+	 */
 	@NonNull
 	@SuppressWarnings("unchecked")
 	protected B myself() {

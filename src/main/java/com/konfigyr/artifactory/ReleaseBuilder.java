@@ -18,11 +18,29 @@ import java.util.List;
  */
 public abstract class ReleaseBuilder<T extends Release, B extends ReleaseBuilder<T, B>> extends ArtifactBuilder<T, B> {
 
+	/**
+	 * The state of the release.
+	 */
 	protected ReleaseState state;
+
+	/**
+	 * Checksum of the {@link PropertyDescriptor property metadata} that was released.
+	 */
 	protected String checksum;
+
+	/**
+	 * Timestamp when this release was created.
+	 */
 	protected Instant releasedAt;
+
+	/**
+	 * Collection of release errors that caused this release to fail.
+	 */
 	protected final List<String> errors;
 
+	/**
+	 * Creates a new {@link ReleaseBuilder} instance.
+	 */
 	protected ReleaseBuilder() {
 		this.errors = new ArrayList<>();
 	}

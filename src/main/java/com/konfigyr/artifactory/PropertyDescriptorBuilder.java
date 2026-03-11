@@ -14,17 +14,49 @@ import org.jspecify.annotations.NonNull;
  */
 public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B extends PropertyDescriptorBuilder<T, B>> {
 
+	/**
+	 * The name of the property.
+	 */
 	protected String name;
+
+	/**
+	 * The JSON Schema definition that describes the structure, type, and validation rules.
+	 */
 	protected JsonSchema schema;
+
+	/**
+	 * The type name of the expected property value in the language in which this {@link Artifact} was written.
+	 */
 	protected String typeName;
+
+	/**
+	 * Describes the {@link PropertyDescriptor}, what is the actual purpose of this configuration property.
+	 */
 	protected String description;
+
+	/**
+	 * The default value which will be used if the property value is not specified.
+	 */
 	protected String defaultValue;
+
+	/**
+	 * If the {@link PropertyDescriptor} is deprecated, this field contains the deprecation information.
+	 */
 	protected Deprecation deprecation;
 
+	/**
+	 * Creates a new instance of the {@link PropertyDescriptorBuilder}.
+	 */
 	protected PropertyDescriptorBuilder() {
 
 	}
 
+	/**
+	 * Utility method that returns the type-self builder return value that is used
+	 * to chain builder methods.
+	 *
+	 * @return the type-self builder return value, never {@literal null}.
+	 */
 	@SuppressWarnings("unchecked")
 	protected B myself() {
 		return (B) this;

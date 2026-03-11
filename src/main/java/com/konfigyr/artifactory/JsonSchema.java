@@ -15,16 +15,47 @@ import java.util.*;
 public sealed abstract class JsonSchema permits ArraySchema, BooleanSchema, NullSchema,
 		NumericalSchema, ObjectSchema, StringSchema {
 
+	/**
+	 * The type of this JSON schema instance.
+	 */
 	@NonNull
 	protected final JsonSchemaType type;
 
+	/**
+	 * The title for this JSON schema instance.
+	 */
 	protected final String title;
+
+	/**
+	 * The description for this JSON schema instance.
+	 */
 	protected final String description;
+
+	/**
+	 * The default value for this JSON schema instance.
+	 */
 	protected final Object defaultValue;
+
+	/**
+	 * Is this JSON schema instance deprecated?
+	 */
 	protected final Boolean deprecated;
+
+	/**
+	 * Collection of examples for this JSON schema instance.
+	 */
 	private final Collection<String> examples;
+
+	/**
+	 * Collection of enum values for this JSON schema instance.
+	 */
 	private final Collection<String> enumerations;
 
+	/**
+	 * Creates a new instance of the {@link JsonSchema} class using the values from the given builder.
+	 *
+	 * @param builder the builder instance, never {@literal null}.
+	 */
 	protected JsonSchema(@NonNull Builder<?, ?> builder) {
 		this.type = builder.type;
 		this.title = builder.title;
@@ -185,22 +216,58 @@ public sealed abstract class JsonSchema permits ArraySchema, BooleanSchema, Null
 	@NullMarked
 	public static abstract class Builder<T extends JsonSchema, B extends Builder<T, B>> {
 
+		/**
+		 * The type of this JSON schema instance.
+		 */
 		protected final JsonSchemaType type;
 
+		/**
+		 * The title for this JSON schema instance.
+		 */
 		protected @Nullable String title;
+
+		/**
+		 * The description for this JSON schema instance.
+		 */
 		protected @Nullable String description;
+
+		/**
+		 * The default value for this JSON schema instance.
+		 */
 		protected @Nullable Object defaultValue;
+
+		/**
+		 * Is this JSON schema instance deprecated?
+		 */
 		protected @Nullable Boolean deprecated;
 
+		/**
+		 * Collection of examples for this JSON schema instance.
+		 */
 		private final Collection<String> examples;
+
+		/**
+		 * Collection of enum values for this JSON schema instance.
+		 */
 		private final Collection<String> enumerations;
 
+		/**
+		 * Creates a new builder instance for the given schema type.
+		 *
+		 * @param type the schema type to be built, must not be {@literal null}.
+		 */
 		protected Builder(JsonSchemaType type) {
 			this.type = type;
 			this.examples = new ArrayList<>();
 			this.enumerations = new TreeSet<>();
 		}
 
+		/**
+		 * Utility method that returns the type-self builder return value that is used
+		 * to chain builder methods.
+		 *
+		 * @return the type-self builder return value, never {@literal null}.
+		 */
 		@SuppressWarnings("unchecked")
 		protected B myself() {
 			return (B) this;
