@@ -117,7 +117,7 @@ public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Seri
 	 * @see <a href="https://json-schema.org/draft/2020-12/json-schema-core.html">JSON Schema</a>
 	 */
 	@NonNull
-	String schema();
+	JsonSchema schema();
 
 	/**
 	 * Returns the fully qualified Java type name of the property value.

@@ -15,7 +15,7 @@ import org.jspecify.annotations.NonNull;
 public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B extends PropertyDescriptorBuilder<T, B>> {
 
 	protected String name;
-	protected String schema;
+	protected JsonSchema schema;
 	protected String typeName;
 	protected String description;
 	protected String defaultValue;
@@ -56,7 +56,7 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @return builder instance
 	 */
 	@NonNull
-	public B schema(String schema) {
+	public B schema(JsonSchema schema) {
 		this.schema = schema;
 		return myself();
 	}

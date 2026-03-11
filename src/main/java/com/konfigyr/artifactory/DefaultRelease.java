@@ -21,9 +21,9 @@ import java.util.List;
  * @param website     external URL for documentation or homepage, may be {@literal null}.
  * @param repository  source control repository reference (SCM URL), may be {@literal null}.
  * @param state       the state of this release, can't be {@literal null}.
- * @param errors      error messages that caused this release to fail, if any. May be {@code empty} but not {@literal null}.
+ * @param errors      error messages that caused this release to fail. May be {@code empty} but not {@literal null}.
  * @param checksum    checksum of the uploaded {@link ArtifactMetadata artifact metadata}, can't be {@literal null}.
- * @param releaseDate timestamp when this release was crated, can't be {@literal null}.
+ * @param releasedAt  timestamp when this release was crated, can't be {@literal null}.
  * @author Vladimir Spasic
  * @since 1.0.0
  */
@@ -38,7 +38,7 @@ public record DefaultRelease(
 		@NonNull ReleaseState state,
 		@NonNull List<String> errors,
 		@NonNull String checksum,
-		@NonNull Instant releaseDate
+		@NonNull Instant releasedAt
 ) implements Release {
 
 	@Serial
@@ -76,12 +76,12 @@ public record DefaultRelease(
 			if (checksum == null || checksum.isBlank()) {
 				throw new IllegalArgumentException("Release property metadata checksum can not be blank");
 			}
-			if (releaseDate == null) {
+			if (releasedAt == null) {
 				throw new IllegalArgumentException("Release date can not be null");
 			}
 
 			return new DefaultRelease(groupId, artifactId, version, name, description, website, repository,
-					state, Collections.unmodifiableList(errors), checksum, releaseDate);
+					state, Collections.unmodifiableList(errors), checksum, releasedAt);
 		}
 
 	}

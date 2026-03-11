@@ -1,10 +1,8 @@
 package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 import java.io.Serializable;
-import java.net.URI;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -45,7 +43,7 @@ import java.util.Comparator;
  * @see Release
  * @since 1.0.0
  **/
-public interface Artifact extends Comparable<Artifact>, Serializable {
+public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Serializable {
 
 	/**
 	 * Creates a new instance of the {@link Artifact} using the Maven coordinates.
@@ -85,81 +83,24 @@ public interface Artifact extends Comparable<Artifact>, Serializable {
 	}
 
 	/**
-	 * Returns the {@code groupId} Maven coordinate of the artifact.
+	 * Returns the {@code version} component of the artifact coordinates.
 	 * <p>
-	 * The {@code groupId} identifies the organization or domain under which the artifact is published.
-	 * For example, {@code org.springframework.boot}.
-	 *
-	 * @return the {@code groupId} Maven coordinate, never {@literal null}.
-	 */
-	@NonNull
-	String groupId();
-
-	/**
-	 * Returns the {@code artifactId} Maven coordinate of the artifact.
+	 * The version uniquely identifies a specific build or release of the artifact within the
+	 * {@code groupId}/{@code artifactId} namespace. Each distinct version represents an immutable
+	 * snapshot of the artifact's metadata and associated properties.
 	 * <p>
-	 * The {@code artifactId} uniquely identifies the module within a given {@code groupId}.
-	 * For example, {@code spring-boot-starter-web}.
-	 *
-	 * @return the {@code artifactId} Maven coordinate, never {@literal null}.
-	 */
-	@NonNull
-	String artifactId();
-
-	/**
-	 * Returns the {@code version} Maven coordinate of the artifact.
+	 * The format of the version typically follows Maven conventions (for example, semantic versioning
+	 * such as {@code 1.2.0} or timestamp/build-based identifiers such as {@code 2026.03.01-120045}).
+	 * The Artifactory implementation treats the value as an opaque identifier and does not enforce a
+	 * particular versioning scheme, although it must be non-empty and stable once published.
 	 * <p>
-	 * The {@code version} identifies the specific release of the artifact. This may represent semantic or
-	 * timestamp-based versioning depending on the build system.
+	 * Implementations must guarantee that the returned value is consistent with the version
+	 * used during artifact publication and release management processes.
 	 *
-	 * @return the {@code version} Maven coordinate, never {@literal null}.
+	 * @return the {@code version} coordinate of the artifact, never {@literal null} and never empty
 	 */
 	@NonNull
 	String version();
-
-	/**
-	 * Returns the human-readable name of the artifact.
-	 * <p>
-	 * The name is an optional descriptive label used for display purposes, such as {@code "Spring Boot Starter Web"}.
-	 *
-	 * @return artifact name, may be {@literal null}.
-	 */
-	@Nullable
-	String name();
-
-	/**
-	 * Returns the textual description of the artifact.
-	 * <p>
-	 * The description provides a concise explanation of the artifact’s purpose, contents, or usage context.
-	 *
-	 * @return artifact description, may be {@literal null}.
-	 */
-	@Nullable
-	String description();
-
-	/**
-	 * Returns the Uniform Resource Identifier (URI) reference to the artifact’s official website or
-	 * online documentation.
-	 * <p>
-	 * This URI can point to a project homepage, API reference, or user documentation providing additional
-	 * context about the artifact.
-	 *
-	 * @return website location, may be {@literal null}.
-	 */
-	@Nullable
-	URI website();
-
-	/**
-	 * Returns the Uniform Resource Identifier (URI) reference to the artifact’s Source Control Management (SCM)
-	 * repository.
-	 * <p>
-	 * This typically references the public Git, SVN, or other repository where the artifact’s source code
-	 * is maintained.
-	 *
-	 * @return repository location, may be {@literal null}.
-	 */
-	@Nullable
-	URI repository();
 
 	/**
 	 * Creates an {@link ArtifactMetadata} for this {@link Artifact} with the given collection
