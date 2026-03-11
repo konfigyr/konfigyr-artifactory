@@ -19,15 +19,39 @@ import java.util.List;
  */
 public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuilder<T, B>> {
 
+	/**
+	 * The unique identifier of the service manifest.
+	 */
 	protected String id;
+
+	/**
+	 * The name of the service manifest.
+	 */
 	protected String name;
+
+	/**
+	 * Collection of artifacts that are part of the manifest.
+	 */
 	protected final List<Artifact> artifacts;
+
+	/**
+	 * Timestamp marking the creation of the manifest.
+	 */
 	protected Instant createdAt;
 
+	/**
+	 * Creates a new {@link ManifestBuilder} instance.
+	 */
 	protected ManifestBuilder() {
 		this.artifacts = new ArrayList<>();
 	}
 
+	/**
+	 * Utility method that returns the type-self builder return value that is used
+	 * to chain builder methods.
+	 *
+	 * @return the type-self builder return value, never {@literal null}.
+	 */
 	@NonNull
 	@SuppressWarnings("unchecked")
 	protected B myself() {
