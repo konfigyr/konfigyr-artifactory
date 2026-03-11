@@ -16,13 +16,13 @@ class ArtifactMetadataTest {
 		final var first = PropertyDescriptor.builder()
 				.name("spring.application.group")
 				.typeName("java.lang.String")
-				.schema("{\"type\":\"string\"}")
+				.schema(StringSchema.builder().build())
 				.build();
 
 		final var second = PropertyDescriptor.builder()
 				.name("spring.application.name")
 				.typeName("java.lang.String")
-				.schema("{\"type\":\"string\"}")
+				.schema(StringSchema.instance())
 				.build();
 
 		final var metadata = ArtifactMetadata.builder()
@@ -79,7 +79,7 @@ class ArtifactMetadataTest {
 		final var property = PropertyDescriptor.builder()
 				.name("spring.application.group")
 				.typeName("java.lang.String")
-				.schema("{\"type\":\"string\"}")
+				.schema(StringSchema.instance())
 				.build();
 
 		assertThatObject(builder.property(property).build())

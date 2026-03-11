@@ -16,7 +16,7 @@ class PropertyDescriptorTest {
 		final var descriptor = PropertyDescriptor.builder()
 				.name("spring.application.name")
 				.typeName("java.lang.String")
-				.schema("{\"type\":\"string\"}")
+				.schema(StringSchema.instance())
 				.defaultValue("my-awesome-application")
 				.description("The name of the Spring application.")
 				.deprecation("To be removed in 2.0.0.")
@@ -41,17 +41,18 @@ class PropertyDescriptorTest {
 				.withMessage("Property name can not be blank");
 
 		assertThatIllegalArgumentException()
-				.isThrownBy(builder.name("spring.application.name")::build)
-				.withMessage("Property value schema can not be blank");
+				.isThrownBy(builder.name("spring.application.age")::build)
+				.withMessage("Property value schema can not be null");
 
 		assertThatIllegalArgumentException()
-				.isThrownBy(builder.schema("{\"type\":\"string\"}")::build)
+				.isThrownBy(builder.schema(IntegerSchema.instance())::build)
 				.withMessage("Property type name can not be blank");
 
-		assertThat(builder.typeName("java.lang.String").build())
+		assertThat(builder.typeName("java.lang.Integer").build())
 				.isNotNull()
-				.returns("spring.application.name", PropertyDescriptor::name)
-				.returns("java.lang.String", PropertyDescriptor::typeName)
+				.returns("spring.application.age", PropertyDescriptor::name)
+				.returns("java.lang.Integer", PropertyDescriptor::typeName)
+				.returns(IntegerSchema.instance(), PropertyDescriptor::schema)
 				.returns(null, PropertyDescriptor::defaultValue)
 				.returns(null, PropertyDescriptor::description)
 				.returns(null, PropertyDescriptor::deprecation);
@@ -63,25 +64,25 @@ class PropertyDescriptorTest {
 		final var first = PropertyDescriptor.builder()
 				.name("spring.application.group")
 				.typeName("java.lang.String")
-				.schema("{\"type\":\"string\"}")
+				.schema(StringSchema.instance())
 				.build();
 
 		final var second = PropertyDescriptor.builder()
 				.name("spring.application.name")
 				.typeName("java.lang.String")
-				.schema("{\"type\":\"string\"}")
+				.schema(StringSchema.instance())
 				.build();
 
 		final var third = PropertyDescriptor.builder()
 				.name("spring.banner.charset")
 				.typeName("java.nio.charset.Charset")
-				.schema("{\"type\":\"string\", \"format\":\"charset\"}")
+				.schema(StringSchema.builder().format("charset").build())
 				.build();
 
 		final var fourth = PropertyDescriptor.builder()
 				.name("spring.devtools.livereload.enabled")
 				.typeName("java.lang.Boolean")
-				.schema("{\"type\":\"boolean\"}")
+				.schema(BooleanSchema.instance())
 				.build();
 
 		assertThat(Stream.of(fourth, first, third, second).sorted())

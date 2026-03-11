@@ -1,6 +1,6 @@
 # Konfigyr Artifactory SDK
 
-> #### Configuration Done Right
+> #### Configuration done right
 > A lightweight Java library that models the Konfigyr Artifactory API,
 providing consistent abstractions for backend services, Gradle or Maven plugins, and third-party integrations.
 
@@ -13,6 +13,7 @@ The Konfigyr Artifactory SDK defines the core interfaces and types that describe
 - **Artifact metadata**: Aggregates all configuration metadata for a specific artifact.
 - **Releases**: Versioned upload states managed by the Artifactory backend.
 - **Manifests**: Lists of artifacts currently used by a service within a namespace.
+- **JsonSchema**: JSON Schema used by the Konfigyr UI for type-safe validation.
 
 This SDK provides a shared, stable contract between:
 
@@ -75,7 +76,7 @@ PropertyDescriptor descriptor = PropertyDescriptor.builder()
     .typeName("java.lang.Integer")
     .description("Port on which the HTTP server listens.")
     .defaultValue("8080")
-    .schema("{\"type\": \"number\", \"minimum\": 0, \"maximum\": 65535}")
+    .schema(NumberSchema.builder().minimum(0).maximum(65535).build())
     .build();
 ```
 
@@ -113,6 +114,20 @@ Manifest manifest = Manifest.builder()
     .artifact(Artifact.of("com.example", "core-utils", "2.0.0"))
     .build();
 ```
+
+### Jackson support
+
+This library provides Jackson support for serializing and deserializing objects to and from JSON. To use it,
+you would need to add `tools.jackson.core:jackson-databind` dependency to your project and configure the
+`JsonMapper` as follows:
+
+```java
+final JsonMapper mapper = JsonMapper.builder()
+        .addModule(new KonfigyrJacksonModule())
+        .build();
+```
+
+This Jackson module will register all the necessary converters for all the types defined in this library.
 
 ### Licence
 

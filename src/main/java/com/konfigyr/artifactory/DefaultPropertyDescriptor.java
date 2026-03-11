@@ -19,7 +19,7 @@ import java.io.Serial;
  **/
 public record DefaultPropertyDescriptor(
 		@NonNull String name,
-		@NonNull String schema,
+		@NonNull JsonSchema schema,
 		@Nullable String typeName,
 		@Nullable String description,
 		@Nullable String defaultValue,
@@ -49,8 +49,8 @@ public record DefaultPropertyDescriptor(
 			if (name == null || name.isBlank()) {
 				throw new IllegalArgumentException("Property name can not be blank");
 			}
-			if (schema == null || schema.isBlank()) {
-				throw new IllegalArgumentException("Property value schema can not be blank");
+			if (schema == null) {
+				throw new IllegalArgumentException("Property value schema can not be null");
 			}
 			if (typeName == null || typeName.isBlank()) {
 				throw new IllegalArgumentException("Property type name can not be blank");

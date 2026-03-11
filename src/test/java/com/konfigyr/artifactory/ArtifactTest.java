@@ -52,12 +52,12 @@ class ArtifactTest {
 				PropertyDescriptor.builder()
 						.name("spring.application.group")
 						.typeName("java.lang.String")
-						.schema("{\"type\":\"string\"}")
+						.schema(StringSchema.instance())
 						.build(),
 				PropertyDescriptor.builder()
 						.name("spring.application.name")
 						.typeName("java.lang.String")
-						.schema("{\"type\":\"string\"}")
+						.schema(StringSchema.instance())
 						.build()
 		);
 

@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.konfigyr"
-version = "1.0.0-RC2"
+version = "1.0.0-RC3"
 description = "Library that defines the main building blocks of the Konfigyr Artifactory."
 
 repositories {
@@ -21,24 +21,26 @@ java {
     withSourcesJar()
 
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 dependencies {
     api("org.jspecify:jspecify:1.0.0")
+    compileOnly("tools.jackson.core:jackson-databind:3.1.0")
 
     testImplementation("org.assertj:assertj-core:3.27.7")
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.2")
+    testImplementation("tools.jackson.core:jackson-databind:3.1.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.3")
 }
 
 checkstyle {
-    toolVersion = "12.1.1"
+    toolVersion = "13.3.0"
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.release = 17
+    options.release = 21
 }
 
 tasks.test {

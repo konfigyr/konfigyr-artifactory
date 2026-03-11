@@ -20,7 +20,7 @@ public abstract class ReleaseBuilder<T extends Release, B extends ReleaseBuilder
 
 	protected ReleaseState state;
 	protected String checksum;
-	protected Instant releaseDate;
+	protected Instant releasedAt;
 	protected final List<String> errors;
 
 	protected ReleaseBuilder() {
@@ -107,12 +107,12 @@ public abstract class ReleaseBuilder<T extends Release, B extends ReleaseBuilder
 	/**
 	 * Specify the timestamp when this release was created.
 	 *
-	 * @param releaseDate the release date
+	 * @param releasedAt the release date
 	 * @return release builder
 	 */
 	@NonNull
-	public B releaseDate(Instant releaseDate) {
-		this.releaseDate = releaseDate;
+	public B releasedAt(Instant releasedAt) {
+		this.releasedAt = releasedAt;
 		return myself();
 	}
 

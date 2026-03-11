@@ -24,7 +24,7 @@ class ReleaseTest {
 				.error("some release error")
 				.error("and another release error")
 				.errors(List.of("yet another release error", " "))
-				.releaseDate(Instant.now())
+				.releasedAt(Instant.now())
 				.build();
 
 		assertThat(release)
@@ -39,7 +39,7 @@ class ReleaseTest {
 				.returns(ReleaseState.FAILED, DefaultRelease::state)
 				.returns("checksum", DefaultRelease::checksum)
 				.returns(List.of("some release error", "and another release error", "yet another release error"), DefaultRelease::errors)
-				.returns(release.releaseDate(), DefaultRelease::releaseDate);
+				.returns(release.releasedAt(), DefaultRelease::releasedAt);
 	}
 
 	@Test
@@ -59,7 +59,7 @@ class ReleaseTest {
 				.isThrownBy(builder.checksum("checksum")::build)
 				.withMessage("Release date can not be null");
 
-		assertThat(builder.releaseDate(Instant.now()).build())
+		assertThat(builder.releasedAt(Instant.now()).build())
 				.isNotNull()
 				.returns(artifact.groupId(), DefaultRelease::groupId)
 				.returns(artifact.artifactId(), DefaultRelease::artifactId)
@@ -71,7 +71,7 @@ class ReleaseTest {
 				.returns(ReleaseState.PENDING, DefaultRelease::state)
 				.returns("checksum", DefaultRelease::checksum)
 				.returns(List.of(), DefaultRelease::errors)
-				.extracting(DefaultRelease::releaseDate, InstanceOfAssertFactories.INSTANT)
+				.extracting(DefaultRelease::releasedAt, InstanceOfAssertFactories.INSTANT)
 				.isCloseTo(Instant.now(), within(500, ChronoUnit.MILLIS));
 	}
 

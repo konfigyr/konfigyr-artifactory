@@ -63,6 +63,6 @@ public interface Release extends Artifact, Serializable {
 	 * @return release date, never {@literal null}.
 	 */
 	@NonNull
-	Instant releaseDate();
+	Instant releasedAt();
 
 }
