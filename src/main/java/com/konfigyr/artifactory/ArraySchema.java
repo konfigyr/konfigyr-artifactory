@@ -50,6 +50,16 @@ public final class ArraySchema extends JsonSchema {
 	}
 
 	/**
+	 * Creates a new {@link ArraySchema} instance with the given {@code items} schema.
+	 *
+	 * @param items the items schema, can be {@literal null}.
+	 * @return the array schema.
+	 */
+	public static ArraySchema of(JsonSchema items) {
+		return builder().items(items).build();
+	}
+
+	/**
 	 * Creates a new {@link ArraySchema.Builder} instance.
 	 *
 	 * @return the array schema builder.
