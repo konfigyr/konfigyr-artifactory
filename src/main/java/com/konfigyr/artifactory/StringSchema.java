@@ -21,9 +21,24 @@ public final class StringSchema extends JsonSchema {
 
 	private static final StringSchema INSTANCE = builder().build();
 
+	/**
+	 * Specifies the minimum length of the string value defined by this schema.
+	 */
 	private final Integer minLength;
+
+	/**
+	 * Specifies the maximum length of the string value defined by this schema.
+	 */
 	private final Integer maxLength;
+
+	/**
+	 * Specifies the format of the string value defined by this schema.
+	 */
 	private final String format;
+
+	/**
+	 * Specifies the regular expression that the string value must match.
+	 */
 	private final String pattern;
 
 	/**

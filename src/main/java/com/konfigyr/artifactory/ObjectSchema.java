@@ -22,9 +22,24 @@ public final class ObjectSchema extends JsonSchema {
 
 	private static final ObjectSchema INSTANCE = builder().build();
 
+	/**
+	 * Map of JSON schemas of every property that is present in both the object and the value.
+	 */
 	private final Map<String, JsonSchema> properties;
+
+	/**
+	 * Collection of required property names.
+	 */
 	private final Collection<String> required;
+
+	/**
+	 * JSON schema of property names.
+	 */
 	private final JsonSchema propertyNames;
+
+	/**
+	 * JSON schema of additional properties this JSON object schema can have.
+	 */
 	private final JsonSchema additionalProperties;
 
 	/**

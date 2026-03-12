@@ -20,9 +20,24 @@ public final class ArraySchema extends JsonSchema {
 
 	private static final ArraySchema INSTANCE = builder().build();
 
+	/**
+	 * JSON Schema of the items of the array.
+	 */
 	private final JsonSchema items;
+
+	/**
+	 * The minimum size of the array.
+	 */
 	private final Integer minItems;
+
+	/**
+	 * The maximum size of the array.
+	 */
 	private final Integer maxItems;
+
+	/**
+	 * When set to {@code true}, the array items must be unique.
+	 */
 	private final Boolean uniqueItems;
 
 	/**

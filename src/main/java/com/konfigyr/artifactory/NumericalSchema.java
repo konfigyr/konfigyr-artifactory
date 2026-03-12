@@ -20,11 +20,34 @@ public sealed abstract class NumericalSchema<T extends Number> extends JsonSchem
 	@Serial
 	private static final long serialVersionUID = 9035225902876502098L;
 
+	/**
+	 * The format of the numerical value defined by this schema.
+	 */
 	private final String format;
+
+	/**
+	 * Specifies the minimum numerical value defined by this schema.
+	 */
 	private final T minimum;
+
+	/**
+	 * Specifies the maximum numerical value defined by this schema.
+	 */
 	private final T maximum;
+
+	/**
+	 * Used to check if the numerical value is a multiple of the given divisor.
+	 */
 	private final Double multipleOf;
+
+	/**
+	 * When set to {@code true}, the minimum value, if set, would be exclusive.
+	 */
 	private final Boolean exclusiveMinimum;
+
+	/**
+	 * When set to {@code true}, the maximum value, if set, would be exclusive.
+	 */
 	private final Boolean exclusiveMaximum;
 
 	/**
