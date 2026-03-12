@@ -2,6 +2,7 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.Nullable;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -14,11 +15,29 @@ import java.util.Objects;
  */
 public final class ArraySchema extends JsonSchema {
 
+	@Serial
+	private static final long serialVersionUID = 2528115309717371054L;
+
 	private static final ArraySchema INSTANCE = builder().build();
 
+	/**
+	 * JSON Schema of the items of the array.
+	 */
 	private final JsonSchema items;
+
+	/**
+	 * The minimum size of the array.
+	 */
 	private final Integer minItems;
+
+	/**
+	 * The maximum size of the array.
+	 */
 	private final Integer maxItems;
+
+	/**
+	 * When set to {@code true}, the array items must be unique.
+	 */
 	private final Boolean uniqueItems;
 
 	/**
@@ -28,6 +47,16 @@ public final class ArraySchema extends JsonSchema {
 	 */
 	public static ArraySchema instance() {
 		return INSTANCE;
+	}
+
+	/**
+	 * Creates a new {@link ArraySchema} instance with the given {@code items} schema.
+	 *
+	 * @param items the items schema, can be {@literal null}.
+	 * @return the array schema.
+	 */
+	public static ArraySchema of(JsonSchema items) {
+		return builder().items(items).build();
 	}
 
 	/**

@@ -4,6 +4,8 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,8 +14,11 @@ import java.util.*;
  * @author Vladimir Spasic
  * @since 1.0.0
  */
-public sealed abstract class JsonSchema permits ArraySchema, BooleanSchema, NullSchema,
-		NumericalSchema, ObjectSchema, StringSchema {
+public sealed abstract class JsonSchema implements Serializable permits ArraySchema, BooleanSchema,
+		NullSchema, NumericalSchema, ObjectSchema, StringSchema {
+
+	@Serial
+	private static final long serialVersionUID = 5425911613580873399L;
 
 	/**
 	 * The type of this JSON schema instance.

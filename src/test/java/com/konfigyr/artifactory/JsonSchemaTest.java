@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,6 +173,29 @@ class JsonSchemaTest {
 		assertThat(schema.toString())
 				.isEqualTo("JsonSchema(type='array', items=%s, minItems=%s, maxItems=%s, uniqueItems=%s)",
 						schema.items(), schema.minItems(), schema.maxItems(), schema.uniqueItems());
+	}
+
+	@Test
+	@DisplayName("should create an array schema instance from items schema")
+	void createArraySchemaFromItems() {
+		final var item = NumberSchema.builder()
+				.title("height")
+				.format("cm")
+				.example("182")
+				.build();
+
+		assertThat(ArraySchema.of(item))
+				.returns(JsonSchemaType.ARRAY, JsonSchema::type)
+				.returns(item, ArraySchema::items)
+				.returns(null, JsonSchema::title)
+				.returns(null, JsonSchema::description)
+				.returns(Collections.emptyList(), JsonSchema::enumerations)
+				.returns(Collections.emptyList(), JsonSchema::examples)
+				.returns(null, JsonSchema::defaultValue)
+				.returns(false, JsonSchema::deprecated)
+				.returns(null, ArraySchema::minItems)
+				.returns(null, ArraySchema::maxItems)
+				.returns(false, ArraySchema::uniqueItems);
 	}
 
 	@Test

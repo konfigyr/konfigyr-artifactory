@@ -2,6 +2,8 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.NullMarked;
 
+import java.io.Serial;
+
 /**
  * JSON schema that is a subtype of the {@link NumericalSchema} and represents the integer type.
  *
@@ -10,6 +12,9 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 public final class IntegerSchema extends NumericalSchema<Long> {
+
+	@Serial
+	private static final long serialVersionUID = 4655768043562605521L;
 
 	private static final IntegerSchema INSTANCE = builder().build();
 

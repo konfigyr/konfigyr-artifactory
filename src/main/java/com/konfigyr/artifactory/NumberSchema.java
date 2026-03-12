@@ -2,6 +2,8 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.NullMarked;
 
+import java.io.Serial;
+
 /**
  * JSON schema that is a subtype of the {@link NumericalSchema} and represents floating or double types.
  *
@@ -10,6 +12,9 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 public final class NumberSchema extends NumericalSchema<Double> {
+
+	@Serial
+	private static final long serialVersionUID = 8049992121166133393L;
 
 	private static final NumberSchema INSTANCE = builder().build();
 

@@ -3,6 +3,7 @@ package com.konfigyr.artifactory;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -16,11 +17,29 @@ import java.util.*;
  */
 public final class ObjectSchema extends JsonSchema {
 
+	@Serial
+	private static final long serialVersionUID = 9081999234831022382L;
+
 	private static final ObjectSchema INSTANCE = builder().build();
 
+	/**
+	 * Map of JSON schemas of every property that is present in both the object and the value.
+	 */
 	private final Map<String, JsonSchema> properties;
+
+	/**
+	 * Collection of required property names.
+	 */
 	private final Collection<String> required;
+
+	/**
+	 * JSON schema of property names.
+	 */
 	private final JsonSchema propertyNames;
+
+	/**
+	 * JSON schema of additional properties this JSON object schema can have.
+	 */
 	private final JsonSchema additionalProperties;
 
 	/**
