@@ -2,6 +2,8 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.NullMarked;
 
+import java.io.Serial;
+
 /**
  * JSON Schema that represents the boolean type. This type is straightforward, accepting only two values:
  * {@code true} or {@code false}.
@@ -11,6 +13,9 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 public final class BooleanSchema extends JsonSchema {
+
+	@Serial
+	private static final long serialVersionUID = 1458174855625187785L;
 
 	private static final BooleanSchema INSTANCE = builder().build();
 

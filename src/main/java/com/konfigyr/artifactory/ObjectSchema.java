@@ -3,6 +3,7 @@ package com.konfigyr.artifactory;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -15,6 +16,9 @@ import java.util.*;
  * @since 1.0.0
  */
 public final class ObjectSchema extends JsonSchema {
+
+	@Serial
+	private static final long serialVersionUID = 9081999234831022382L;
 
 	private static final ObjectSchema INSTANCE = builder().build();
 

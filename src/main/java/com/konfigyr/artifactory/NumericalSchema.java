@@ -2,6 +2,7 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.Nullable;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,6 +16,9 @@ import java.util.Objects;
  * @param <T> the exact type of the numerical value
  */
 public sealed abstract class NumericalSchema<T extends Number> extends JsonSchema permits IntegerSchema, NumberSchema {
+
+	@Serial
+	private static final long serialVersionUID = 9035225902876502098L;
 
 	private final String format;
 	private final T minimum;

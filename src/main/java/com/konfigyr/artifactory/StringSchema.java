@@ -2,6 +2,7 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.Nullable;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,9 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class StringSchema extends JsonSchema {
+
+	@Serial
+	private static final long serialVersionUID = 6148120199903217852L;
 
 	private static final StringSchema INSTANCE = builder().build();
 

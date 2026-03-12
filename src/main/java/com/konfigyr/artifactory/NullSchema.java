@@ -2,6 +2,8 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.NullMarked;
 
+import java.io.Serial;
+
 /**
  * The {@code null} type in JSON Schema represents the absence of a value.
  *
@@ -10,6 +12,9 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 public final class NullSchema extends JsonSchema {
+
+	@Serial
+	private static final long serialVersionUID = 4523757291667609185L;
 
 	private static final NullSchema INSTANCE = builder().build();
 
