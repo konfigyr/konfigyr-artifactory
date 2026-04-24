@@ -26,17 +26,17 @@ java {
 }
 
 dependencies {
-    api("org.jspecify:jspecify:1.0.0")
-    compileOnly("tools.jackson.core:jackson-databind:3.1.1")
+    api(libs.jspecify)
+    compileOnly(libs.jackson.databind)
 
-    testImplementation("org.assertj:assertj-core:3.27.7")
-    testImplementation("tools.jackson.core:jackson-databind:3.1.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.3")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.3")
+    testImplementation(libs.assert4j)
+    testImplementation(libs.jackson.databind)
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.launcher)
 }
 
 checkstyle {
-    toolVersion = "13.3.0"
+    toolVersion = "13.4.0"
 }
 
 tasks.withType<JavaCompile>().configureEach {
