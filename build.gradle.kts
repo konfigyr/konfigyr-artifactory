@@ -27,10 +27,10 @@ java {
 
 dependencies {
     api("org.jspecify:jspecify:1.0.0")
-    compileOnly("tools.jackson.core:jackson-databind:3.1.0")
+    compileOnly("tools.jackson.core:jackson-databind:3.1.1")
 
     testImplementation("org.assertj:assertj-core:3.27.7")
-    testImplementation("tools.jackson.core:jackson-databind:3.1.0")
+    testImplementation("tools.jackson.core:jackson-databind:3.1.1")
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.3")
 }
