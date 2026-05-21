@@ -1,3 +1,8 @@
+![CI Build](https://github.com/konfigyr/konfigyr-artifactory/actions/workflows/continuous-integration.yml/badge.svg)
+[![codecov](https://codecov.io/gh/konfigyr/konfigyr-artifactory/graph/badge.svg?token=8F51325ZV5)](https://codecov.io/gh/konfigyr/konfigyr-artifactory)
+[![Latest Release](https://img.shields.io/maven-central/v/com.konfigyr/konfigyr-artifactory?style=flat)](https://central.sonatype.com/search?q=g%3Acom.konfigyr)
+![Java 21+](https://img.shields.io/badge/java-21+-lightgray.svg)
+
 # Konfigyr Artifactory SDK
 
 > #### Configuration done right
