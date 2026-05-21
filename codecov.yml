@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://www.schemastore.org/codecov.json
+
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  status:
+    # Measures overall codebase health
+    project:
+      default:
+        target: auto       # Matches the coverage percentage of your base branch
+        threshold: 1%      # 1% leniency threshold is plenty for a single project
+        base: auto
+
+    # Measures only the code you touched/added in a specific Pull Request
+    patch:
+      default:
+        target: 80%        # Requires 80% of your new lines to be tested
+        threshold: 0%      # No drop leniency allowed on brand-new code
+
+comment:
+  layout: "header, diff, footer"
+  behavior: default
+  require_changes: false

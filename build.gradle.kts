@@ -1,5 +1,6 @@
 plugins {
     id("idea")
+    id("jacoco")
     id("checkstyle")
     id("java-library")
     id("maven-publish")
@@ -43,6 +44,17 @@ tasks.withType<JavaCompile>().configureEach {
     options.release = 21
 }
 
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
+
+    finalizedBy(tasks.jacocoTestReport)
 }
