@@ -127,7 +127,7 @@ public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Seri
 	 *
 	 * @return the fully qualified type name, never {@literal null}.
 	 */
-	@Nullable
+	@NonNull
 	String typeName();
 
 	/**

@@ -12,6 +12,19 @@ import static org.assertj.core.api.Assertions.*;
 
 class ManifestTest {
 
+	static final Instant RESOLVED_AT = Instant.now();
+
+	static ManifestEntry entry(String groupId, String artifactId, String version) {
+		return ManifestEntry.builder()
+				.groupId(groupId)
+				.artifactId(artifactId)
+				.version(version)
+				.checksum("checksum")
+				.source(ArtifactSource.LOCAL)
+				.resolvedAt(RESOLVED_AT)
+				.build();
+	}
+
 	@Test
 	@DisplayName("should create default service manifest using the fluent builder")
 	void createDefaultManifest() {
@@ -19,10 +32,10 @@ class ManifestTest {
 				.id("konfigyr-service")
 				.name("Konfigyr example service")
 				.artifacts(List.of(
-						Artifact.of("com.konfigyr", "konfigyr-crypto-api", "1.0.0"),
-						Artifact.of("com.konfigyr", "konfigyr-crypto-tink", "1.0.0")
+						entry("com.konfigyr", "konfigyr-crypto-api", "1.0.0"),
+						entry("com.konfigyr", "konfigyr-crypto-tink", "1.0.0")
 				))
-				.artifact(Artifact.of("com.konfigyr", "konfigyr-artifactory", "1.0.0"))
+				.artifact(entry("com.konfigyr", "konfigyr-artifactory", "1.0.0"))
 				.createdAt(Instant.now().minusSeconds(6000))
 				.build();
 
@@ -35,27 +48,27 @@ class ManifestTest {
 		assertThat(manifest)
 				.hasSize(3)
 				.containsExactly(
-						Artifact.of("com.konfigyr", "konfigyr-artifactory", "1.0.0"),
-						Artifact.of("com.konfigyr", "konfigyr-crypto-api", "1.0.0"),
-						Artifact.of("com.konfigyr", "konfigyr-crypto-tink", "1.0.0")
+						entry("com.konfigyr", "konfigyr-artifactory", "1.0.0"),
+						entry("com.konfigyr", "konfigyr-crypto-api", "1.0.0"),
+						entry("com.konfigyr", "konfigyr-crypto-tink", "1.0.0")
 				);
 	}
 
 	@Test
 	@DisplayName("should find artifact by groupId and artifactId")
 	void findArtifact() {
-		final var artifact = Artifact.of("com.konfigyr", "konfigyr-crypto-api", "1.0.0");
+		final var entry = entry("com.konfigyr", "konfigyr-crypto-api", "1.0.0");
 
 		final var manifest = Manifest.builder()
 				.id("konfigyr-service")
 				.name("Konfigyr example service")
-				.artifact(artifact)
+				.artifact(entry)
 				.build();
 
 		assertThat(manifest.find("com.konfigyr", "konfigyr-crypto-api"))
 				.isNotEmpty()
 				.get()
-				.isSameAs(artifact);
+				.isSameAs(entry);
 
 		assertThat(manifest.find("com.konfigyr", "konfigyr-crypto-jdbc"))
 				.isEmpty();
@@ -67,15 +80,15 @@ class ManifestTest {
 	@Test
 	@DisplayName("should check if artifact is in the manifest")
 	void containsArtifact() {
-		final var artifact = Artifact.of("com.konfigyr", "konfigyr-crypto-api", "1.0.0");
+		final var entry = entry("com.konfigyr", "konfigyr-crypto-api", "1.0.0");
 
 		final var manifest = Manifest.builder()
 				.id("konfigyr-service")
 				.name("Konfigyr example service")
-				.artifact(artifact)
+				.artifact(entry)
 				.build();
 
-		assertThat(manifest.contains(artifact))
+		assertThat(manifest.contains(entry))
 				.isTrue();
 
 		assertThat(manifest.contains(Artifact.of("com.konfigyr", "konfigyr-crypto-api", "1.0.0")))

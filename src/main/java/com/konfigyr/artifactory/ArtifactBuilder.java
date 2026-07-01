@@ -12,7 +12,7 @@ import java.net.URI;
  * @param <B> the builder generic type
  * @author : Vladimir Spasic
  * @see Artifact
- * @since : 23.10.25, Thu
+ * @since 1.0.0
  */
 public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuilder<T, B>> {
 

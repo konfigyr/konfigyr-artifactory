@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @param replacement The full name of the property that replaces the related deprecated
  *                    property.
  * @author : Vladimir Spasic
- * @since : 16.03.23, Thu
+ * @since 1.0.0
  **/
 public record Deprecation(String reason, String replacement) implements Serializable {
 

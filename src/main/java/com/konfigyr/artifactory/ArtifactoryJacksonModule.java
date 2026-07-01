@@ -39,12 +39,28 @@ import java.util.Collection;
  *             <td>{@link DefaultPropertyDescriptor}</td>
  *         </tr>
  *         <tr>
- *             <td>{@link Release}</td>
- *             <td>{@link DefaultRelease}</td>
+ *             <td>{@link Publication}</td>
+ *             <td>{@link DefaultPublication}</td>
  *         </tr>
  *         <tr>
  *             <td>{@link Manifest}</td>
  *             <td>{@link DefaultManifest}</td>
+ *         </tr>
+ *         <tr>
+ *             <td>{@link ManifestEntry}</td>
+ *             <td>{@link DefaultManifestEntry}</td>
+ *         </tr>
+ *         <tr>
+ *             <td>{@link ServiceRelease}</td>
+ *             <td>{@link DefaultServiceRelease}</td>
+ *         </tr>
+ *         <tr>
+ *             <td>{@link ServiceReleaseEntry}</td>
+ *             <td>{@link DefaultServiceReleaseEntry}</td>
+ *         </tr>
+ *         <tr>
+ *             <td>{@link ServiceReleaseCandidate}</td>
+ *             <td>{@link DefaultServiceReleaseCandidate}</td>
  *         </tr>
  *     </tbody>
  * </table>
@@ -83,8 +99,12 @@ public class ArtifactoryJacksonModule extends SimpleModule {
 		addAbstractTypeMapping(Artifact.class, DefaultArtifact.class);
 		addAbstractTypeMapping(ArtifactMetadata.class, DefaultArtifactMetadata.class);
 		addAbstractTypeMapping(PropertyDescriptor.class, DefaultPropertyDescriptor.class);
-		addAbstractTypeMapping(Release.class, DefaultRelease.class);
+		addAbstractTypeMapping(Publication.class, DefaultPublication.class);
 		addAbstractTypeMapping(Manifest.class, DefaultManifest.class);
+		addAbstractTypeMapping(ManifestEntry.class, DefaultManifestEntry.class);
+		addAbstractTypeMapping(ServiceRelease.class, DefaultServiceRelease.class);
+		addAbstractTypeMapping(ServiceReleaseEntry.class, DefaultServiceReleaseEntry.class);
+		addAbstractTypeMapping(ServiceReleaseCandidate.class, DefaultServiceReleaseCandidate.class);
 
 		setMixInAnnotation(JsonSchema.class, JsonSchemaMixin.class);
 		setMixInAnnotation(JsonSchema.Builder.class, JsonSchemaMixin.Builder.class);

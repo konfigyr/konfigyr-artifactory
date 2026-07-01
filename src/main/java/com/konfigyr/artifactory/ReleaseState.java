@@ -1,36 +1,32 @@
 package com.konfigyr.artifactory;
 
 /**
- * Describes the states of the {@link Release}.
+ * Describes the states of a {@link ServiceRelease}.
+ * <p>
+ * This describes a whole service build's process state, {@code "is the build as a whole done?"}, which
+ * is a different axis than {@link PublicationState}, which describes a single artifact version's publish
+ * status.
  *
- * @author : Vladimir Spasic
- * @since : 24.09.23, Sun
- **/
+ * @author Vladimir Spasic
+ * @see ServiceRelease
+ * @see PublicationState
+ * @since 1.0.0
+ */
 public enum ReleaseState {
 
 	/**
-	 * The {@link ArtifactMetadata} package has been uploaded, and the Konfigyr Artifactory is
-	 * processing the data and drafting a new {@link Release} with the specified version.
-	 * <p>
-	 * The {@link Release} in this state should not be consumed Konfigyr Clients as it is
-	 * not fully processed and finalized.
+	 * A build is currently in progress: the build plugin is resolving and uploading the artifacts that
+	 * make up the service's {@link Manifest}.
 	 */
 	PENDING,
 
 	/**
-	 * The {@link ArtifactMetadata} has been full processed and the {@link Release} should be
-	 * made available by Konfigyr Clients.
+	 * The build was committed and is now the service's current {@link Manifest}.
 	 */
 	RELEASED,
 
 	/**
-	 * In case the uploaded {@link ArtifactMetadata} encountered any errors during it's
-	 * processing, the {@link Release} should be moved to a {@code #FAILED} state.
-	 * <p>
-	 * Users may attempt to upload the {@link ArtifactMetadata} again if the package contained
-	 * corrupted data or may retry the operation.
-	 * <p>
-	 * The {@link Release} in this state should not be consumed Konfigyr Clients.
+	 * The last publish attempt failed — see {@link ServiceRelease#errors()} for the reasons why.
 	 */
 	FAILED
 

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @param id        the unique identifier of the {@code Service} this manifest belongs to, can't be {@literal null}.
  * @param name      the name of the {@code Service} this manifest belongs to, can't be {@literal null}.
- * @param artifacts list of artifacts that belong to this manifest, can't be {@literal null}.
+ * @param artifacts list of manifest entries that belong to this manifest, can't be {@literal null}.
  * @param createdAt timestamp when this manifest was created, can't be {@literal null}.
  * @author Vladimir Spasic
  * @since 1.0.0
@@ -19,7 +19,7 @@ import java.util.List;
 public record DefaultManifest(
 		@NonNull String id,
 		@NonNull String name,
-		@NonNull List<Artifact> artifacts,
+		@NonNull List<ManifestEntry> artifacts,
 		@NonNull Instant createdAt
 ) implements Manifest {
 

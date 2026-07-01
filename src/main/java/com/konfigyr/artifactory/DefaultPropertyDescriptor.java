@@ -10,17 +10,17 @@ import java.io.Serial;
  *
  * @param name         unique property name, can't be {@literal null}.
  * @param schema       JSON Schema definition that describes the property value, can't be {@literal null}.
- * @param typeName     original type name of the property, may be {@literal null}.
+ * @param typeName     original type name of the property, can't be {@literal null}.
  * @param description  description of the configuration property, may be {@literal null}.
  * @param defaultValue default value of the configuration property, may be {@literal null}.
  * @param deprecation  deprecation information, may be {@literal null}.
  * @author : Vladimir Spasic
- * @since : 16.03.23, Thu
+ * @since 1.0.0
  **/
 public record DefaultPropertyDescriptor(
 		@NonNull String name,
 		@NonNull JsonSchema schema,
-		@Nullable String typeName,
+		@NonNull String typeName,
 		@Nullable String description,
 		@Nullable String defaultValue,
 		@Nullable Deprecation deprecation

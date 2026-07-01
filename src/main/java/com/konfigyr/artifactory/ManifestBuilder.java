@@ -30,9 +30,9 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	protected String name;
 
 	/**
-	 * Collection of artifacts that are part of the manifest.
+	 * Collection of manifest entries that are part of the manifest.
 	 */
-	protected final List<Artifact> artifacts;
+	protected final List<ManifestEntry> artifacts;
 
 	/**
 	 * Timestamp marking the creation of the manifest.
@@ -95,30 +95,30 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	}
 
 	/**
-	 * Adds a single artifact entry to the manifest.
+	 * Adds a single manifest entry to the manifest.
 	 *
-	 * @param artifact a manifest artifact entry.
+	 * @param entry a manifest entry.
 	 * @return this builder instance.
 	 */
 	@NonNull
-	public B artifact(Artifact artifact) {
-		if (artifact != null) {
-			this.artifacts.add(artifact);
+	public B artifact(ManifestEntry entry) {
+		if (entry != null) {
+			this.artifacts.add(entry);
 		}
 		return myself();
 	}
 
 	/**
-	 * Adds multiple artifact entries to the manifest.
+	 * Adds multiple manifest entries to the manifest.
 	 *
-	 * @param artifacts list of manifest artifact entries.
+	 * @param entries list of manifest entries.
 	 * @return this builder instance.
 	 */
 	@NonNull
-	public B artifacts(Iterable<? extends Artifact> artifacts) {
-		if (artifacts != null) {
-			for (Artifact artifact : artifacts) {
-				artifact(artifact);
+	public B artifacts(Iterable<? extends ManifestEntry> entries) {
+		if (entries != null) {
+			for (ManifestEntry entry : entries) {
+				artifact(entry);
 			}
 		}
 		return myself();

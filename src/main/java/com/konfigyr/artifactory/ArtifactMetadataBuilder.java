@@ -13,7 +13,7 @@ import java.util.List;
  * @param <B> the builder generic type
  * @author : Vladimir Spasic
  * @see ArtifactMetadata
- * @since : 23.10.25, Thu
+ * @since 1.0.0
  */
 public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B extends ArtifactMetadataBuilder<T, B>> extends ArtifactBuilder<T, B> {
 

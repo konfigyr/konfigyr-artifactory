@@ -10,7 +10,7 @@ import org.jspecify.annotations.NonNull;
  * @param <B> the builder generic type
  * @author : Vladimir Spasic
  * @see PropertyDescriptor
- * @since : 23.10.25, Thu
+ * @since 1.0.0
  */
 public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B extends PropertyDescriptorBuilder<T, B>> {
 
@@ -26,6 +26,7 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 
 	/**
 	 * The type name of the expected property value in the language in which this {@link Artifact} was written.
+	 * Required; a {@link PropertyDescriptor} without a type name cannot be built.
 	 */
 	protected String typeName;
 
@@ -102,11 +103,12 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * <p>
 	 * This attribute is purely used for informational purposes with intention of
 	 * helping the user decide how to define the value for this
-	 * <p>
-	 * May be omitted if no value type information is available.
 	 * {@link PropertyDescriptor}.
+	 * <p>
+	 * Required; {@link #build()} throws {@link IllegalArgumentException} if this value is
+	 * {@literal null} or blank.
 	 *
-	 * @param typeName original type name
+	 * @param typeName original type name, can't be {@literal null} or blank
 	 * @return builder instance
 	 */
 	@NonNull

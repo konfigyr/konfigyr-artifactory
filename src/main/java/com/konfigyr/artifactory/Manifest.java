@@ -33,9 +33,10 @@ import java.util.Optional;
  *
  * @author Vladimir Spasic
  * @see Artifact
+ * @see ManifestEntry
  * @since 1.0.0
  */
-public interface Manifest extends Iterable<Artifact>, Serializable {
+public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 
 	/**
 	 * Builder factory method for constructing new {@link DefaultManifest} instances.
@@ -73,14 +74,15 @@ public interface Manifest extends Iterable<Artifact>, Serializable {
 	Instant createdAt();
 
 	/**
-	 * Returns the list of all {@link Artifact artifacts} that belong to this manifest.
+	 * Returns the list of all {@link ManifestEntry entries} that belong to this manifest.
 	 * <p>
-	 * Each entry describes a distinct {@link Artifact} currently in use by the service.
+	 * Each entry describes a distinct {@link Artifact} currently in use by the service, together with
+	 * the checksum and provenance of the metadata that was captured for it.
 	 *
 	 * @return immutable list of manifest entries, never {@literal null} but may be empty.
 	 */
 	@NonNull
-	List<Artifact> artifacts();
+	List<ManifestEntry> artifacts();
 
 	/**
 	 * Checks if a specific {@link Artifact} is contained within this manifest by matching the given
@@ -90,7 +92,7 @@ public interface Manifest extends Iterable<Artifact>, Serializable {
 	 * @return {@code true} if given artifact is contained in this manifest entry, or {@code false} if not.
 	 */
 	default boolean contains(@NonNull Artifact artifact) {
-		for (Artifact candidate : this) {
+		for (ManifestEntry candidate : this) {
 			if (candidate.groupId().equals(artifact.groupId()) && candidate.artifactId().equals(artifact.artifactId())
 					&& candidate.version().equals(artifact.version())) {
 				return true;
@@ -100,17 +102,17 @@ public interface Manifest extends Iterable<Artifact>, Serializable {
 	}
 
 	/**
-	 * Finds a specific {@link Artifact} in this manifest matching the given artifact coordinates.
+	 * Finds a specific {@link ManifestEntry} in this manifest matching the given artifact coordinates.
 	 *
 	 * @param groupId    the artifact’s {@code groupId}, must not be {@literal null}.
 	 * @param artifactId the artifact’s {@code artifactId}, must not be {@literal null}.
 	 * @return an {@link Optional} containing the matching manifest entry, or empty if not found.
 	 */
 	@NonNull
-	default Optional<Artifact> find(String groupId, String artifactId) {
-		for (Artifact artifact : this) {
-			if (artifact.groupId().equals(groupId) && artifact.artifactId().equals(artifactId)) {
-				return Optional.of(artifact);
+	default Optional<ManifestEntry> find(String groupId, String artifactId) {
+		for (ManifestEntry entry : this) {
+			if (entry.groupId().equals(groupId) && entry.artifactId().equals(artifactId)) {
+				return Optional.of(entry);
 			}
 		}
 		return Optional.empty();
@@ -118,7 +120,7 @@ public interface Manifest extends Iterable<Artifact>, Serializable {
 
 	@NonNull
 	@Override
-	default Iterator<Artifact> iterator() {
+	default Iterator<ManifestEntry> iterator() {
 		return artifacts().iterator();
 	}
 

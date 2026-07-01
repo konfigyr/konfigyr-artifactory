@@ -40,7 +40,7 @@ import java.util.Comparator;
  *
  * @author : Vladimir Spasic
  * @see PropertyDescriptor
- * @see Release
+ * @see Publication
  * @since 1.0.0
  **/
 public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Serializable {

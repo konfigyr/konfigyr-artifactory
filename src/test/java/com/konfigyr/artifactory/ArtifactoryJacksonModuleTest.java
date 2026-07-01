@@ -208,31 +208,130 @@ class ArtifactoryJacksonModuleTest {
 	}
 
 	@Test
-	@DisplayName("should serialize and deserialize default release implementation")
-	void serializeAndDeserializeRelease() {
-		final var release = Release.builder()
+	@DisplayName("should serialize and deserialize default publication implementation")
+	void serializeAndDeserializePublication() {
+		final var publication = Publication.builder()
 				.groupId("com.konfigyr")
 				.artifactId("konfigyr-artifactory")
 				.version("1.0.0")
-				.state(ReleaseState.RELEASED)
-				.checksum("release-checksum")
+				.state(PublicationState.PUBLISHED)
+				.checksum("publication-checksum")
 				.name("Konfigyr Artifactory")
 				.description("Konfigyr Artifactory library for Java.")
 				.website("https://konfigyr.com")
 				.repository("https://github.com/konfigyr/konfigyr-artifactory")
-				.releasedAt(Instant.now().minus(7, ChronoUnit.DAYS))
+				.publishedAt(Instant.now().minus(7, ChronoUnit.DAYS))
+				.build();
+
+		final var json = mapper.writeValueAsString(publication);
+
+		assertThat(json)
+				.as("Serialized Publication should not be empty")
+				.isNotBlank();
+
+		assertThatObject(mapper.readValue(json, Publication.class))
+				.as("Deserialized Publication should be equal to the original")
+				.isInstanceOf(DefaultPublication.class)
+				.isEqualTo(publication);
+	}
+
+	@Test
+	@DisplayName("should serialize and deserialize default manifest entry implementation")
+	void serializeAndDeserializeManifestEntry() {
+		final var entry = ManifestEntry.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.checksum("entry-checksum")
+				.source(ArtifactSource.LOCAL)
+				.name("Konfigyr Artifactory")
+				.description("Konfigyr Artifactory library for Java.")
+				.website("https://konfigyr.com")
+				.repository("https://github.com/konfigyr/konfigyr-artifactory")
+				.resolvedAt(Instant.now().minus(7, ChronoUnit.DAYS))
+				.build();
+
+		final var json = mapper.writeValueAsString(entry);
+
+		assertThat(json)
+				.as("Serialized ManifestEntry should not be empty")
+				.isNotBlank();
+
+		assertThatObject(mapper.readValue(json, ManifestEntry.class))
+				.as("Deserialized ManifestEntry should be equal to the original")
+				.isInstanceOf(DefaultManifestEntry.class)
+				.isEqualTo(entry);
+	}
+
+	@Test
+	@DisplayName("should serialize and deserialize default service release entry implementation")
+	void serializeAndDeserializeServiceReleaseEntry() {
+		final var entry = ServiceReleaseEntry.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-crypto-api")
+				.version("1.0.0")
+				.status(ArtifactUploadStatus.UPLOAD_REQUIRED)
+				.build();
+
+		final var json = mapper.writeValueAsString(entry);
+
+		assertThat(json)
+				.as("Serialized ServiceReleaseEntry should not be empty")
+				.isNotBlank();
+
+		assertThatObject(mapper.readValue(json, ServiceReleaseEntry.class))
+				.as("Deserialized ServiceReleaseEntry should be equal to the original")
+				.isInstanceOf(DefaultServiceReleaseEntry.class)
+				.isEqualTo(entry);
+	}
+
+	@Test
+	@DisplayName("should serialize and deserialize default service release implementation")
+	void serializeAndDeserializeServiceRelease() {
+		final var release = ServiceRelease.builder()
+				.id("konfigyr-service-release")
+				.state(ReleaseState.FAILED)
+				.artifact(ServiceReleaseEntry.builder()
+						.groupId("com.konfigyr")
+						.artifactId("konfigyr-crypto-api")
+						.version("1.0.0")
+						.status(ArtifactUploadStatus.UPLOAD_REQUIRED)
+						.build())
+				.error("artifact upload failed")
 				.build();
 
 		final var json = mapper.writeValueAsString(release);
 
 		assertThat(json)
-				.as("Serialized Release should not be empty")
+				.as("Serialized ServiceRelease should not be empty")
 				.isNotBlank();
 
-		assertThatObject(mapper.readValue(json, Release.class))
-				.as("Deserialized Release should be equal to the original")
-				.isInstanceOf(DefaultRelease.class)
+		assertThatObject(mapper.readValue(json, ServiceRelease.class))
+				.as("Deserialized ServiceRelease should be equal to the original")
+				.isInstanceOf(DefaultServiceRelease.class)
 				.isEqualTo(release);
+	}
+
+	@Test
+	@DisplayName("should serialize and deserialize default service release candidate implementation")
+	void serializeAndDeserializeServiceReleaseCandidate() {
+		final var candidate = ServiceReleaseCandidate.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-crypto-api")
+				.version("1.0.0")
+				.checksum("candidate-checksum")
+				.build();
+
+		final var json = mapper.writeValueAsString(candidate);
+
+		assertThat(json)
+				.as("Serialized ServiceReleaseCandidate should not be empty")
+				.isNotBlank();
+
+		assertThatObject(mapper.readValue(json, ServiceReleaseCandidate.class))
+				.as("Deserialized ServiceReleaseCandidate should be equal to the original")
+				.isInstanceOf(DefaultServiceReleaseCandidate.class)
+				.isEqualTo(candidate);
 	}
 
 	@Test

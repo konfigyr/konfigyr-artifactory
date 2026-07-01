@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * Default implementation of the {@link Release} interface.
+ * Default implementation of the {@link Publication} interface.
  *
  * @param groupId     Maven coordinate {@code groupId} of the artifact, can't be {@literal null}.
  * @param artifactId  Maven coordinate {@code artifactId} of the artifact, can't be {@literal null}.
@@ -20,14 +20,14 @@ import java.util.List;
  * @param description textual description of the artifact, may be {@literal null}.
  * @param website     external URL for documentation or homepage, may be {@literal null}.
  * @param repository  source control repository reference (SCM URL), may be {@literal null}.
- * @param state       the state of this release, can't be {@literal null}.
- * @param errors      error messages that caused this release to fail. May be {@code empty} but not {@literal null}.
+ * @param state       the state of this publication, can't be {@literal null}.
+ * @param errors      error messages that caused this publication to fail. May be {@code empty} but not {@literal null}.
  * @param checksum    checksum of the uploaded {@link ArtifactMetadata artifact metadata}, can't be {@literal null}.
- * @param releasedAt  timestamp when this release was crated, can't be {@literal null}.
+ * @param publishedAt timestamp when this publication was crated, can't be {@literal null}.
  * @author Vladimir Spasic
  * @since 1.0.0
  */
-public record DefaultRelease(
+public record DefaultPublication(
 		@NonNull String groupId,
 		@NonNull String artifactId,
 		@NonNull String version,
@@ -35,32 +35,32 @@ public record DefaultRelease(
 		@Nullable String description,
 		@Nullable URI website,
 		@Nullable URI repository,
-		@NonNull ReleaseState state,
+		@NonNull PublicationState state,
 		@NonNull List<String> errors,
 		@NonNull String checksum,
-		@NonNull Instant releasedAt
-) implements Release {
+		@NonNull Instant publishedAt
+) implements Publication {
 
 	@Serial
 	private static final long serialVersionUID = 8548427370636592022L;
 
 	/**
-	 * Builder class used to create new instances of the {@link DefaultRelease}.
+	 * Builder class used to create new instances of the {@link DefaultPublication}.
 	 */
-	public static final class Builder extends ReleaseBuilder<DefaultRelease, Builder> {
+	public static final class Builder extends PublicationBuilder<DefaultPublication, Builder> {
 
 		Builder() {
 			// can only be used by types within this package
 		}
 
 		/**
-		 * Creates the {@link DefaultRelease} as a result of this builder.
+		 * Creates the {@link DefaultPublication} as a result of this builder.
 		 *
-		 * @return artifact release, never {@literal null}.
+		 * @return artifact publication, never {@literal null}.
 		 */
 		@NonNull
 		@Override
-		public DefaultRelease build() {
+		public DefaultPublication build() {
 			if (groupId == null || groupId.isBlank()) {
 				throw new IllegalArgumentException("Artifact groupId can not be blank");
 			}
@@ -71,17 +71,17 @@ public record DefaultRelease(
 				throw new IllegalArgumentException("Artifact version can not be blank");
 			}
 			if (state == null) {
-				state = ReleaseState.PENDING;
+				state = PublicationState.PENDING;
 			}
 			if (checksum == null || checksum.isBlank()) {
-				throw new IllegalArgumentException("Release property metadata checksum can not be blank");
+				throw new IllegalArgumentException("Publication property metadata checksum can not be blank");
 			}
-			if (releasedAt == null) {
-				throw new IllegalArgumentException("Release date can not be null");
+			if (publishedAt == null) {
+				throw new IllegalArgumentException("Publication date can not be null");
 			}
 
-			return new DefaultRelease(groupId, artifactId, version, name, description, website, repository,
-					state, Collections.unmodifiableList(errors), checksum, releasedAt);
+			return new DefaultPublication(groupId, artifactId, version, name, description, website, repository,
+					state, Collections.unmodifiableList(errors), checksum, publishedAt);
 		}
 
 	}
