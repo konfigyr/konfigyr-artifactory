@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.konfigyr"
-version = "1.0.0-RC4"
+version = "1.0.0-RC5"
 description = "Library that defines the main building blocks of the Konfigyr Artifactory."
 
 repositories {
@@ -37,7 +37,7 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = "13.4.0"
+    toolVersion = "13.7.0"
 }
 
 tasks.withType<JavaCompile>().configureEach {
