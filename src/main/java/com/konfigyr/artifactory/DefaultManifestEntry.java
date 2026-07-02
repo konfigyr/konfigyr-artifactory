@@ -55,26 +55,7 @@ public record DefaultManifestEntry(
 		 */
 		@NonNull
 		@Override
-		public DefaultManifestEntry build() {
-			if (groupId == null || groupId.isBlank()) {
-				throw new IllegalArgumentException("Artifact groupId can not be blank");
-			}
-			if (artifactId == null || artifactId.isBlank()) {
-				throw new IllegalArgumentException("Artifact artifactId can not be blank");
-			}
-			if (version == null || version.isBlank()) {
-				throw new IllegalArgumentException("Artifact version can not be blank");
-			}
-			if (checksum == null || checksum.isBlank()) {
-				throw new IllegalArgumentException("Manifest entry checksum can not be blank");
-			}
-			if (source == null) {
-				throw new IllegalArgumentException("Manifest entry source can not be null");
-			}
-			if (resolvedAt == null) {
-				throw new IllegalArgumentException("Manifest entry resolution date can not be null");
-			}
-
+		protected DefaultManifestEntry instantiate() {
 			return new DefaultManifestEntry(groupId, artifactId, version, name, description, website, repository,
 					checksum, source, resolvedAt);
 		}

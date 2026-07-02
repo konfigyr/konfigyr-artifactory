@@ -105,13 +105,19 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	/**
 	 * Creates an {@link ArtifactMetadata} for this {@link Artifact} with the given collection
 	 * of {@link PropertyDescriptor property descriptors}.
+	 * <p>
+	 * The checksum of the created metadata is derived automatically from the given {@code descriptors},
+	 * see {@link ArtifactMetadata#checksum()}.
 	 *
 	 * @param descriptors property descriptors used to prepare the artifact metadata instance, never {@literal null}.
 	 * @return artifact metadata, never {@literal null}
 	 */
 	@NonNull
 	default ArtifactMetadata toMetadata(@NonNull Collection<? extends PropertyDescriptor> descriptors) {
-		return ArtifactMetadata.builder().artifact(this).properties(descriptors).build();
+		return ArtifactMetadata.builder()
+				.artifact(this)
+				.properties(descriptors)
+				.build();
 	}
 
 	/**

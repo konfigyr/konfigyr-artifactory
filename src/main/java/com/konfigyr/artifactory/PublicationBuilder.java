@@ -134,12 +134,19 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 		return myself();
 	}
 
-	/**
-	 * Creates the {@link Publication} as a result of this builder.
-	 *
-	 * @return the publication instance, never {@literal null}.
-	 */
-	@NonNull
-	public abstract T build();
+	@Override
+	protected void validate() {
+		super.validate();
+
+		if (state == null) {
+			state = PublicationState.PENDING;
+		}
+		if (checksum == null || checksum.isBlank()) {
+			throw new IllegalArgumentException("Publication property metadata checksum can not be blank");
+		}
+		if (publishedAt == null) {
+			throw new IllegalArgumentException("Publication date can not be null");
+		}
+	}
 
 }

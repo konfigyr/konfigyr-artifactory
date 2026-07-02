@@ -60,26 +60,7 @@ public record DefaultPublication(
 		 */
 		@NonNull
 		@Override
-		public DefaultPublication build() {
-			if (groupId == null || groupId.isBlank()) {
-				throw new IllegalArgumentException("Artifact groupId can not be blank");
-			}
-			if (artifactId == null || artifactId.isBlank()) {
-				throw new IllegalArgumentException("Artifact artifactId can not be blank");
-			}
-			if (version == null || version.isBlank()) {
-				throw new IllegalArgumentException("Artifact version can not be blank");
-			}
-			if (state == null) {
-				state = PublicationState.PENDING;
-			}
-			if (checksum == null || checksum.isBlank()) {
-				throw new IllegalArgumentException("Publication property metadata checksum can not be blank");
-			}
-			if (publishedAt == null) {
-				throw new IllegalArgumentException("Publication date can not be null");
-			}
-
+		protected DefaultPublication instantiate() {
 			return new DefaultPublication(groupId, artifactId, version, name, description, website, repository,
 					state, Collections.unmodifiableList(errors), checksum, publishedAt);
 		}

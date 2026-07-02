@@ -61,7 +61,9 @@ class ArtifactTest {
 						.build()
 		);
 
-		assertThatObject(artifact.toMetadata(descriptors))
+		final var metadata = artifact.toMetadata(descriptors);
+
+		assertThatObject(metadata)
 				.isNotNull()
 				.returns("com.konfigyr", Artifact::groupId)
 				.returns("konfigyr-artifactory", Artifact::artifactId)
@@ -71,6 +73,8 @@ class ArtifactTest {
 				.returns(URI.create("https://konfigyr.com"), Artifact::website)
 				.returns(URI.create("https://github.com/konfigyr/konfigyr-artifactory"), Artifact::repository)
 				.returns(descriptors, ArtifactMetadata::properties);
+
+		assertThat(metadata.checksum()).isNotBlank();
 	}
 
 	@Test

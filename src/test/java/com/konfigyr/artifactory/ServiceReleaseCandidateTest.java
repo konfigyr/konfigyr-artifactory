@@ -30,6 +30,37 @@ class ServiceReleaseCandidateTest {
 	}
 
 	@Test
+	@DisplayName("should create service release candidate using Maven coordinates and checksum")
+	void createServiceReleaseCandidateFromCoordinates() {
+		final var candidate = ServiceReleaseCandidate.of(
+				artifact.groupId(), artifact.artifactId(), artifact.version(), "checksum");
+
+		assertThat(candidate)
+				.isNotNull()
+				.returns(artifact.groupId(), ServiceReleaseCandidate::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseCandidate::artifactId)
+				.returns(artifact.version(), ServiceReleaseCandidate::version)
+				.returns("checksum", ServiceReleaseCandidate::checksum);
+	}
+
+	@Test
+	@DisplayName("should create service release candidate using an artifact and checksum")
+	void createServiceReleaseCandidateFromArtifact() {
+		final var candidate = ServiceReleaseCandidate.of(artifact, "checksum");
+
+		assertThat(candidate)
+				.isNotNull()
+				.returns(artifact.groupId(), ServiceReleaseCandidate::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseCandidate::artifactId)
+				.returns(artifact.version(), ServiceReleaseCandidate::version)
+				.returns(artifact.name(), ServiceReleaseCandidate::name)
+				.returns(artifact.description(), ServiceReleaseCandidate::description)
+				.returns(artifact.website(), ServiceReleaseCandidate::website)
+				.returns(artifact.repository(), ServiceReleaseCandidate::repository)
+				.returns("checksum", ServiceReleaseCandidate::checksum);
+	}
+
+	@Test
 	@DisplayName("builder should validate required properties")
 	void validateRequiredProperties() {
 		final var builder = ServiceReleaseCandidate.builder();

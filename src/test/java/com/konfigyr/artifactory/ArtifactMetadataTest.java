@@ -82,7 +82,9 @@ class ArtifactMetadataTest {
 				.schema(StringSchema.instance())
 				.build();
 
-		assertThatObject(builder.property(property).build())
+		final var metadata = builder.property(property).build();
+
+		assertThatObject(metadata)
 				.isNotNull()
 				.returns("com.konfigyr", Artifact::groupId)
 				.returns("konfigyr-artifactory", Artifact::artifactId)
@@ -91,8 +93,72 @@ class ArtifactMetadataTest {
 				.returns(null, Artifact::description)
 				.returns(null, Artifact::website)
 				.returns(null, Artifact::repository)
-				.returns(null, ArtifactMetadata::checksum)
 				.returns(List.of(property), ArtifactMetadata::properties);
+
+		assertThat(metadata.checksum()).isNotBlank();
+	}
+
+	@Test
+	@DisplayName("should compute the checksum automatically when not explicitly provided")
+	void computesChecksumAutomatically() {
+		final var first = PropertyDescriptor.builder()
+				.name("spring.application.group")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		final var second = PropertyDescriptor.builder()
+				.name("spring.application.name")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		final var visitor = JsonSchemaDigestVisitor.of();
+		first.schema().accept(visitor);
+		second.schema().accept(visitor);
+
+		final var metadata = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.properties(List.of(first, second))
+				.build();
+
+		assertThat(metadata.checksum()).isEqualTo(visitor.checksum());
+	}
+
+	@Test
+	@DisplayName("should compute the same checksum regardless of property descriptor insertion order")
+	void computedChecksumIgnoresPropertyOrder() {
+		final var first = PropertyDescriptor.builder()
+				.name("spring.application.group")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		final var second = PropertyDescriptor.builder()
+				.name("spring.application.name")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		final var checksum = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.properties(List.of(first, second))
+				.build()
+				.checksum();
+
+		final var reordered = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.properties(List.of(second, first))
+				.build()
+				.checksum();
+
+		assertThat(checksum).isEqualTo(reordered);
 	}
 
 	@Test

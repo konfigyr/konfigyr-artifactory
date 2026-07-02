@@ -177,11 +177,44 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	}
 
 	/**
-	 * Creates the {@link Artifact} as a result of this builder.
+	 * Validates the properties collected by this builder, throwing an {@link IllegalArgumentException}
+	 * when a required property is missing or invalid.
+	 * <p>
+	 * Subclasses that introduce additional required properties should override this method, calling
+	 * {@code super.validate()} first so that the coordinate validation performed here still applies.
+	 */
+	protected void validate() {
+		if (groupId == null || groupId.isBlank()) {
+			throw new IllegalArgumentException("Artifact groupId can not be blank");
+		}
+		if (artifactId == null || artifactId.isBlank()) {
+			throw new IllegalArgumentException("Artifact artifactId can not be blank");
+		}
+		if (version == null || version.isBlank()) {
+			throw new IllegalArgumentException("Artifact version can not be blank");
+		}
+	}
+
+	/**
+	 * Creates the {@link Artifact} instance using the properties collected by this builder.
+	 * <p>
+	 * Called by {@link #build()} only once {@link #validate()} has completed without throwing.
 	 *
 	 * @return the artifact instance, never {@literal null}.
 	 */
 	@NonNull
-	public abstract T build();
+	protected abstract T instantiate();
+
+	/**
+	 * Validates the properties collected by this builder and creates the {@link Artifact} as a
+	 * result of this builder.
+	 *
+	 * @return the artifact instance, never {@literal null}.
+	 */
+	@NonNull
+	public final T build() {
+		validate();
+		return instantiate();
+	}
 
 }

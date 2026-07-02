@@ -30,6 +30,37 @@ class ServiceReleaseEntryTest {
 	}
 
 	@Test
+	@DisplayName("should create service release entry using Maven coordinates and status")
+	void createServiceReleaseEntryFromCoordinates() {
+		final var entry = ServiceReleaseEntry.of(artifact.groupId(), artifact.artifactId(), artifact.version(),
+				ArtifactUploadStatus.UPLOAD_REQUIRED);
+
+		assertThat(entry)
+				.isNotNull()
+				.returns(artifact.groupId(), ServiceReleaseEntry::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseEntry::artifactId)
+				.returns(artifact.version(), ServiceReleaseEntry::version)
+				.returns(ArtifactUploadStatus.UPLOAD_REQUIRED, ServiceReleaseEntry::status);
+	}
+
+	@Test
+	@DisplayName("should create service release entry using an artifact and status")
+	void createServiceReleaseEntryFromArtifact() {
+		final var entry = ServiceReleaseEntry.of(artifact, ArtifactUploadStatus.UPLOAD_REQUIRED);
+
+		assertThat(entry)
+				.isNotNull()
+				.returns(artifact.groupId(), ServiceReleaseEntry::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseEntry::artifactId)
+				.returns(artifact.version(), ServiceReleaseEntry::version)
+				.returns(artifact.name(), ServiceReleaseEntry::name)
+				.returns(artifact.description(), ServiceReleaseEntry::description)
+				.returns(artifact.website(), ServiceReleaseEntry::website)
+				.returns(artifact.repository(), ServiceReleaseEntry::repository)
+				.returns(ArtifactUploadStatus.UPLOAD_REQUIRED, ServiceReleaseEntry::status);
+	}
+
+	@Test
 	@DisplayName("builder should validate required properties")
 	void validateRequiredProperties() {
 		final var builder = ServiceReleaseEntry.builder();

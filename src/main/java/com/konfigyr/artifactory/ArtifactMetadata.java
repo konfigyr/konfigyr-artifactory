@@ -1,7 +1,6 @@
 package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -66,10 +65,14 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	/**
 	 * Returns the {@code Base64} encoded string of SHA-256 checksum that is generated based on
 	 * the artifact metadata.
+	 * <p>
+	 * Metadata can not be created without a checksum: unless one is explicitly supplied to the
+	 * {@link DefaultArtifactMetadata.Builder}, it is derived automatically from the {@link #properties()}
+	 * using a {@link JsonSchemaDigestVisitor}.
 	 *
-	 * @return checksum of the artifact metadata, may be {@literal null}.
+	 * @return checksum of the artifact metadata, never {@literal null}.
 	 */
-	@Nullable
+	@NonNull
 	String checksum();
 
 	/**

@@ -58,12 +58,13 @@ public abstract class ServiceReleaseCandidateBuilder<T extends ServiceReleaseCan
 		return myself();
 	}
 
-	/**
-	 * Creates the {@link ServiceReleaseCandidate} as a result of this builder.
-	 *
-	 * @return the service release candidate instance, never {@literal null}.
-	 */
-	@NonNull
-	public abstract T build();
+	@Override
+	protected void validate() {
+		super.validate();
+
+		if (checksum == null || checksum.isBlank()) {
+			throw new IllegalArgumentException("Service release candidate checksum can not be blank");
+		}
+	}
 
 }

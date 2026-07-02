@@ -58,12 +58,13 @@ public abstract class ServiceReleaseEntryBuilder<T extends ServiceReleaseEntry, 
 		return myself();
 	}
 
-	/**
-	 * Creates the {@link ServiceReleaseEntry} as a result of this builder.
-	 *
-	 * @return the service release entry instance, never {@literal null}.
-	 */
-	@NonNull
-	public abstract T build();
+	@Override
+	protected void validate() {
+		super.validate();
+
+		if (status == null) {
+			throw new IllegalArgumentException("Artifact upload status can not be null");
+		}
+	}
 
 }

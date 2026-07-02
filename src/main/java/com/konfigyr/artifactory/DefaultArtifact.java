@@ -48,17 +48,7 @@ public record DefaultArtifact(
 		 */
 		@NonNull
 		@Override
-		public DefaultArtifact build() {
-			if (groupId == null || groupId.isBlank()) {
-				throw new IllegalArgumentException("Artifact groupId can not be blank");
-			}
-			if (artifactId == null || artifactId.isBlank()) {
-				throw new IllegalArgumentException("Artifact artifactId can not be blank");
-			}
-			if (version == null || version.isBlank()) {
-				throw new IllegalArgumentException("Artifact version can not be blank");
-			}
-
+		protected DefaultArtifact instantiate() {
 			return new DefaultArtifact(groupId, artifactId, version, name, description, website, repository);
 		}
 

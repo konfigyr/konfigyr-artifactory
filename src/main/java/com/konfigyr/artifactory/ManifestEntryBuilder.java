@@ -94,12 +94,19 @@ public abstract class ManifestEntryBuilder<T extends ManifestEntry, B extends Ma
 		return myself();
 	}
 
-	/**
-	 * Creates the {@link ManifestEntry} as a result of this builder.
-	 *
-	 * @return the manifest entry instance, never {@literal null}.
-	 */
-	@NonNull
-	public abstract T build();
+	@Override
+	protected void validate() {
+		super.validate();
+
+		if (checksum == null || checksum.isBlank()) {
+			throw new IllegalArgumentException("Manifest entry checksum can not be blank");
+		}
+		if (source == null) {
+			throw new IllegalArgumentException("Manifest entry source can not be null");
+		}
+		if (resolvedAt == null) {
+			throw new IllegalArgumentException("Manifest entry resolution date can not be null");
+		}
+	}
 
 }

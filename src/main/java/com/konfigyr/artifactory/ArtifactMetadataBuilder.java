@@ -19,6 +19,8 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 
 	/**
 	 * The checksum of all property descriptors within this metadata.
+	 * <p>
+	 * Optional: if left unset, it is derived automatically when the metadata is built.
 	 */
 	protected String checksum;
 
@@ -53,6 +55,10 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 
 	/**
 	 * Specify the {@code checksum} for this {@link ArtifactMetadata}.
+	 * <p>
+	 * This is optional: when left unset, the checksum is derived automatically from the property
+	 * descriptors when the metadata is built. Only set this explicitly when reconstructing metadata
+	 * that was already assigned a checksum, e.g. when loading it back from storage.
 	 *
 	 * @param checksum artifact metadata checksum
 	 * @return artifact metadata builder
@@ -91,6 +97,36 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 			}
 		}
 		return myself();
+	}
+
+	@Override
+	protected void validate() {
+		super.validate();
+
+		if (properties.isEmpty()) {
+			throw new IllegalArgumentException("Artifact metadata must contain at least one property descriptor");
+		}
+	}
+
+	/**
+	 * Computes the checksum of the given, already sorted, property descriptors by visiting each of
+	 * their {@link PropertyDescriptor#schema()} with a {@link JsonSchemaDigestVisitor}.
+	 * <p>
+	 * Available to subclasses so that any {@link ArtifactMetadataBuilder} implementation can derive
+	 * a checksum consistently, without depending on {@link DefaultArtifactMetadata}.
+	 *
+	 * @param properties the sorted property descriptors to be hashed, never {@literal null}.
+	 * @return the computed checksum, never {@literal null}.
+	 */
+	@NonNull
+	protected static String checksum(List<PropertyDescriptor> properties) {
+		final JsonSchemaDigestVisitor visitor = JsonSchemaDigestVisitor.of();
+
+		for (PropertyDescriptor descriptor : properties) {
+			descriptor.schema().accept(visitor);
+		}
+
+		return visitor.checksum();
 	}
 
 }
