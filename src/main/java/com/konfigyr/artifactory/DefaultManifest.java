@@ -1,5 +1,6 @@
 package com.konfigyr.artifactory;
 
+import java.io.Serial;
 import java.time.Instant;
 import java.util.List;
 
@@ -20,9 +21,12 @@ public record DefaultManifest(
 		Instant createdAt
 ) implements Manifest {
 
+	@Serial
+	private static final long serialVersionUID = 9038022062672153532L;
+
 	/**
-	 * Validates this {@link Manifest}, mirroring the checks performed by {@link Builder#build()}, so
-	 * that the invariant holds regardless of whether this record is constructed via the {@link Builder}
+	 * Validates this {@link Manifest}, mirroring the checks performed by {@link ManifestBuilder#validate()},
+	 * so that the invariant holds regardless of whether this record is constructed via the {@link Builder}
 	 * or directly.
 	 */
 	public DefaultManifest {
@@ -45,13 +49,7 @@ public record DefaultManifest(
 		 * @return service artifact manifest, never {@literal null}.
 		 */
 		@Override
-		public DefaultManifest build() {
-			id = Asserts.notBlank(id, "Service identifier can not be blank");
-			name = Asserts.notBlank(name, "Service name can not be blank");
-			if (createdAt == null) {
-				createdAt = Instant.now();
-			}
-
+		protected DefaultManifest instantiate() {
 			artifacts.sort(Artifact::compareTo);
 
 			return new DefaultManifest(id, name, List.copyOf(artifacts), createdAt);

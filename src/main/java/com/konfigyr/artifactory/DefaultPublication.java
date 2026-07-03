@@ -39,7 +39,7 @@ public record DefaultPublication(
 ) implements Publication {
 
 	@Serial
-	private static final long serialVersionUID = 8548427370636592022L;
+	private static final long serialVersionUID = 7436148650350106518L;
 
 	/**
 	 * Validates this {@link Publication}, mirroring the checks performed by

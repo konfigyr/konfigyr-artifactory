@@ -29,7 +29,7 @@ public record DefaultArtifact(
 ) implements Artifact {
 
 	@Serial
-	private static final long serialVersionUID = 8548427370636592022L;
+	private static final long serialVersionUID = 7475803035172028135L;
 
 	/**
 	 * Validates the Maven coordinates of this {@link Artifact}, mirroring the checks performed

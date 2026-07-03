@@ -36,7 +36,7 @@ public record DefaultManifestEntry(
 ) implements ManifestEntry {
 
 	@Serial
-	private static final long serialVersionUID = 8548427370636592022L;
+	private static final long serialVersionUID = 8731625110585043324L;
 
 	/**
 	 * Validates this {@link ManifestEntry}, mirroring the checks performed by
