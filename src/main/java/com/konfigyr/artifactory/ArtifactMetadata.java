@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +40,6 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	 * @param descriptors the property descriptors to be added
 	 * @return a new immutable {@link ArtifactMetadata} instance, never {@literal null}.
 	 */
-	@NonNull
 	static ArtifactMetadata of(String groupId, String artifactId, String version, PropertyDescriptor... descriptors) {
 		return builder()
 				.groupId(groupId)
@@ -72,7 +69,6 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	 *
 	 * @return checksum of the artifact metadata, never {@literal null}.
 	 */
-	@NonNull
 	String checksum();
 
 	/**
@@ -81,10 +77,8 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	 *
 	 * @return the configuration property metadata extracted from the build, never {@literal null}.
 	 */
-	@NonNull
 	List<PropertyDescriptor> properties();
 
-	@NonNull
 	@Override
 	default Iterator<PropertyDescriptor> iterator() {
 		return properties().iterator();

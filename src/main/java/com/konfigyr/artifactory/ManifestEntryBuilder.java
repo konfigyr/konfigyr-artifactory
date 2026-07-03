@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 
@@ -23,17 +23,17 @@ public abstract class ManifestEntryBuilder<T extends ManifestEntry, B extends Ma
 	/**
 	 * Checksum of the {@link ArtifactMetadata property metadata} captured for this manifest entry.
 	 */
-	protected String checksum;
+	protected @Nullable String checksum;
 
 	/**
 	 * Where this entry's metadata originated from.
 	 */
-	protected ArtifactSource source;
+	protected @Nullable ArtifactSource source;
 
 	/**
 	 * Timestamp when this entry's metadata was captured.
 	 */
-	protected Instant resolvedAt;
+	protected @Nullable Instant resolvedAt;
 
 	/**
 	 * Creates a new {@link ManifestEntryBuilder} instance.
@@ -47,7 +47,6 @@ public abstract class ManifestEntryBuilder<T extends ManifestEntry, B extends Ma
 	 * @param artifact the artifact
 	 * @return manifest entry builder
 	 */
-	@NonNull
 	public B artifact(Artifact artifact) {
 		return groupId(artifact.groupId())
 				.artifactId(artifact.artifactId())
@@ -64,7 +63,6 @@ public abstract class ManifestEntryBuilder<T extends ManifestEntry, B extends Ma
 	 * @param checksum the metadata checksum
 	 * @return manifest entry builder
 	 */
-	@NonNull
 	public B checksum(String checksum) {
 		this.checksum = checksum;
 		return myself();
@@ -76,7 +74,6 @@ public abstract class ManifestEntryBuilder<T extends ManifestEntry, B extends Ma
 	 * @param source the manifest entry source
 	 * @return manifest entry builder
 	 */
-	@NonNull
 	public B source(ArtifactSource source) {
 		this.source = source;
 		return myself();
@@ -88,7 +85,6 @@ public abstract class ManifestEntryBuilder<T extends ManifestEntry, B extends Ma
 	 * @param resolvedAt the manifest entry resolution timestamp
 	 * @return manifest entry builder
 	 */
-	@NonNull
 	public B resolvedAt(Instant resolvedAt) {
 		this.resolvedAt = resolvedAt;
 		return myself();

@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,12 +21,13 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	/**
 	 * The unique identifier of this release attempt.
 	 */
-	protected String id;
+	protected @Nullable String id;
 
 	/**
-	 * The state of this release attempt.
+	 * The state of this release attempt. Optional: defaults to {@link ReleaseState#PENDING} when
+	 * left unset.
 	 */
-	protected ReleaseState state;
+	protected @Nullable ReleaseState state;
 
 	/**
 	 * Collection of per-artifact resolution results captured for this release.
@@ -36,7 +37,7 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	/**
 	 * Timestamp when this release was committed as the service's current manifest.
 	 */
-	protected Instant publishedAt;
+	protected @Nullable Instant publishedAt;
 
 	/**
 	 * Collection of release errors that caused this release to fail.
@@ -57,7 +58,6 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 *
 	 * @return the type-self builder return value, never {@literal null}.
 	 */
-	@NonNull
 	@SuppressWarnings("unchecked")
 	protected B myself() {
 		return (B) this;
@@ -69,7 +69,6 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * @param id the service release identifier
 	 * @return service release builder
 	 */
-	@NonNull
 	public B id(String id) {
 		this.id = id;
 		return myself();
@@ -81,8 +80,7 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * @param state the service release state
 	 * @return service release builder
 	 */
-	@NonNull
-	public B state(ReleaseState state) {
+	public B state(@Nullable ReleaseState state) {
 		this.state = state;
 		return myself();
 	}
@@ -93,8 +91,7 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * @param entry a service release entry
 	 * @return service release builder
 	 */
-	@NonNull
-	public B artifact(ServiceReleaseEntry entry) {
+	public B artifact(@Nullable ServiceReleaseEntry entry) {
 		if (entry != null) {
 			this.artifacts.add(entry);
 		}
@@ -107,8 +104,7 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * @param entries service release entries
 	 * @return service release builder
 	 */
-	@NonNull
-	public B artifacts(Iterable<? extends ServiceReleaseEntry> entries) {
+	public B artifacts(@Nullable Iterable<? extends ServiceReleaseEntry> entries) {
 		if (entries != null) {
 			for (ServiceReleaseEntry entry : entries) {
 				artifact(entry);
@@ -123,8 +119,7 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * @param publishedAt the service release publish timestamp
 	 * @return service release builder
 	 */
-	@NonNull
-	public B publishedAt(Instant publishedAt) {
+	public B publishedAt(@Nullable Instant publishedAt) {
 		this.publishedAt = publishedAt;
 		return myself();
 	}
@@ -135,8 +130,7 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * @param error the release error message
 	 * @return service release builder
 	 */
-	@NonNull
-	public B error(String error) {
+	public B error(@Nullable String error) {
 		if (error != null && !error.isBlank()) {
 			this.errors.add(error);
 		}
@@ -149,8 +143,7 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * @param errors the release error messages
 	 * @return service release builder
 	 */
-	@NonNull
-	public B errors(Iterable<String> errors) {
+	public B errors(@Nullable Iterable<String> errors) {
 		if (errors != null) {
 			for (String error : errors) {
 				error(error);
@@ -164,7 +157,6 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 *
 	 * @return the service release instance, never {@literal null}.
 	 */
-	@NonNull
 	public abstract T build();
 
 }

@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.net.URI;
 
@@ -19,37 +19,37 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	/**
 	 * The {@code groupId} coordinate for this {@link Artifact}.
 	 */
-	protected String groupId;
+	protected @Nullable String groupId;
 
 	/**
 	 * The {@code artifactId} coordinate for this {@link Artifact}.
 	 */
-	protected String artifactId;
+	protected @Nullable String artifactId;
 
 	/**
 	 * The {@code version} coordinate for this {@link Artifact}.
 	 */
-	protected String version;
+	protected @Nullable String version;
 
 	/**
 	 * The human-readable name for this {@link Artifact}.
 	 */
-	protected String name;
+	protected @Nullable String name;
 
 	/**
 	 * The textual description for this {@link Artifact}.
 	 */
-	protected String description;
+	protected @Nullable String description;
 
 	/**
 	 * The external URL for documentation or homepage for this {@link Artifact}.
 	 */
-	protected URI website;
+	protected @Nullable URI website;
 
 	/**
 	 * The source control repository location for this {@link Artifact}.
 	 */
-	protected URI repository;
+	protected @Nullable URI repository;
 
 	/**
 	 * Creates a new instance of the {@link ArtifactBuilder}.
@@ -63,7 +63,6 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 *
 	 * @return the type-self builder return value, never {@literal null}.
 	 */
-	@NonNull
 	@SuppressWarnings("unchecked")
 	protected B myself() {
 		return (B) this;
@@ -75,7 +74,6 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param groupId artifact {@code groupId} coordinate
 	 * @return artifact builder
 	 */
-	@NonNull
 	public B groupId(String groupId) {
 		this.groupId = groupId;
 		return myself();
@@ -87,7 +85,6 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param artifactId artifact {@code artifactId} coordinate
 	 * @return artifact builder
 	 */
-	@NonNull
 	public B artifactId(String artifactId) {
 		this.artifactId = artifactId;
 		return myself();
@@ -99,7 +96,6 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param version artifact {@code version} coordinate
 	 * @return artifact builder
 	 */
-	@NonNull
 	public B version(String version) {
 		this.version = version;
 		return myself();
@@ -111,8 +107,7 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param name artifact name
 	 * @return artifact builder
 	 */
-	@NonNull
-	public B name(String name) {
+	public B name(@Nullable String name) {
 		this.name = name;
 		return myself();
 	}
@@ -123,8 +118,7 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param description artifact description
 	 * @return artifact builder
 	 */
-	@NonNull
-	public B description(String description) {
+	public B description(@Nullable String description) {
 		this.description = description;
 		return myself();
 	}
@@ -136,8 +130,7 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @return artifact builder
 	 * @throws IllegalArgumentException If the given website location violates RFC 2396
 	 */
-	@NonNull
-	public B website(String website) {
+	public B website(@Nullable String website) {
 		return website(website == null ? null : URI.create(website));
 	}
 
@@ -147,8 +140,7 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param website artifact website URL
 	 * @return artifact builder
 	 */
-	@NonNull
-	public B website(URI website) {
+	public B website(@Nullable URI website) {
 		this.website = website;
 		return myself();
 	}
@@ -159,8 +151,7 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param repository artifact repository URL
 	 * @return artifact builder
 	 */
-	@NonNull
-	public B repository(String repository) {
+	public B repository(@Nullable String repository) {
 		return repository(repository == null ? null : URI.create(repository));
 	}
 
@@ -170,8 +161,7 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * @param repository artifact repository URL
 	 * @return artifact builder
 	 */
-	@NonNull
-	public B repository(URI repository) {
+	public B repository(@Nullable URI repository) {
 		this.repository = repository;
 		return myself();
 	}
@@ -202,7 +192,6 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 *
 	 * @return the artifact instance, never {@literal null}.
 	 */
-	@NonNull
 	protected abstract T instantiate();
 
 	/**
@@ -211,7 +200,6 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 *
 	 * @return the artifact instance, never {@literal null}.
 	 */
-	@NonNull
 	public final T build() {
 		validate();
 		return instantiate();

@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,19 +19,20 @@ import java.util.List;
 public abstract class PublicationBuilder<T extends Publication, B extends PublicationBuilder<T, B>> extends ArtifactBuilder<T, B> {
 
 	/**
-	 * The state of the publication.
+	 * The state of the publication. Optional: defaults to {@link PublicationState#PENDING} when
+	 * left unset.
 	 */
-	protected PublicationState state;
+	protected @Nullable PublicationState state;
 
 	/**
 	 * Checksum of the {@link PropertyDescriptor property metadata} that was published.
 	 */
-	protected String checksum;
+	protected @Nullable String checksum;
 
 	/**
 	 * Timestamp when this publication was created.
 	 */
-	protected Instant publishedAt;
+	protected @Nullable Instant publishedAt;
 
 	/**
 	 * Collection of publication errors that caused this publication to fail.
@@ -45,7 +46,6 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 		this.errors = new ArrayList<>();
 	}
 
-	@NonNull
 	@SuppressWarnings("unchecked")
 	protected B myself() {
 		return (B) this;
@@ -57,7 +57,6 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	 * @param artifact the published artifact
 	 * @return publication builder
 	 */
-	@NonNull
 	public B artifact(Artifact artifact) {
 		return groupId(artifact.groupId())
 				.artifactId(artifact.artifactId())
@@ -74,8 +73,7 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	 * @param state the publication state
 	 * @return publication builder
 	 */
-	@NonNull
-	public B state(PublicationState state) {
+	public B state(@Nullable PublicationState state) {
 		this.state = state;
 		return myself();
 	}
@@ -86,8 +84,7 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	 * @param error the publication error message
 	 * @return publication builder
 	 */
-	@NonNull
-	public B error(String error) {
+	public B error(@Nullable String error) {
 		if (error != null && !error.isBlank()) {
 			this.errors.add(error);
 		}
@@ -100,7 +97,6 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	 * @param errors the publication error messages
 	 * @return publication builder
 	 */
-	@NonNull
 	public B errors(Iterable<String> errors) {
 		for (String error : errors) {
 			error(error);
@@ -116,7 +112,6 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	 * @param checksum the metadata checksum
 	 * @return publication builder
 	 */
-	@NonNull
 	public B checksum(String checksum) {
 		this.checksum = checksum;
 		return myself();
@@ -128,7 +123,6 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	 * @param publishedAt the publication date
 	 * @return publication builder
 	 */
-	@NonNull
 	public B publishedAt(Instant publishedAt) {
 		this.publishedAt = publishedAt;
 		return myself();

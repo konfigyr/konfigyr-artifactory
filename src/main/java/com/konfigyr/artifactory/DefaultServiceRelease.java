@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -22,11 +21,11 @@ import java.util.List;
  * @since 1.0.0
  */
 public record DefaultServiceRelease(
-		@NonNull String id,
-		@NonNull ReleaseState state,
-		@NonNull List<ServiceReleaseEntry> artifacts,
+		String id,
+		ReleaseState state,
+		List<ServiceReleaseEntry> artifacts,
 		@Nullable Instant publishedAt,
-		@NonNull List<String> errors
+		List<String> errors
 ) implements ServiceRelease {
 
 	@Serial
@@ -66,7 +65,6 @@ public record DefaultServiceRelease(
 		 *
 		 * @return service release, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		public DefaultServiceRelease build() {
 			if (id == null || id.isBlank()) {

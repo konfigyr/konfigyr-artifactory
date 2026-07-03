@@ -24,22 +24,22 @@ public final class StringSchema extends JsonSchema {
 	/**
 	 * Specifies the minimum length of the string value defined by this schema.
 	 */
-	private final Integer minLength;
+	private final @Nullable Integer minLength;
 
 	/**
 	 * Specifies the maximum length of the string value defined by this schema.
 	 */
-	private final Integer maxLength;
+	private final @Nullable Integer maxLength;
 
 	/**
 	 * Specifies the format of the string value defined by this schema.
 	 */
-	private final String format;
+	private final @Nullable String format;
 
 	/**
 	 * Specifies the regular expression that the string value must match.
 	 */
-	private final String pattern;
+	private final @Nullable String pattern;
 
 	/**
 	 * Creates a new default {@link StringSchema} instance with only the {@code type} property set.
@@ -147,10 +147,10 @@ public final class StringSchema extends JsonSchema {
 	 */
 	public static final class Builder extends JsonSchema.Builder<StringSchema, Builder> {
 
-		private Integer minLength;
-		private Integer maxLength;
-		private String format;
-		private String pattern;
+		private @Nullable Integer minLength;
+		private @Nullable Integer maxLength;
+		private @Nullable String format;
+		private @Nullable String pattern;
 
 		private Builder() {
 			super(JsonSchemaType.STRING);

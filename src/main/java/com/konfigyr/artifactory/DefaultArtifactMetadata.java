@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
 import java.net.URI;
@@ -25,10 +25,10 @@ public record DefaultArtifactMetadata(
 		String groupId,
 		String artifactId,
 		String version,
-		String name,
-		String description,
-		URI website,
-		URI repository,
+		@Nullable String name,
+		@Nullable String description,
+		@Nullable URI website,
+		@Nullable URI repository,
 		String checksum,
 		List<PropertyDescriptor> properties
 ) implements ArtifactMetadata {
@@ -74,7 +74,6 @@ public record DefaultArtifactMetadata(
 		 *
 		 * @return artifact metadata, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		protected DefaultArtifactMetadata instantiate() {
 			properties.sort(PropertyDescriptor::compareTo);

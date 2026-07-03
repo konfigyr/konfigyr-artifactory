@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.Serializable;
 
 /**
@@ -38,7 +36,6 @@ public interface ServiceReleaseCandidate extends Artifact, Serializable {
 	 * @param checksum   the Spring Configuration Metadata checksum, can't be {@literal null}
 	 * @return a new immutable {@link ServiceReleaseCandidate} instance, never {@literal null}.
 	 */
-	@NonNull
 	static ServiceReleaseCandidate of(String groupId, String artifactId, String version, String checksum) {
 		return builder()
 				.groupId(groupId)
@@ -85,7 +82,6 @@ public interface ServiceReleaseCandidate extends Artifact, Serializable {
 	 *
 	 * @return service release candidate checksum, never {@literal null}.
 	 */
-	@NonNull
 	String checksum();
 
 }

@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Iterator;
@@ -52,7 +50,6 @@ public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 	 *
 	 * @return the service identifier, never {@literal null}.
 	 */
-	@NonNull
 	String id();
 
 	/**
@@ -60,7 +57,6 @@ public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 	 *
 	 * @return the service name, never {@literal null}.
 	 */
-	@NonNull
 	String name();
 
 	/**
@@ -70,7 +66,6 @@ public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 	 *
 	 * @return creation timestamp, never {@literal null}.
 	 */
-	@NonNull
 	Instant createdAt();
 
 	/**
@@ -81,7 +76,6 @@ public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 	 *
 	 * @return immutable list of manifest entries, never {@literal null} but may be empty.
 	 */
-	@NonNull
 	List<ManifestEntry> artifacts();
 
 	/**
@@ -91,7 +85,7 @@ public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 	 * @param artifact the artifact to be checked, must not be {@literal null}.
 	 * @return {@code true} if given artifact is contained in this manifest entry, or {@code false} if not.
 	 */
-	default boolean contains(@NonNull Artifact artifact) {
+	default boolean contains(Artifact artifact) {
 		for (ManifestEntry candidate : this) {
 			if (candidate.groupId().equals(artifact.groupId()) && candidate.artifactId().equals(artifact.artifactId())
 					&& candidate.version().equals(artifact.version())) {
@@ -108,7 +102,6 @@ public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 	 * @param artifactId the artifact’s {@code artifactId}, must not be {@literal null}.
 	 * @return an {@link Optional} containing the matching manifest entry, or empty if not found.
 	 */
-	@NonNull
 	default Optional<ManifestEntry> find(String groupId, String artifactId) {
 		for (ManifestEntry entry : this) {
 			if (entry.groupId().equals(groupId) && entry.artifactId().equals(artifactId)) {
@@ -118,7 +111,6 @@ public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 		return Optional.empty();
 	}
 
-	@NonNull
 	@Override
 	default Iterator<ManifestEntry> iterator() {
 		return artifacts().iterator();

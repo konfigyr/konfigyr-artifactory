@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -22,14 +21,14 @@ import java.net.URI;
  * @since 1.0.0
  */
 public record DefaultServiceReleaseCandidate(
-		@NonNull String groupId,
-		@NonNull String artifactId,
-		@NonNull String version,
+		String groupId,
+		String artifactId,
+		String version,
 		@Nullable String name,
 		@Nullable String description,
 		@Nullable URI website,
 		@Nullable URI repository,
-		@NonNull String checksum
+		String checksum
 ) implements ServiceReleaseCandidate {
 
 	@Serial
@@ -70,7 +69,6 @@ public record DefaultServiceReleaseCandidate(
 		 *
 		 * @return service release candidate, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		protected DefaultServiceReleaseCandidate instantiate() {
 			return new DefaultServiceReleaseCandidate(groupId, artifactId, version, name, description, website,

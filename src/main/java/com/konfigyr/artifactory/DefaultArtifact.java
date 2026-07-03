@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -20,9 +19,9 @@ import java.net.URI;
  * @since 1.0.0
  */
 public record DefaultArtifact(
-		@NonNull String groupId,
-		@NonNull String artifactId,
-		@NonNull String version,
+		String groupId,
+		String artifactId,
+		String version,
 		@Nullable String name,
 		@Nullable String description,
 		@Nullable URI website,
@@ -63,7 +62,6 @@ public record DefaultArtifact(
 		 *
 		 * @return artifact, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		protected DefaultArtifact instantiate() {
 			return new DefaultArtifact(groupId, artifactId, version, name, description, website, repository);

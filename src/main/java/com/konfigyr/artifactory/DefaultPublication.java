@@ -1,13 +1,11 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
 import java.net.URI;
 import java.time.Instant;
 import java.util.List;
-
 
 /**
  * Default implementation of the {@link Publication} interface.
@@ -27,17 +25,17 @@ import java.util.List;
  * @since 1.0.0
  */
 public record DefaultPublication(
-		@NonNull String groupId,
-		@NonNull String artifactId,
-		@NonNull String version,
+		String groupId,
+		String artifactId,
+		String version,
 		@Nullable String name,
 		@Nullable String description,
 		@Nullable URI website,
 		@Nullable URI repository,
-		@NonNull PublicationState state,
-		@NonNull List<String> errors,
-		@NonNull String checksum,
-		@NonNull Instant publishedAt
+		PublicationState state,
+		List<String> errors,
+		String checksum,
+		Instant publishedAt
 ) implements Publication {
 
 	@Serial
@@ -87,7 +85,6 @@ public record DefaultPublication(
 		 *
 		 * @return artifact publication, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		protected DefaultPublication instantiate() {
 			return new DefaultPublication(groupId, artifactId, version, name, description, website, repository,

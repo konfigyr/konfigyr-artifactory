@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serializable;
@@ -49,7 +48,6 @@ public interface ServiceRelease extends Serializable {
 	 *
 	 * @return service release identifier, never {@literal null}.
 	 */
-	@NonNull
 	String id();
 
 	/**
@@ -57,7 +55,6 @@ public interface ServiceRelease extends Serializable {
 	 *
 	 * @return service release state, never {@literal null}.
 	 */
-	@NonNull
 	ReleaseState state();
 
 	/**
@@ -67,7 +64,6 @@ public interface ServiceRelease extends Serializable {
 	 *
 	 * @return service release entries, never {@literal null} but may be empty.
 	 */
-	@NonNull
 	List<ServiceReleaseEntry> artifacts();
 
 	/**
@@ -87,7 +83,6 @@ public interface ServiceRelease extends Serializable {
 	 *
 	 * @return error messages, never {@literal null}.
 	 */
-	@NonNull
 	List<String> errors();
 
 }

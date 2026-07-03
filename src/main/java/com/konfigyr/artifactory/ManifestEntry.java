@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -41,7 +39,6 @@ public interface ManifestEntry extends Artifact, Serializable {
 	 *
 	 * @return manifest entry checksum, never {@literal null}.
 	 */
-	@NonNull
 	String checksum();
 
 	/**
@@ -49,7 +46,6 @@ public interface ManifestEntry extends Artifact, Serializable {
 	 *
 	 * @return manifest entry source, never {@literal null}.
 	 */
-	@NonNull
 	ArtifactSource source();
 
 	/**
@@ -57,7 +53,6 @@ public interface ManifestEntry extends Artifact, Serializable {
 	 *
 	 * @return manifest entry resolution timestamp, never {@literal null}.
 	 */
-	@NonNull
 	Instant resolvedAt();
 
 }

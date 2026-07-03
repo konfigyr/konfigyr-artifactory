@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	 * <p>
 	 * Optional: if left unset, it is derived automatically when the metadata is built.
 	 */
-	protected String checksum;
+	protected @Nullable String checksum;
 
 	/**
 	 * The collection of property descriptors that are a part of the artifact.
@@ -42,7 +42,6 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	 * @param artifact artifact
 	 * @return artifact metadata builder
 	 */
-	@NonNull
 	public B artifact(Artifact artifact) {
 		return groupId(artifact.groupId())
 				.artifactId(artifact.artifactId())
@@ -63,8 +62,7 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	 * @param checksum artifact metadata checksum
 	 * @return artifact metadata builder
 	 */
-	@NonNull
-	public B checksum(String checksum) {
+	public B checksum(@Nullable String checksum) {
 		this.checksum = checksum;
 		return myself();
 	}
@@ -75,8 +73,7 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	 * @param descriptor property descriptor to be added
 	 * @return artifact metadata builder
 	 */
-	@NonNull
-	public B property(PropertyDescriptor descriptor) {
+	public B property(@Nullable PropertyDescriptor descriptor) {
 		if (descriptor != null) {
 			this.properties.add(descriptor);
 		}
@@ -89,8 +86,7 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	 * @param descriptors property descriptors to be added
 	 * @return artifact metadata builder
 	 */
-	@NonNull
-	public B properties(Iterable<? extends PropertyDescriptor> descriptors) {
+	public B properties(@Nullable Iterable<? extends PropertyDescriptor> descriptors) {
 		if (descriptors != null) {
 			for (PropertyDescriptor descriptor : descriptors) {
 				property(descriptor);
@@ -118,7 +114,6 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	 * @param properties the sorted property descriptors to be hashed, never {@literal null}.
 	 * @return the computed checksum, never {@literal null}.
 	 */
-	@NonNull
 	protected static String checksum(List<PropertyDescriptor> properties) {
 		final JsonSchemaDigestVisitor visitor = JsonSchemaDigestVisitor.of();
 

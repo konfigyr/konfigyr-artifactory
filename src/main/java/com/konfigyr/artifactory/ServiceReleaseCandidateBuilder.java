@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract builder class used to create new instances of the {@link ServiceReleaseCandidate} that can
@@ -21,7 +21,7 @@ public abstract class ServiceReleaseCandidateBuilder<T extends ServiceReleaseCan
 	/**
 	 * Checksum of the {@link ArtifactMetadata} resolved locally for this candidate.
 	 */
-	protected String checksum;
+	protected @Nullable String checksum;
 
 	/**
 	 * Creates a new {@link ServiceReleaseCandidateBuilder} instance.
@@ -35,7 +35,6 @@ public abstract class ServiceReleaseCandidateBuilder<T extends ServiceReleaseCan
 	 * @param artifact the artifact
 	 * @return service release candidate builder
 	 */
-	@NonNull
 	public B artifact(Artifact artifact) {
 		return groupId(artifact.groupId())
 				.artifactId(artifact.artifactId())
@@ -52,7 +51,6 @@ public abstract class ServiceReleaseCandidateBuilder<T extends ServiceReleaseCan
 	 * @param checksum the metadata checksum
 	 * @return service release candidate builder
 	 */
-	@NonNull
 	public B checksum(String checksum) {
 		this.checksum = checksum;
 		return myself();

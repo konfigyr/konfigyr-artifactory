@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -24,16 +23,16 @@ import java.time.Instant;
  * @since 1.0.0
  */
 public record DefaultManifestEntry(
-		@NonNull String groupId,
-		@NonNull String artifactId,
-		@NonNull String version,
+		String groupId,
+		String artifactId,
+		String version,
 		@Nullable String name,
 		@Nullable String description,
 		@Nullable URI website,
 		@Nullable URI repository,
-		@NonNull String checksum,
-		@NonNull ArtifactSource source,
-		@NonNull Instant resolvedAt
+		String checksum,
+		ArtifactSource source,
+		Instant resolvedAt
 ) implements ManifestEntry {
 
 	@Serial
@@ -80,7 +79,6 @@ public record DefaultManifestEntry(
 		 *
 		 * @return manifest entry, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		protected DefaultManifestEntry instantiate() {
 			return new DefaultManifestEntry(groupId, artifactId, version, name, description, website, repository,

@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.time.Instant;
 import java.util.List;
 
@@ -16,10 +14,10 @@ import java.util.List;
  * @since 1.0.0
  */
 public record DefaultManifest(
-		@NonNull String id,
-		@NonNull String name,
-		@NonNull List<ManifestEntry> artifacts,
-		@NonNull Instant createdAt
+		String id,
+		String name,
+		List<ManifestEntry> artifacts,
+		Instant createdAt
 ) implements Manifest {
 
 	/**
@@ -50,7 +48,6 @@ public record DefaultManifest(
 		 *
 		 * @return service artifact manifest, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		public DefaultManifest build() {
 			if (id == null || id.isBlank()) {

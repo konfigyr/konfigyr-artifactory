@@ -23,22 +23,22 @@ public final class ArraySchema extends JsonSchema {
 	/**
 	 * JSON Schema of the items of the array.
 	 */
-	private final JsonSchema items;
+	private final @Nullable JsonSchema items;
 
 	/**
 	 * The minimum size of the array.
 	 */
-	private final Integer minItems;
+	private final @Nullable Integer minItems;
 
 	/**
 	 * The maximum size of the array.
 	 */
-	private final Integer maxItems;
+	private final @Nullable Integer maxItems;
 
 	/**
 	 * When set to {@code true}, the array items must be unique.
 	 */
-	private final Boolean uniqueItems;
+	private final @Nullable Boolean uniqueItems;
 
 	/**
 	 * Creates a new default {@link ArraySchema} instance with only the {@code type} property set.
@@ -55,7 +55,7 @@ public final class ArraySchema extends JsonSchema {
 	 * @param items the items schema, can be {@literal null}.
 	 * @return the array schema.
 	 */
-	public static ArraySchema of(JsonSchema items) {
+	public static ArraySchema of(@Nullable JsonSchema items) {
 		return builder().items(items).build();
 	}
 
@@ -167,10 +167,10 @@ public final class ArraySchema extends JsonSchema {
 	 * Builder class for the {@link ArraySchema} class.
 	 */
 	public static final class Builder extends JsonSchema.Builder<ArraySchema, Builder> {
-		private JsonSchema items;
-		private Integer minItems;
-		private Integer maxItems;
-		private Boolean uniqueItems;
+		private @Nullable JsonSchema items;
+		private @Nullable Integer minItems;
+		private @Nullable Integer maxItems;
+		private @Nullable Boolean uniqueItems;
 
 		private Builder() {
 			super(JsonSchemaType.ARRAY);

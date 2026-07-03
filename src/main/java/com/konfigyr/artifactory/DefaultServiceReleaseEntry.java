@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -22,14 +21,14 @@ import java.net.URI;
  * @since 1.0.0
  */
 public record DefaultServiceReleaseEntry(
-		@NonNull String groupId,
-		@NonNull String artifactId,
-		@NonNull String version,
+		String groupId,
+		String artifactId,
+		String version,
 		@Nullable String name,
 		@Nullable String description,
 		@Nullable URI website,
 		@Nullable URI repository,
-		@NonNull ArtifactUploadStatus status
+		ArtifactUploadStatus status
 ) implements ServiceReleaseEntry {
 
 	@Serial
@@ -70,7 +69,6 @@ public record DefaultServiceReleaseEntry(
 		 *
 		 * @return service release entry, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		protected DefaultServiceReleaseEntry instantiate() {
 			return new DefaultServiceReleaseEntry(groupId, artifactId, version, name, description, website,

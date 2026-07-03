@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -18,9 +17,9 @@ import java.io.Serial;
  * @since 1.0.0
  **/
 public record DefaultPropertyDescriptor(
-		@NonNull String name,
-		@NonNull JsonSchema schema,
-		@NonNull String typeName,
+		String name,
+		JsonSchema schema,
+		String typeName,
 		@Nullable String description,
 		@Nullable String defaultValue,
 		@Nullable Deprecation deprecation
@@ -60,7 +59,6 @@ public record DefaultPropertyDescriptor(
 		 *
 		 * @return property descriptor, never {@literal null}.
 		 */
-		@NonNull
 		@Override
 		public DefaultPropertyDescriptor build() {
 			if (name == null || name.isBlank()) {

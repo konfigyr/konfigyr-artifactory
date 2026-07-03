@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serializable;
@@ -48,7 +47,6 @@ public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Seri
 	 *
 	 * @return the property name, never {@literal null}.
 	 */
-	@NonNull
 	String name();
 
 	/**
@@ -116,7 +114,6 @@ public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Seri
 	 * @return a JSON Schema node describing the property's value structure, never {@code null}.
 	 * @see <a href="https://json-schema.org/draft/2020-12/json-schema-core.html">JSON Schema</a>
 	 */
-	@NonNull
 	JsonSchema schema();
 
 	/**
@@ -127,7 +124,6 @@ public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Seri
 	 *
 	 * @return the fully qualified type name, never {@literal null}.
 	 */
-	@NonNull
 	String typeName();
 
 	/**
@@ -162,7 +158,7 @@ public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Seri
 	Deprecation deprecation();
 
 	@Override
-	default int compareTo(@NonNull PropertyDescriptor other) {
+	default int compareTo(PropertyDescriptor other) {
 		return Comparator.comparing(PropertyDescriptor::name).compare(this, other);
 	}
 }

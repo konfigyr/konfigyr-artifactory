@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.Serializable;
 
 /**
@@ -38,7 +36,6 @@ public interface ServiceReleaseEntry extends Artifact, Serializable {
 	 * @param status     the upload status for the entry, can't be {@literal null}
 	 * @return a new immutable {@link ServiceReleaseEntry} instance, never {@literal null}.
 	 */
-	@NonNull
 	static ServiceReleaseEntry of(String groupId, String artifactId, String version, ArtifactUploadStatus status) {
 		return builder()
 				.groupId(groupId)
@@ -75,7 +72,6 @@ public interface ServiceReleaseEntry extends Artifact, Serializable {
 	 *
 	 * @return artifact upload status, never {@literal null}.
 	 */
-	@NonNull
 	ArtifactUploadStatus status();
 
 }

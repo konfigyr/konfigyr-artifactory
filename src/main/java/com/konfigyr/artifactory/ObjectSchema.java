@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -35,12 +34,12 @@ public final class ObjectSchema extends JsonSchema {
 	/**
 	 * JSON schema of property names.
 	 */
-	private final JsonSchema propertyNames;
+	private final @Nullable JsonSchema propertyNames;
 
 	/**
 	 * JSON schema of additional properties this JSON object schema can have.
 	 */
-	private final JsonSchema additionalProperties;
+	private final @Nullable JsonSchema additionalProperties;
 
 	/**
 	 * Creates a new default {@link ObjectSchema} instance with only the {@code type} property set.
@@ -73,7 +72,6 @@ public final class ObjectSchema extends JsonSchema {
 	 *
 	 * @return the schema of every property contained in the object, never {@literal null} but may be empty.
 	 */
-	@NonNull
 	public Map<String, JsonSchema> properties() {
 		return properties;
 	}
@@ -84,7 +82,6 @@ public final class ObjectSchema extends JsonSchema {
 	 *
 	 * @return the required property names, never {@literal null} but may be empty.
 	 */
-	@NonNull
 	public Collection<String> required() {
 		return required;
 	}
@@ -160,8 +157,8 @@ public final class ObjectSchema extends JsonSchema {
 
 		private final Map<String, JsonSchema> properties;
 		private final Set<String> required;
-		private JsonSchema propertyNames;
-		private JsonSchema additionalProperties;
+		private @Nullable JsonSchema propertyNames;
+		private @Nullable JsonSchema additionalProperties;
 
 		private Builder() {
 			super(JsonSchemaType.OBJECT);
@@ -215,8 +212,8 @@ public final class ObjectSchema extends JsonSchema {
 		 * @param names the required property names, can be {@literal null}.
 		 * @return the builder instance.
 		 */
-		public Builder required(@Nullable String... names) {
-			if (required != null) {
+		public Builder required(String @Nullable... names) {
+			if (names != null) {
 				return required(Arrays.asList(names));
 			}
 			return myself();
@@ -228,7 +225,7 @@ public final class ObjectSchema extends JsonSchema {
 		 * @param propertyNames the property names schema, can be {@literal null}.
 		 * @return the builder instance.
 		 */
-		public Builder propertyNames(JsonSchema propertyNames) {
+		public Builder propertyNames(@Nullable JsonSchema propertyNames) {
 			this.propertyNames = propertyNames;
 			return this;
 		}

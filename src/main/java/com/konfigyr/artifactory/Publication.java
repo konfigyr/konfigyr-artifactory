@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
@@ -29,7 +27,6 @@ public interface Publication extends Artifact, Serializable {
 	 *
 	 * @return publication state, never {@literal null}.
 	 */
-	@NonNull
 	PublicationState state();
 
 	/**
@@ -42,7 +39,6 @@ public interface Publication extends Artifact, Serializable {
 	 *
 	 * @return error messages, never {@literal null}.
 	 */
-	@NonNull
 	List<String> errors();
 
 	/**
@@ -54,7 +50,6 @@ public interface Publication extends Artifact, Serializable {
 	 *
 	 * @return publication checksum of the property metadata, never {@literal null}.
 	 */
-	@NonNull
 	String checksum();
 
 	/**
@@ -62,7 +57,6 @@ public interface Publication extends Artifact, Serializable {
 	 *
 	 * @return publication date, never {@literal null}.
 	 */
-	@NonNull
 	Instant publishedAt();
 
 }

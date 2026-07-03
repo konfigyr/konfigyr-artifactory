@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -64,7 +62,6 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 * @param version    the Maven {@code version}, e.g. {@code 3.3.1}.
 	 * @return a new immutable {@link Artifact} instance, never {@literal null}.
 	 */
-	@NonNull
 	static Artifact of(String groupId, String artifactId, String version) {
 		return builder().groupId(groupId).artifactId(artifactId).version(version).build();
 	}
@@ -78,7 +75,6 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 *
 	 * @return default artifact builder, never {@literal null}.
 	 */
-	@NonNull
 	static ArtifactBuilder<? extends Artifact, ?> builder() {
 		return new DefaultArtifact.Builder();
 	}
@@ -100,7 +96,6 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 *
 	 * @return the {@code version} coordinate of the artifact, never {@literal null} and never empty
 	 */
-	@NonNull
 	String version();
 
 	/**
@@ -113,8 +108,7 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 * @param descriptors property descriptors used to prepare the artifact metadata instance, never {@literal null}.
 	 * @return artifact metadata, never {@literal null}
 	 */
-	@NonNull
-	default ArtifactMetadata toMetadata(@NonNull Collection<? extends PropertyDescriptor> descriptors) {
+	default ArtifactMetadata toMetadata(Collection<? extends PropertyDescriptor> descriptors) {
 		return ArtifactMetadata.builder()
 				.artifact(this)
 				.properties(descriptors)
@@ -134,7 +128,7 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 * less than, equal to, or greater than the specified artifact.
 	 */
 	@Override
-	default int compareTo(@NonNull Artifact other) {
+	default int compareTo(Artifact other) {
 		return Comparator.comparing(Artifact::groupId)
 				.thenComparing(Artifact::artifactId)
 				.thenComparing(Artifact::version)

@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract builder class used to create new instances of the {@link PropertyDescriptor} that can be reused
@@ -17,33 +17,33 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	/**
 	 * The name of the property.
 	 */
-	protected String name;
+	protected @Nullable String name;
 
 	/**
 	 * The JSON Schema definition that describes the structure, type, and validation rules.
 	 */
-	protected JsonSchema schema;
+	protected @Nullable JsonSchema schema;
 
 	/**
 	 * The type name of the expected property value in the language in which this {@link Artifact} was written.
 	 * Required; a {@link PropertyDescriptor} without a type name cannot be built.
 	 */
-	protected String typeName;
+	protected @Nullable String typeName;
 
 	/**
 	 * Describes the {@link PropertyDescriptor}, what is the actual purpose of this configuration property.
 	 */
-	protected String description;
+	protected @Nullable String description;
 
 	/**
 	 * The default value which will be used if the property value is not specified.
 	 */
-	protected String defaultValue;
+	protected @Nullable String defaultValue;
 
 	/**
 	 * If the {@link PropertyDescriptor} is deprecated, this field contains the deprecation information.
 	 */
-	protected Deprecation deprecation;
+	protected @Nullable Deprecation deprecation;
 
 	/**
 	 * Creates a new instance of the {@link PropertyDescriptorBuilder}.
@@ -75,7 +75,6 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param name property name
 	 * @return builder instance
 	 */
-	@NonNull
 	public B name(String name) {
 		this.name = name;
 		return myself();
@@ -88,7 +87,6 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param schema JSON Schema
 	 * @return builder instance
 	 */
-	@NonNull
 	public B schema(JsonSchema schema) {
 		this.schema = schema;
 		return myself();
@@ -111,7 +109,6 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param typeName original type name, can't be {@literal null} or blank
 	 * @return builder instance
 	 */
-	@NonNull
 	public B typeName(String typeName) {
 		this.typeName = typeName;
 		return myself();
@@ -129,8 +126,7 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param description configuration property description
 	 * @return builder instance
 	 */
-	@NonNull
-	public B description(String description) {
+	public B description(@Nullable String description) {
 		this.description = description;
 		return myself();
 	}
@@ -143,8 +139,7 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param value default value
 	 * @return builder instance
 	 */
-	@NonNull
-	public B defaultValue(String value) {
+	public B defaultValue(@Nullable String value) {
 		this.defaultValue = value;
 		return myself();
 	}
@@ -156,7 +151,7 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param reason deprecation reason
 	 * @return builder instance
 	 */
-	public @NonNull B deprecation(String reason) {
+	public B deprecation(String reason) {
 		return deprecation(reason, null);
 	}
 
@@ -168,7 +163,7 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param replacement name of the property that replaces it
 	 * @return builder instance
 	 */
-	public @NonNull B deprecation(String reason, String replacement) {
+	public B deprecation(String reason, @Nullable String replacement) {
 		return deprecation(new Deprecation(reason, replacement));
 	}
 
@@ -179,8 +174,7 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 * @param deprecation deprecation information
 	 * @return builder instance
 	 */
-	@NonNull
-	public B deprecation(Deprecation deprecation) {
+	public B deprecation(@Nullable Deprecation deprecation) {
 		this.deprecation = deprecation;
 		return myself();
 	}
@@ -190,7 +184,6 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	 *
 	 * @return property descriptor, never {@literal null}.
 	 */
-	@NonNull
 	public abstract T build();
 
 }

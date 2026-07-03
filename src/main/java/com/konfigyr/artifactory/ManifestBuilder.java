@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	/**
 	 * The unique identifier of the service manifest.
 	 */
-	protected String id;
+	protected @Nullable String id;
 
 	/**
 	 * The name of the service manifest.
 	 */
-	protected String name;
+	protected @Nullable String name;
 
 	/**
 	 * Collection of manifest entries that are part of the manifest.
@@ -37,7 +37,7 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	/**
 	 * Timestamp marking the creation of the manifest.
 	 */
-	protected Instant createdAt;
+	protected @Nullable Instant createdAt;
 
 	/**
 	 * Creates a new {@link ManifestBuilder} instance.
@@ -52,7 +52,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 *
 	 * @return the type-self builder return value, never {@literal null}.
 	 */
-	@NonNull
 	@SuppressWarnings("unchecked")
 	protected B myself() {
 		return (B) this;
@@ -64,7 +63,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param id the service identifier.
 	 * @return this builder instance.
 	 */
-	@NonNull
 	public B id(String id) {
 		this.id = id;
 		return myself();
@@ -76,7 +74,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param name the service name.
 	 * @return this builder instance.
 	 */
-	@NonNull
 	public B name(String name) {
 		this.name = name;
 		return myself();
@@ -88,8 +85,7 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param createdAt creation timestamp.
 	 * @return this builder instance.
 	 */
-	@NonNull
-	public B createdAt(Instant createdAt) {
+	public B createdAt(@Nullable Instant createdAt) {
 		this.createdAt = createdAt;
 		return myself();
 	}
@@ -100,8 +96,7 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param entry a manifest entry.
 	 * @return this builder instance.
 	 */
-	@NonNull
-	public B artifact(ManifestEntry entry) {
+	public B artifact(@Nullable ManifestEntry entry) {
 		if (entry != null) {
 			this.artifacts.add(entry);
 		}
@@ -114,8 +109,7 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param entries list of manifest entries.
 	 * @return this builder instance.
 	 */
-	@NonNull
-	public B artifacts(Iterable<? extends ManifestEntry> entries) {
+	public B artifacts(@Nullable Iterable<? extends ManifestEntry> entries) {
 		if (entries != null) {
 			for (ManifestEntry entry : entries) {
 				artifact(entry);
@@ -129,7 +123,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 *
 	 * @return a fully initialized manifest, never {@literal null}.
 	 */
-	@NonNull
 	public abstract T build();
 
 }

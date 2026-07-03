@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract builder class used to create new instances of the {@link ServiceReleaseEntry} that can be
@@ -21,7 +21,7 @@ public abstract class ServiceReleaseEntryBuilder<T extends ServiceReleaseEntry, 
 	/**
 	 * Whether the build plugin still needs to upload this artifact's metadata.
 	 */
-	protected ArtifactUploadStatus status;
+	protected @Nullable ArtifactUploadStatus status;
 
 	/**
 	 * Creates a new {@link ServiceReleaseEntryBuilder} instance.
@@ -35,7 +35,6 @@ public abstract class ServiceReleaseEntryBuilder<T extends ServiceReleaseEntry, 
 	 * @param artifact the artifact
 	 * @return service release entry builder
 	 */
-	@NonNull
 	public B artifact(Artifact artifact) {
 		return groupId(artifact.groupId())
 				.artifactId(artifact.artifactId())
@@ -52,7 +51,6 @@ public abstract class ServiceReleaseEntryBuilder<T extends ServiceReleaseEntry, 
 	 * @param status the artifact upload status
 	 * @return service release entry builder
 	 */
-	@NonNull
 	public B status(ArtifactUploadStatus status) {
 		this.status = status;
 		return myself();
