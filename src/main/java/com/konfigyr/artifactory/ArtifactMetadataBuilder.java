@@ -98,10 +98,7 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	@Override
 	protected void validate() {
 		super.validate();
-
-		if (properties.isEmpty()) {
-			throw new IllegalArgumentException("Artifact metadata must contain at least one property descriptor");
-		}
+		Asserts.notEmpty(properties, "Artifact metadata must contain at least one property descriptor");
 	}
 
 	/**

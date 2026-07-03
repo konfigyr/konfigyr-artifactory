@@ -41,18 +41,10 @@ public record DefaultServiceReleaseCandidate(
 	 * {@link Builder} or directly.
 	 */
 	public DefaultServiceReleaseCandidate {
-		if (groupId == null || groupId.isBlank()) {
-			throw new IllegalArgumentException("Artifact groupId can not be blank");
-		}
-		if (artifactId == null || artifactId.isBlank()) {
-			throw new IllegalArgumentException("Artifact artifactId can not be blank");
-		}
-		if (version == null || version.isBlank()) {
-			throw new IllegalArgumentException("Artifact version can not be blank");
-		}
-		if (checksum == null || checksum.isBlank()) {
-			throw new IllegalArgumentException("Service release candidate checksum can not be blank");
-		}
+		groupId = Asserts.notBlank(groupId, "Artifact groupId can not be blank");
+		artifactId = Asserts.notBlank(artifactId, "Artifact artifactId can not be blank");
+		version = Asserts.notBlank(version, "Artifact version can not be blank");
+		checksum = Asserts.notBlank(checksum, "Service release candidate checksum can not be blank");
 	}
 
 	/**

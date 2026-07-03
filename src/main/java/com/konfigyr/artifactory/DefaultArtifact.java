@@ -37,15 +37,9 @@ public record DefaultArtifact(
 	 * this record is constructed via the {@link Builder} or directly.
 	 */
 	public DefaultArtifact {
-		if (groupId == null || groupId.isBlank()) {
-			throw new IllegalArgumentException("Artifact groupId can not be blank");
-		}
-		if (artifactId == null || artifactId.isBlank()) {
-			throw new IllegalArgumentException("Artifact artifactId can not be blank");
-		}
-		if (version == null || version.isBlank()) {
-			throw new IllegalArgumentException("Artifact version can not be blank");
-		}
+		Asserts.notBlank(groupId, "Artifact groupId can not be blank");
+		Asserts.notBlank(artifactId, "Artifact artifactId can not be blank");
+		Asserts.notBlank(version, "Artifact version can not be blank");
 	}
 
 	/**

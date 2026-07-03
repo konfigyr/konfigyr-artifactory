@@ -174,15 +174,9 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * {@code super.validate()} first so that the coordinate validation performed here still applies.
 	 */
 	protected void validate() {
-		if (groupId == null || groupId.isBlank()) {
-			throw new IllegalArgumentException("Artifact groupId can not be blank");
-		}
-		if (artifactId == null || artifactId.isBlank()) {
-			throw new IllegalArgumentException("Artifact artifactId can not be blank");
-		}
-		if (version == null || version.isBlank()) {
-			throw new IllegalArgumentException("Artifact version can not be blank");
-		}
+		Asserts.notBlank(groupId, "Artifact groupId can not be blank");
+		Asserts.notBlank(artifactId, "Artifact artifactId can not be blank");
+		Asserts.notBlank(version, "Artifact version can not be blank");
 	}
 
 	/**

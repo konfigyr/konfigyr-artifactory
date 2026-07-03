@@ -60,9 +60,7 @@ public abstract class ServiceReleaseCandidateBuilder<T extends ServiceReleaseCan
 	protected void validate() {
 		super.validate();
 
-		if (checksum == null || checksum.isBlank()) {
-			throw new IllegalArgumentException("Service release candidate checksum can not be blank");
-		}
+		Asserts.notBlank(checksum, "Service release candidate checksum can not be blank");
 	}
 
 }

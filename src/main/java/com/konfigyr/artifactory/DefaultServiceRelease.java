@@ -37,18 +37,10 @@ public record DefaultServiceRelease(
 	 * {@link Builder} or directly.
 	 */
 	public DefaultServiceRelease {
-		if (id == null || id.isBlank()) {
-			throw new IllegalArgumentException("Service release identifier can not be blank");
-		}
-		if (state == null) {
-			throw new IllegalArgumentException("Service release state can not be null");
-		}
-		if (artifacts == null) {
-			throw new IllegalArgumentException("Service release artifacts can not be null");
-		}
-		if (errors == null) {
-			throw new IllegalArgumentException("Service release errors can not be null");
-		}
+		Asserts.notBlank(id, "Service release identifier can not be blank");
+		Asserts.nonNull(state, "Service release state can not be null");
+		Asserts.nonNull(artifacts, "Service release artifacts can not be null");
+		Asserts.nonNull(errors, "Service release errors can not be null");
 	}
 
 	/**
@@ -67,15 +59,12 @@ public record DefaultServiceRelease(
 		 */
 		@Override
 		public DefaultServiceRelease build() {
-			if (id == null || id.isBlank()) {
-				throw new IllegalArgumentException("Service release identifier can not be blank");
-			}
+			Asserts.notBlank(id, "Service release identifier can not be blank");
 			if (state == null) {
 				state = ReleaseState.PENDING;
 			}
 
-			return new DefaultServiceRelease(id, state, List.copyOf(artifacts), publishedAt,
-					List.copyOf(errors));
+			return new DefaultServiceRelease(id, state, List.copyOf(artifacts), publishedAt, List.copyOf(errors));
 		}
 
 	}

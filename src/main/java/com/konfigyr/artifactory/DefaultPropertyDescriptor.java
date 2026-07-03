@@ -34,15 +34,9 @@ public record DefaultPropertyDescriptor(
 	 * constructed via the {@link Builder} or directly.
 	 */
 	public DefaultPropertyDescriptor {
-		if (name == null || name.isBlank()) {
-			throw new IllegalArgumentException("Property name can not be blank");
-		}
-		if (schema == null) {
-			throw new IllegalArgumentException("Property value schema can not be null");
-		}
-		if (typeName == null || typeName.isBlank()) {
-			throw new IllegalArgumentException("Property type name can not be blank");
-		}
+		Asserts.notBlank(name, "Property name can not be blank");
+		Asserts.nonNull(schema, "Property value schema can not be null");
+		Asserts.notBlank(typeName, "Property type name can not be blank");
 	}
 
 	/**
@@ -61,17 +55,12 @@ public record DefaultPropertyDescriptor(
 		 */
 		@Override
 		public DefaultPropertyDescriptor build() {
-			if (name == null || name.isBlank()) {
-				throw new IllegalArgumentException("Property name can not be blank");
-			}
-			if (schema == null) {
-				throw new IllegalArgumentException("Property value schema can not be null");
-			}
-			if (typeName == null || typeName.isBlank()) {
-				throw new IllegalArgumentException("Property type name can not be blank");
-			}
 
-			return new DefaultPropertyDescriptor(name, schema, typeName, description, defaultValue, deprecation);
+			return new DefaultPropertyDescriptor(
+					Asserts.notBlank(name, "Property name can not be blank"),
+					Asserts.nonNull(schema, "Property value schema can not be null"),
+					Asserts.notBlank(typeName, "Property type name can not be blank"),
+					description, defaultValue, deprecation);
 		}
 
 	}

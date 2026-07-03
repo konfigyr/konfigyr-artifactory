@@ -94,15 +94,9 @@ public abstract class ManifestEntryBuilder<T extends ManifestEntry, B extends Ma
 	protected void validate() {
 		super.validate();
 
-		if (checksum == null || checksum.isBlank()) {
-			throw new IllegalArgumentException("Manifest entry checksum can not be blank");
-		}
-		if (source == null) {
-			throw new IllegalArgumentException("Manifest entry source can not be null");
-		}
-		if (resolvedAt == null) {
-			throw new IllegalArgumentException("Manifest entry resolution date can not be null");
-		}
+		Asserts.notBlank(checksum, "Manifest entry checksum can not be blank");
+		Asserts.nonNull(source, "Manifest entry source can not be null");
+		Asserts.nonNull(resolvedAt, "Manifest entry resolution date can not be null");
 	}
 
 }

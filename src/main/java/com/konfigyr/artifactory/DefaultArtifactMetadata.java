@@ -43,21 +43,11 @@ public record DefaultArtifactMetadata(
 	 * directly.
 	 */
 	public DefaultArtifactMetadata {
-		if (groupId == null || groupId.isBlank()) {
-			throw new IllegalArgumentException("Artifact groupId can not be blank");
-		}
-		if (artifactId == null || artifactId.isBlank()) {
-			throw new IllegalArgumentException("Artifact artifactId can not be blank");
-		}
-		if (version == null || version.isBlank()) {
-			throw new IllegalArgumentException("Artifact version can not be blank");
-		}
-		if (checksum == null || checksum.isBlank()) {
-			throw new IllegalArgumentException("Artifact metadata checksum can not be blank");
-		}
-		if (properties == null || properties.isEmpty()) {
-			throw new IllegalArgumentException("Artifact metadata must contain at least one property descriptor");
-		}
+		Asserts.notBlank(groupId, "Artifact groupId can not be blank");
+		Asserts.notBlank(artifactId, "Artifact artifactId can not be blank");
+		Asserts.notBlank(version, "Artifact version can not be blank");
+		Asserts.notBlank(checksum, "Artifact metadata checksum can not be blank");
+		Asserts.notEmpty(properties, "Artifact metadata must contain at least one property descriptor");
 	}
 
 	/**

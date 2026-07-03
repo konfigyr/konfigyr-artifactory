@@ -132,14 +132,11 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	protected void validate() {
 		super.validate();
 
+		Asserts.notBlank(checksum, "Publication property metadata checksum can not be blank");
+		Asserts.nonNull(publishedAt, "Publication date can not be null");
+
 		if (state == null) {
 			state = PublicationState.PENDING;
-		}
-		if (checksum == null || checksum.isBlank()) {
-			throw new IllegalArgumentException("Publication property metadata checksum can not be blank");
-		}
-		if (publishedAt == null) {
-			throw new IllegalArgumentException("Publication date can not be null");
 		}
 	}
 

@@ -60,9 +60,7 @@ public abstract class ServiceReleaseEntryBuilder<T extends ServiceReleaseEntry, 
 	protected void validate() {
 		super.validate();
 
-		if (status == null) {
-			throw new IllegalArgumentException("Artifact upload status can not be null");
-		}
+		Asserts.nonNull(status, "Artifact upload status can not be null");
 	}
 
 }

@@ -26,12 +26,8 @@ public record DefaultManifest(
 	 * or directly.
 	 */
 	public DefaultManifest {
-		if (id == null || id.isBlank()) {
-			throw new IllegalArgumentException("Service identifier can not be blank");
-		}
-		if (name == null || name.isBlank()) {
-			throw new IllegalArgumentException("Service name can not be blank");
-		}
+		id = Asserts.notBlank(id, "Service identifier can not be blank");
+		name = Asserts.notBlank(name, "Service name can not be blank");
 	}
 
 	/**
@@ -50,12 +46,8 @@ public record DefaultManifest(
 		 */
 		@Override
 		public DefaultManifest build() {
-			if (id == null || id.isBlank()) {
-				throw new IllegalArgumentException("Service identifier can not be blank");
-			}
-			if (name == null || name.isBlank()) {
-				throw new IllegalArgumentException("Service name can not be blank");
-			}
+			id = Asserts.notBlank(id, "Service identifier can not be blank");
+			name = Asserts.notBlank(name, "Service name can not be blank");
 			if (createdAt == null) {
 				createdAt = Instant.now();
 			}

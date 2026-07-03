@@ -48,27 +48,13 @@ public record DefaultPublication(
 	 * directly.
 	 */
 	public DefaultPublication {
-		if (groupId == null || groupId.isBlank()) {
-			throw new IllegalArgumentException("Artifact groupId can not be blank");
-		}
-		if (artifactId == null || artifactId.isBlank()) {
-			throw new IllegalArgumentException("Artifact artifactId can not be blank");
-		}
-		if (version == null || version.isBlank()) {
-			throw new IllegalArgumentException("Artifact version can not be blank");
-		}
-		if (state == null) {
-			throw new IllegalArgumentException("Publication state can not be null");
-		}
-		if (errors == null) {
-			throw new IllegalArgumentException("Publication errors can not be null");
-		}
-		if (checksum == null || checksum.isBlank()) {
-			throw new IllegalArgumentException("Publication property metadata checksum can not be blank");
-		}
-		if (publishedAt == null) {
-			throw new IllegalArgumentException("Publication date can not be null");
-		}
+		Asserts.notBlank(groupId, "Artifact groupId can not be blank");
+		Asserts.notBlank(artifactId, "Artifact artifactId can not be blank");
+		Asserts.notBlank(version, "Artifact version can not be blank");
+		Asserts.nonNull(state, "Publication state can not be null");
+		Asserts.nonNull(errors, "Publication errors can not be null");
+		Asserts.notBlank(checksum, "Publication property metadata checksum can not be blank");
+		Asserts.nonNull(publishedAt, "Publication date can not be null");
 	}
 
 	/**
