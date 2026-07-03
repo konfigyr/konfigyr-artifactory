@@ -3,7 +3,6 @@ package com.konfigyr.artifactory;
 import org.jspecify.annotations.NonNull;
 
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -66,7 +65,7 @@ public record DefaultManifest(
 
 			artifacts.sort(Artifact::compareTo);
 
-			return new DefaultManifest(id, name, Collections.unmodifiableList(artifacts), createdAt);
+			return new DefaultManifest(id, name, List.copyOf(artifacts), createdAt);
 		}
 
 	}

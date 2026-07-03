@@ -6,7 +6,6 @@ import org.jspecify.annotations.Nullable;
 import java.io.Serial;
 import java.net.URI;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -92,7 +91,7 @@ public record DefaultPublication(
 		@Override
 		protected DefaultPublication instantiate() {
 			return new DefaultPublication(groupId, artifactId, version, name, description, website, repository,
-					state, Collections.unmodifiableList(errors), checksum, publishedAt);
+					state, List.copyOf(errors), checksum, publishedAt);
 		}
 
 	}

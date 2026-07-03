@@ -5,7 +5,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -77,8 +76,8 @@ public record DefaultServiceRelease(
 				state = ReleaseState.PENDING;
 			}
 
-			return new DefaultServiceRelease(id, state, Collections.unmodifiableList(artifacts), publishedAt,
-					Collections.unmodifiableList(errors));
+			return new DefaultServiceRelease(id, state, List.copyOf(artifacts), publishedAt,
+					List.copyOf(errors));
 		}
 
 	}

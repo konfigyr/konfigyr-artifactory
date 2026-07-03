@@ -4,7 +4,6 @@ import org.jspecify.annotations.NonNull;
 
 import java.io.Serial;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -85,7 +84,7 @@ public record DefaultArtifactMetadata(
 			}
 
 			return new DefaultArtifactMetadata(groupId, artifactId, version, name, description,
-					website, repository, checksum, Collections.unmodifiableList(properties));
+					website, repository, checksum, List.copyOf(properties));
 		}
 
 	}
