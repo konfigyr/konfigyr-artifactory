@@ -32,12 +32,12 @@ import java.util.Comparator;
 public interface PropertyDescriptor extends Comparable<PropertyDescriptor>, Serializable {
 
 	/**
-	 * Creates a new instance of the {@link DefaultPropertyDescriptor.Builder} used to create a
-	 * new instance of the {@link DefaultPropertyDescriptor} using the fluent builder API.
+	 * Creates a new instance of the {@link PropertyDescriptorBuilder} used to create a
+	 * new instance of the default {@link PropertyDescriptor} implementation using the fluent builder API.
 	 *
 	 * @return default property descriptor builder, never {@literal null}
 	 */
-	static DefaultPropertyDescriptor.Builder builder() {
+	static PropertyDescriptorBuilder<? extends PropertyDescriptor, ?> builder() {
 		return new DefaultPropertyDescriptor.Builder();
 	}
 

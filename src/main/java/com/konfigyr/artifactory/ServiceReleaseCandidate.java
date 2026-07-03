@@ -71,12 +71,12 @@ public interface ServiceReleaseCandidate extends Artifact, Serializable {
 	}
 
 	/**
-	 * Creates a new instance of the {@link DefaultServiceReleaseCandidate.Builder} used to create a
-	 * new instance of the {@link DefaultServiceReleaseCandidate} using the fluent builder API.
+	 * Creates a new instance of the {@link ServiceReleaseCandidateBuilder} used to create a
+	 * new instance of the default {@link ServiceReleaseCandidate} implementation using the fluent builder API.
 	 *
 	 * @return default service release candidate builder, never {@literal null}
 	 */
-	static DefaultServiceReleaseCandidate.Builder builder() {
+	static ServiceReleaseCandidateBuilder<? extends ServiceReleaseCandidate, ?> builder() {
 		return new DefaultServiceReleaseCandidate.Builder();
 	}
 

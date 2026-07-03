@@ -100,9 +100,9 @@ class ArtifactTest {
 				.returns("konfigyr-artifactory", Artifact::artifactId)
 				.returns("1.0.0", Artifact::version)
 				.returns(null, Artifact::name)
-				.returns(null, DefaultArtifact::description)
-				.returns(null, DefaultArtifact::website)
-				.returns(null, DefaultArtifact::repository);
+				.returns(null, Artifact::description)
+				.returns(null, Artifact::website)
+				.returns(null, Artifact::repository);
 	}
 
 	@Test

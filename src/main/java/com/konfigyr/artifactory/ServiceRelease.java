@@ -35,12 +35,12 @@ import java.util.List;
 public interface ServiceRelease extends Serializable {
 
 	/**
-	 * Creates a new instance of the {@link DefaultServiceRelease.Builder} used to create a new instance
-	 * of the {@link DefaultServiceRelease} using the fluent builder API.
+	 * Creates a new instance of the {@link ServiceReleaseBuilder} used to create a new instance
+	 * of the default {@link ServiceRelease} implementation using the fluent builder API.
 	 *
 	 * @return default service release builder, never {@literal null}
 	 */
-	static DefaultServiceRelease.Builder builder() {
+	static ServiceReleaseBuilder<? extends ServiceRelease, ?> builder() {
 		return new DefaultServiceRelease.Builder();
 	}
 

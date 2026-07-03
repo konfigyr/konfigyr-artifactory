@@ -19,14 +19,14 @@ class ServiceReleaseCandidateTest {
 
 		assertThat(candidate)
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultServiceReleaseCandidate::groupId)
-				.returns(artifact.artifactId(), DefaultServiceReleaseCandidate::artifactId)
-				.returns(artifact.version(), DefaultServiceReleaseCandidate::version)
-				.returns(artifact.name(), DefaultServiceReleaseCandidate::name)
-				.returns(artifact.description(), DefaultServiceReleaseCandidate::description)
-				.returns(artifact.website(), DefaultServiceReleaseCandidate::website)
-				.returns(artifact.repository(), DefaultServiceReleaseCandidate::repository)
-				.returns("checksum", DefaultServiceReleaseCandidate::checksum);
+				.returns(artifact.groupId(), ServiceReleaseCandidate::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseCandidate::artifactId)
+				.returns(artifact.version(), ServiceReleaseCandidate::version)
+				.returns(artifact.name(), ServiceReleaseCandidate::name)
+				.returns(artifact.description(), ServiceReleaseCandidate::description)
+				.returns(artifact.website(), ServiceReleaseCandidate::website)
+				.returns(artifact.repository(), ServiceReleaseCandidate::repository)
+				.returns("checksum", ServiceReleaseCandidate::checksum);
 	}
 
 	@Test
@@ -75,10 +75,10 @@ class ServiceReleaseCandidateTest {
 
 		assertThat(builder.checksum("checksum").build())
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultServiceReleaseCandidate::groupId)
-				.returns(artifact.artifactId(), DefaultServiceReleaseCandidate::artifactId)
-				.returns(artifact.version(), DefaultServiceReleaseCandidate::version)
-				.returns("checksum", DefaultServiceReleaseCandidate::checksum);
+				.returns(artifact.groupId(), ServiceReleaseCandidate::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseCandidate::artifactId)
+				.returns(artifact.version(), ServiceReleaseCandidate::version)
+				.returns("checksum", ServiceReleaseCandidate::checksum);
 	}
 
 }

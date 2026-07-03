@@ -15,12 +15,12 @@ import java.util.List;
 public interface Publication extends Artifact, Serializable {
 
 	/**
-	 * Creates a new instance of the {@link DefaultPublication.Builder} used to create a
-	 * new instance of the {@link DefaultPublication} using the fluent builder API.
+	 * Creates a new instance of the {@link PublicationBuilder} used to create a
+	 * new instance of the default {@link Publication} implementation using the fluent builder API.
 	 *
 	 * @return default publication builder, never {@literal null}
 	 */
-	static DefaultPublication.Builder builder() {
+	static PublicationBuilder<? extends Publication, ?> builder() {
 		return new DefaultPublication.Builder();
 	}
 

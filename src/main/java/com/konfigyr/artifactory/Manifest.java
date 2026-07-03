@@ -39,11 +39,11 @@ import java.util.Optional;
 public interface Manifest extends Iterable<ManifestEntry>, Serializable {
 
 	/**
-	 * Builder factory method for constructing new {@link DefaultManifest} instances.
+	 * Builder factory method for constructing new default {@link Manifest} instances.
 	 *
 	 * @return a new build instance, never {@literal null}.
 	 */
-	static DefaultManifest.Builder builder() {
+	static ManifestBuilder<? extends Manifest, ?> builder() {
 		return new DefaultManifest.Builder();
 	}
 

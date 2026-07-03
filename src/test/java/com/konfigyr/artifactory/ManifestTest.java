@@ -119,10 +119,10 @@ class ManifestTest {
 
 		assertThatObject(builder.name("name").build())
 				.isNotNull()
-				.returns("id", DefaultManifest::id)
-				.returns("name", DefaultManifest::name)
-				.returns(List.of(), DefaultManifest::artifacts)
-				.extracting(DefaultManifest::createdAt, InstanceOfAssertFactories.INSTANT)
+				.returns("id", Manifest::id)
+				.returns("name", Manifest::name)
+				.returns(List.of(), Manifest::artifacts)
+				.extracting(Manifest::createdAt, InstanceOfAssertFactories.INSTANT)
 				.isCloseTo(Instant.now(), within(500, ChronoUnit.MILLIS));
 	}
 

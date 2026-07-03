@@ -53,12 +53,12 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	}
 
 	/**
-	 * Creates a new instance of the {@link DefaultArtifactMetadata.Builder} used to create a new instance of
-	 * the {@link DefaultArtifactMetadata} using the fluent builder API.
+	 * Creates a new instance of the {@link ArtifactMetadataBuilder} used to create a new instance of
+	 * the default {@link ArtifactMetadata} implementation using the fluent builder API.
 	 *
 	 * @return default artifact metadata builder, never {@literal null}.
 	 */
-	static DefaultArtifactMetadata.Builder builder() {
+	static ArtifactMetadataBuilder<? extends ArtifactMetadata, ?> builder() {
 		return new DefaultArtifactMetadata.Builder();
 	}
 

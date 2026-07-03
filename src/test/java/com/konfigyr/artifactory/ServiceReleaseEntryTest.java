@@ -19,14 +19,14 @@ class ServiceReleaseEntryTest {
 
 		assertThat(entry)
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultServiceReleaseEntry::groupId)
-				.returns(artifact.artifactId(), DefaultServiceReleaseEntry::artifactId)
-				.returns(artifact.version(), DefaultServiceReleaseEntry::version)
-				.returns(artifact.name(), DefaultServiceReleaseEntry::name)
-				.returns(artifact.description(), DefaultServiceReleaseEntry::description)
-				.returns(artifact.website(), DefaultServiceReleaseEntry::website)
-				.returns(artifact.repository(), DefaultServiceReleaseEntry::repository)
-				.returns(ArtifactUploadStatus.UPLOAD_REQUIRED, DefaultServiceReleaseEntry::status);
+				.returns(artifact.groupId(), ServiceReleaseEntry::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseEntry::artifactId)
+				.returns(artifact.version(), ServiceReleaseEntry::version)
+				.returns(artifact.name(), ServiceReleaseEntry::name)
+				.returns(artifact.description(), ServiceReleaseEntry::description)
+				.returns(artifact.website(), ServiceReleaseEntry::website)
+				.returns(artifact.repository(), ServiceReleaseEntry::repository)
+				.returns(ArtifactUploadStatus.UPLOAD_REQUIRED, ServiceReleaseEntry::status);
 	}
 
 	@Test
@@ -75,10 +75,10 @@ class ServiceReleaseEntryTest {
 
 		assertThat(builder.status(ArtifactUploadStatus.SKIP).build())
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultServiceReleaseEntry::groupId)
-				.returns(artifact.artifactId(), DefaultServiceReleaseEntry::artifactId)
-				.returns(artifact.version(), DefaultServiceReleaseEntry::version)
-				.returns(ArtifactUploadStatus.SKIP, DefaultServiceReleaseEntry::status);
+				.returns(artifact.groupId(), ServiceReleaseEntry::groupId)
+				.returns(artifact.artifactId(), ServiceReleaseEntry::artifactId)
+				.returns(artifact.version(), ServiceReleaseEntry::version)
+				.returns(ArtifactUploadStatus.SKIP, ServiceReleaseEntry::status);
 	}
 
 }

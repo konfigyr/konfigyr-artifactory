@@ -29,17 +29,17 @@ class PublicationTest {
 
 		assertThat(publication)
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultPublication::groupId)
-				.returns(artifact.artifactId(), DefaultPublication::artifactId)
-				.returns(artifact.version(), DefaultPublication::version)
-				.returns(artifact.name(), DefaultPublication::name)
-				.returns(artifact.description(), DefaultPublication::description)
-				.returns(artifact.website(), DefaultPublication::website)
-				.returns(artifact.repository(), DefaultPublication::repository)
-				.returns(PublicationState.FAILED, DefaultPublication::state)
-				.returns("checksum", DefaultPublication::checksum)
-				.returns(List.of("some publication error", "and another publication error", "yet another publication error"), DefaultPublication::errors)
-				.returns(publication.publishedAt(), DefaultPublication::publishedAt);
+				.returns(artifact.groupId(), Publication::groupId)
+				.returns(artifact.artifactId(), Publication::artifactId)
+				.returns(artifact.version(), Publication::version)
+				.returns(artifact.name(), Publication::name)
+				.returns(artifact.description(), Publication::description)
+				.returns(artifact.website(), Publication::website)
+				.returns(artifact.repository(), Publication::repository)
+				.returns(PublicationState.FAILED, Publication::state)
+				.returns("checksum", Publication::checksum)
+				.returns(List.of("some publication error", "and another publication error", "yet another publication error"), Publication::errors)
+				.returns(publication.publishedAt(), Publication::publishedAt);
 	}
 
 	@Test
@@ -61,17 +61,17 @@ class PublicationTest {
 
 		assertThat(builder.publishedAt(Instant.now()).build())
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultPublication::groupId)
-				.returns(artifact.artifactId(), DefaultPublication::artifactId)
-				.returns(artifact.version(), DefaultPublication::version)
-				.returns(artifact.name(), DefaultPublication::name)
-				.returns(artifact.description(), DefaultPublication::description)
-				.returns(artifact.website(), DefaultPublication::website)
-				.returns(artifact.repository(), DefaultPublication::repository)
-				.returns(PublicationState.PENDING, DefaultPublication::state)
-				.returns("checksum", DefaultPublication::checksum)
-				.returns(List.of(), DefaultPublication::errors)
-				.extracting(DefaultPublication::publishedAt, InstanceOfAssertFactories.INSTANT)
+				.returns(artifact.groupId(), Publication::groupId)
+				.returns(artifact.artifactId(), Publication::artifactId)
+				.returns(artifact.version(), Publication::version)
+				.returns(artifact.name(), Publication::name)
+				.returns(artifact.description(), Publication::description)
+				.returns(artifact.website(), Publication::website)
+				.returns(artifact.repository(), Publication::repository)
+				.returns(PublicationState.PENDING, Publication::state)
+				.returns("checksum", Publication::checksum)
+				.returns(List.of(), Publication::errors)
+				.extracting(Publication::publishedAt, InstanceOfAssertFactories.INSTANT)
 				.isCloseTo(Instant.now(), within(500, ChronoUnit.MILLIS));
 	}
 

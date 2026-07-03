@@ -70,15 +70,16 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	}
 
 	/**
-	 * Creates a new instance of the {@link DefaultArtifact.Builder} used to create a new instance of
-	 * the {@link DefaultArtifact} using the fluent builder API.
+	 * Creates a new instance of the {@link ArtifactBuilder} used to create a new instance of
+	 * the default {@link Artifact} implementation using the fluent builder API.
 	 * <p>
 	 * This builder allows additional metadata such as {@link #name()}, {@link #description()},
 	 * {@link #website()}, and {@link #repository()} to be specified.
 	 *
 	 * @return default artifact builder, never {@literal null}.
 	 */
-	static DefaultArtifact.Builder builder() {
+	@NonNull
+	static ArtifactBuilder<? extends Artifact, ?> builder() {
 		return new DefaultArtifact.Builder();
 	}
 

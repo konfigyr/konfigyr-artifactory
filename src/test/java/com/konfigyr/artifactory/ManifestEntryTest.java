@@ -25,16 +25,16 @@ class ManifestEntryTest {
 
 		assertThat(entry)
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultManifestEntry::groupId)
-				.returns(artifact.artifactId(), DefaultManifestEntry::artifactId)
-				.returns(artifact.version(), DefaultManifestEntry::version)
-				.returns(artifact.name(), DefaultManifestEntry::name)
-				.returns(artifact.description(), DefaultManifestEntry::description)
-				.returns(artifact.website(), DefaultManifestEntry::website)
-				.returns(artifact.repository(), DefaultManifestEntry::repository)
-				.returns("checksum", DefaultManifestEntry::checksum)
-				.returns(ArtifactSource.ARTIFACTORY, DefaultManifestEntry::source)
-				.returns(entry.resolvedAt(), DefaultManifestEntry::resolvedAt);
+				.returns(artifact.groupId(), ManifestEntry::groupId)
+				.returns(artifact.artifactId(), ManifestEntry::artifactId)
+				.returns(artifact.version(), ManifestEntry::version)
+				.returns(artifact.name(), ManifestEntry::name)
+				.returns(artifact.description(), ManifestEntry::description)
+				.returns(artifact.website(), ManifestEntry::website)
+				.returns(artifact.repository(), ManifestEntry::repository)
+				.returns("checksum", ManifestEntry::checksum)
+				.returns(ArtifactSource.ARTIFACTORY, ManifestEntry::source)
+				.returns(entry.resolvedAt(), ManifestEntry::resolvedAt);
 	}
 
 	@Test
@@ -60,12 +60,12 @@ class ManifestEntryTest {
 
 		assertThat(builder.resolvedAt(Instant.now()).build())
 				.isNotNull()
-				.returns(artifact.groupId(), DefaultManifestEntry::groupId)
-				.returns(artifact.artifactId(), DefaultManifestEntry::artifactId)
-				.returns(artifact.version(), DefaultManifestEntry::version)
-				.returns("checksum", DefaultManifestEntry::checksum)
-				.returns(ArtifactSource.LOCAL, DefaultManifestEntry::source)
-				.extracting(DefaultManifestEntry::resolvedAt, InstanceOfAssertFactories.INSTANT)
+				.returns(artifact.groupId(), ManifestEntry::groupId)
+				.returns(artifact.artifactId(), ManifestEntry::artifactId)
+				.returns(artifact.version(), ManifestEntry::version)
+				.returns("checksum", ManifestEntry::checksum)
+				.returns(ArtifactSource.LOCAL, ManifestEntry::source)
+				.extracting(ManifestEntry::resolvedAt, InstanceOfAssertFactories.INSTANT)
 				.isCloseTo(Instant.now(), within(500, ChronoUnit.MILLIS));
 	}
 

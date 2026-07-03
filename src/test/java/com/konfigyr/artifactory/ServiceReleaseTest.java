@@ -32,11 +32,11 @@ class ServiceReleaseTest {
 
 		assertThat(release)
 				.isNotNull()
-				.returns("konfigyr-service-release", DefaultServiceRelease::id)
-				.returns(ReleaseState.RELEASED, DefaultServiceRelease::state)
-				.returns(List.of(entry), DefaultServiceRelease::artifacts)
-				.returns(publishedAt, DefaultServiceRelease::publishedAt)
-				.returns(List.of("some release error", "and another release error", "yet another release error"), DefaultServiceRelease::errors);
+				.returns("konfigyr-service-release", ServiceRelease::id)
+				.returns(ReleaseState.RELEASED, ServiceRelease::state)
+				.returns(List.of(entry), ServiceRelease::artifacts)
+				.returns(publishedAt, ServiceRelease::publishedAt)
+				.returns(List.of("some release error", "and another release error", "yet another release error"), ServiceRelease::errors);
 	}
 
 	@Test
@@ -50,11 +50,11 @@ class ServiceReleaseTest {
 
 		assertThat(builder.id("konfigyr-service-release").build())
 				.isNotNull()
-				.returns("konfigyr-service-release", DefaultServiceRelease::id)
-				.returns(ReleaseState.PENDING, DefaultServiceRelease::state)
-				.returns(List.of(), DefaultServiceRelease::artifacts)
-				.returns(null, DefaultServiceRelease::publishedAt)
-				.returns(List.of(), DefaultServiceRelease::errors);
+				.returns("konfigyr-service-release", ServiceRelease::id)
+				.returns(ReleaseState.PENDING, ServiceRelease::state)
+				.returns(List.of(), ServiceRelease::artifacts)
+				.returns(null, ServiceRelease::publishedAt)
+				.returns(List.of(), ServiceRelease::errors);
 	}
 
 }

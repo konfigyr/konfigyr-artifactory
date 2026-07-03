@@ -61,12 +61,12 @@ public interface ServiceReleaseEntry extends Artifact, Serializable {
 	}
 
 	/**
-	 * Creates a new instance of the {@link DefaultServiceReleaseEntry.Builder} used to create a new
-	 * instance of the {@link DefaultServiceReleaseEntry} using the fluent builder API.
+	 * Creates a new instance of the {@link ServiceReleaseEntryBuilder} used to create a new
+	 * instance of the default {@link ServiceReleaseEntry} implementation using the fluent builder API.
 	 *
 	 * @return default service release entry builder, never {@literal null}
 	 */
-	static DefaultServiceReleaseEntry.Builder builder() {
+	static ServiceReleaseEntryBuilder<? extends ServiceReleaseEntry, ?> builder() {
 		return new DefaultServiceReleaseEntry.Builder();
 	}
 

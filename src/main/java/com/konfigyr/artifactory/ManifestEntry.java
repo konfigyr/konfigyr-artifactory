@@ -27,12 +27,12 @@ import java.time.Instant;
 public interface ManifestEntry extends Artifact, Serializable {
 
 	/**
-	 * Creates a new instance of the {@link DefaultManifestEntry.Builder} used to create a new instance
-	 * of the {@link DefaultManifestEntry} using the fluent builder API.
+	 * Creates a new instance of the {@link ManifestEntryBuilder} used to create a new instance
+	 * of the default {@link ManifestEntry} implementation using the fluent builder API.
 	 *
 	 * @return default manifest entry builder, never {@literal null}
 	 */
-	static DefaultManifestEntry.Builder builder() {
+	static ManifestEntryBuilder<? extends ManifestEntry, ?> builder() {
 		return new DefaultManifestEntry.Builder();
 	}
 

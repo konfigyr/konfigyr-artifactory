@@ -130,6 +130,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @return a fully initialized manifest, never {@literal null}.
 	 */
 	@NonNull
-	abstract T build();
+	public abstract T build();
 
 }
