@@ -30,6 +30,23 @@ public record DefaultPropertyDescriptor(
 	private static final long serialVersionUID = 8577934242497894399L;
 
 	/**
+	 * Validates this {@link PropertyDescriptor}, mirroring the checks performed by
+	 * {@link Builder#build()}, so that the invariant holds regardless of whether this record is
+	 * constructed via the {@link Builder} or directly.
+	 */
+	public DefaultPropertyDescriptor {
+		if (name == null || name.isBlank()) {
+			throw new IllegalArgumentException("Property name can not be blank");
+		}
+		if (schema == null) {
+			throw new IllegalArgumentException("Property value schema can not be null");
+		}
+		if (typeName == null || typeName.isBlank()) {
+			throw new IllegalArgumentException("Property type name can not be blank");
+		}
+	}
+
+	/**
 	 * Builder class used to create new instances of the {@link DefaultPropertyDescriptor}.
 	 */
 	public static final class Builder extends PropertyDescriptorBuilder<DefaultPropertyDescriptor, Builder> {

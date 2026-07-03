@@ -24,6 +24,20 @@ public record DefaultManifest(
 ) implements Manifest {
 
 	/**
+	 * Validates this {@link Manifest}, mirroring the checks performed by {@link Builder#build()}, so
+	 * that the invariant holds regardless of whether this record is constructed via the {@link Builder}
+	 * or directly.
+	 */
+	public DefaultManifest {
+		if (id == null || id.isBlank()) {
+			throw new IllegalArgumentException("Service identifier can not be blank");
+		}
+		if (name == null || name.isBlank()) {
+			throw new IllegalArgumentException("Service name can not be blank");
+		}
+	}
+
+	/**
 	 * Builder class used to create new instances of the {@link DefaultManifest}.
 	 */
 	public static final class Builder extends ManifestBuilder<DefaultManifest, DefaultManifest.Builder> {

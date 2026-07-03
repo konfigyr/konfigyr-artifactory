@@ -33,6 +33,23 @@ public record DefaultArtifact(
 	private static final long serialVersionUID = 8548427370636592022L;
 
 	/**
+	 * Validates the Maven coordinates of this {@link Artifact}, mirroring the checks performed
+	 * by {@link ArtifactBuilder#validate()}, so that the invariant holds regardless of whether
+	 * this record is constructed via the {@link Builder} or directly.
+	 */
+	public DefaultArtifact {
+		if (groupId == null || groupId.isBlank()) {
+			throw new IllegalArgumentException("Artifact groupId can not be blank");
+		}
+		if (artifactId == null || artifactId.isBlank()) {
+			throw new IllegalArgumentException("Artifact artifactId can not be blank");
+		}
+		if (version == null || version.isBlank()) {
+			throw new IllegalArgumentException("Artifact version can not be blank");
+		}
+	}
+
+	/**
 	 * Builder class used to create new instances of the {@link DefaultArtifact}.
 	 */
 	public static final class Builder extends ArtifactBuilder<DefaultArtifact, Builder> {

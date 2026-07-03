@@ -36,6 +36,27 @@ public record DefaultServiceReleaseCandidate(
 	private static final long serialVersionUID = 3921604587123049110L;
 
 	/**
+	 * Validates this {@link ServiceReleaseCandidate}, mirroring the checks performed by
+	 * {@link ArtifactBuilder#validate()} and {@link ServiceReleaseCandidateBuilder#validate()}, so
+	 * that the invariant holds regardless of whether this record is constructed via the
+	 * {@link Builder} or directly.
+	 */
+	public DefaultServiceReleaseCandidate {
+		if (groupId == null || groupId.isBlank()) {
+			throw new IllegalArgumentException("Artifact groupId can not be blank");
+		}
+		if (artifactId == null || artifactId.isBlank()) {
+			throw new IllegalArgumentException("Artifact artifactId can not be blank");
+		}
+		if (version == null || version.isBlank()) {
+			throw new IllegalArgumentException("Artifact version can not be blank");
+		}
+		if (checksum == null || checksum.isBlank()) {
+			throw new IllegalArgumentException("Service release candidate checksum can not be blank");
+		}
+	}
+
+	/**
 	 * Builder class used to create new instances of the {@link DefaultServiceReleaseCandidate}.
 	 */
 	public static final class Builder extends ServiceReleaseCandidateBuilder<DefaultServiceReleaseCandidate, Builder> {

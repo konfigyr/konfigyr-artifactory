@@ -38,6 +38,30 @@ public record DefaultArtifactMetadata(
 	private static final long serialVersionUID = 5969189079506443729L;
 
 	/**
+	 * Validates this {@link ArtifactMetadata}, mirroring the checks performed by
+	 * {@link ArtifactBuilder#validate()} and {@link ArtifactMetadataBuilder#validate()}, so that the
+	 * invariant holds regardless of whether this record is constructed via the {@link Builder} or
+	 * directly.
+	 */
+	public DefaultArtifactMetadata {
+		if (groupId == null || groupId.isBlank()) {
+			throw new IllegalArgumentException("Artifact groupId can not be blank");
+		}
+		if (artifactId == null || artifactId.isBlank()) {
+			throw new IllegalArgumentException("Artifact artifactId can not be blank");
+		}
+		if (version == null || version.isBlank()) {
+			throw new IllegalArgumentException("Artifact version can not be blank");
+		}
+		if (checksum == null || checksum.isBlank()) {
+			throw new IllegalArgumentException("Artifact metadata checksum can not be blank");
+		}
+		if (properties == null || properties.isEmpty()) {
+			throw new IllegalArgumentException("Artifact metadata must contain at least one property descriptor");
+		}
+	}
+
+	/**
 	 * Builder class used to create new instances of the {@link DefaultArtifactMetadata}.
 	 */
 	public static final class Builder extends ArtifactMetadataBuilder<DefaultArtifactMetadata, Builder> {

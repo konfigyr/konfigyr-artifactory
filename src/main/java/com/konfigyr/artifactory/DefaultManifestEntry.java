@@ -40,6 +40,33 @@ public record DefaultManifestEntry(
 	private static final long serialVersionUID = 8548427370636592022L;
 
 	/**
+	 * Validates this {@link ManifestEntry}, mirroring the checks performed by
+	 * {@link ArtifactBuilder#validate()} and {@link ManifestEntryBuilder#validate()}, so that the
+	 * invariant holds regardless of whether this record is constructed via the {@link Builder} or
+	 * directly.
+	 */
+	public DefaultManifestEntry {
+		if (groupId == null || groupId.isBlank()) {
+			throw new IllegalArgumentException("Artifact groupId can not be blank");
+		}
+		if (artifactId == null || artifactId.isBlank()) {
+			throw new IllegalArgumentException("Artifact artifactId can not be blank");
+		}
+		if (version == null || version.isBlank()) {
+			throw new IllegalArgumentException("Artifact version can not be blank");
+		}
+		if (checksum == null || checksum.isBlank()) {
+			throw new IllegalArgumentException("Manifest entry checksum can not be blank");
+		}
+		if (source == null) {
+			throw new IllegalArgumentException("Manifest entry source can not be null");
+		}
+		if (resolvedAt == null) {
+			throw new IllegalArgumentException("Manifest entry resolution date can not be null");
+		}
+	}
+
+	/**
 	 * Builder class used to create new instances of the {@link DefaultManifestEntry}.
 	 */
 	public static final class Builder extends ManifestEntryBuilder<DefaultManifestEntry, Builder> {

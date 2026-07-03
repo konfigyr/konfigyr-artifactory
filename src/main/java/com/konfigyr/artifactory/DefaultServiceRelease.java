@@ -34,6 +34,26 @@ public record DefaultServiceRelease(
 	private static final long serialVersionUID = 4267158390215730881L;
 
 	/**
+	 * Validates this {@link ServiceRelease}, mirroring the checks performed by {@link Builder#build()},
+	 * so that the invariant holds regardless of whether this record is constructed via the
+	 * {@link Builder} or directly.
+	 */
+	public DefaultServiceRelease {
+		if (id == null || id.isBlank()) {
+			throw new IllegalArgumentException("Service release identifier can not be blank");
+		}
+		if (state == null) {
+			throw new IllegalArgumentException("Service release state can not be null");
+		}
+		if (artifacts == null) {
+			throw new IllegalArgumentException("Service release artifacts can not be null");
+		}
+		if (errors == null) {
+			throw new IllegalArgumentException("Service release errors can not be null");
+		}
+	}
+
+	/**
 	 * Builder class used to create new instances of the {@link DefaultServiceRelease}.
 	 */
 	public static final class Builder extends ServiceReleaseBuilder<DefaultServiceRelease, Builder> {

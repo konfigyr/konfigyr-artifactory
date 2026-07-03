@@ -1,10 +1,10 @@
 package com.konfigyr.artifactory;
 
-import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import tools.jackson.databind.exc.ValueInstantiationException;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.StringNode;
 
@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatObject;
 
 class ArtifactoryJacksonModuleTest {
@@ -335,7 +336,7 @@ class ArtifactoryJacksonModuleTest {
 	}
 
 	@Test
-	@DisplayName("should deserialize invalid artifact metadata payload")
+	@DisplayName("should reject invalid artifact metadata payload")
 	void deserializeInvalidMetadata() {
 		final var json = mapper.getNodeFactory().objectNode()
 				.put("name", "Konfigyr API")
@@ -343,19 +344,12 @@ class ArtifactoryJacksonModuleTest {
 						.add(mapper.getNodeFactory().objectNode())
 				).toPrettyString();
 
-		assertThatObject(mapper.readValue(json, ArtifactMetadata.class))
-				.as("Deserialized Artifact metadata should be equal to the original")
-				.isNotNull()
-				.returns(null, ArtifactMetadata::groupId)
-				.returns(null, ArtifactMetadata::artifactId)
-				.returns(null, ArtifactMetadata::version)
-				.returns("Konfigyr API", ArtifactMetadata::name)
-				.extracting(ArtifactMetadata::properties, InstanceOfAssertFactories.iterable(PropertyDescriptor.class))
-				.hasSize(1)
-				.first()
-				.returns(null, PropertyDescriptor::name)
-				.returns(null, PropertyDescriptor::typeName)
-				.returns(null, PropertyDescriptor::schema);
+		assertThatExceptionOfType(ValueInstantiationException.class)
+				.as("Deserializing Artifact metadata missing required fields should fail")
+				.isThrownBy(() -> mapper.readValue(json, ArtifactMetadata.class))
+				.havingCause()
+				.isInstanceOf(IllegalArgumentException.class)
+				.withMessage("Property name can not be blank");
 	}
 
 }
