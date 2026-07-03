@@ -180,10 +180,33 @@ public abstract class PropertyDescriptorBuilder<T extends PropertyDescriptor, B 
 	}
 
 	/**
-	 * Creates the {@link PropertyDescriptor} as a result of this builder.
+	 * Validates the properties collected by this builder, throwing an {@link IllegalArgumentException}
+	 * when a required property is missing or invalid.
+	 */
+	protected void validate() {
+		Asserts.notBlank(name, "Property name can not be blank");
+		Asserts.nonNull(schema, "Property value schema can not be null");
+		Asserts.notBlank(typeName, "Property type name can not be blank");
+	}
+
+	/**
+	 * Creates the {@link PropertyDescriptor} instance using the properties collected by this builder.
+	 * <p>
+	 * Called by {@link #build()} only once {@link #validate()} has completed without throwing.
 	 *
 	 * @return property descriptor, never {@literal null}.
 	 */
-	public abstract T build();
+	protected abstract T instantiate();
+
+	/**
+	 * Validates the properties collected by this builder and creates the {@link PropertyDescriptor}
+	 * as a result of this builder.
+	 *
+	 * @return property descriptor, never {@literal null}.
+	 */
+	public final T build() {
+		validate();
+		return instantiate();
+	}
 
 }

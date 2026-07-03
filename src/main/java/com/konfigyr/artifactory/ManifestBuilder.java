@@ -119,10 +119,37 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	}
 
 	/**
-	 * Builds a new immutable {@link Manifest} instance.
+	 * Validates the properties collected by this builder, throwing an {@link IllegalArgumentException}
+	 * when a required property is missing or invalid, and applying defaults for optional properties
+	 * that were left unset.
+	 */
+	protected void validate() {
+		Asserts.notBlank(id, "Service identifier can not be blank");
+		Asserts.notBlank(name, "Service name can not be blank");
+
+		if (createdAt == null) {
+			createdAt = Instant.now();
+		}
+	}
+
+	/**
+	 * Creates the {@link Manifest} instance using the properties collected by this builder.
+	 * <p>
+	 * Called by {@link #build()} only once {@link #validate()} has completed without throwing.
+	 *
+	 * @return the manifest instance, never {@literal null}.
+	 */
+	protected abstract T instantiate();
+
+	/**
+	 * Validates the properties collected by this builder and builds a new immutable {@link Manifest}
+	 * instance.
 	 *
 	 * @return a fully initialized manifest, never {@literal null}.
 	 */
-	public abstract T build();
+	public final T build() {
+		validate();
+		return instantiate();
+	}
 
 }

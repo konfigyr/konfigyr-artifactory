@@ -32,9 +32,9 @@ public record DefaultServiceRelease(
 	private static final long serialVersionUID = 4267158390215730881L;
 
 	/**
-	 * Validates this {@link ServiceRelease}, mirroring the checks performed by {@link Builder#build()},
-	 * so that the invariant holds regardless of whether this record is constructed via the
-	 * {@link Builder} or directly.
+	 * Validates this {@link ServiceRelease}, mirroring the checks performed by
+	 * {@link ServiceReleaseBuilder#validate()}, so that the invariant holds regardless of whether
+	 * this record is constructed via the {@link Builder} or directly.
 	 */
 	public DefaultServiceRelease {
 		Asserts.notBlank(id, "Service release identifier can not be blank");
@@ -58,12 +58,7 @@ public record DefaultServiceRelease(
 		 * @return service release, never {@literal null}.
 		 */
 		@Override
-		public DefaultServiceRelease build() {
-			Asserts.notBlank(id, "Service release identifier can not be blank");
-			if (state == null) {
-				state = ReleaseState.PENDING;
-			}
-
+		protected DefaultServiceRelease instantiate() {
 			return new DefaultServiceRelease(id, state, List.copyOf(artifacts), publishedAt, List.copyOf(errors));
 		}
 

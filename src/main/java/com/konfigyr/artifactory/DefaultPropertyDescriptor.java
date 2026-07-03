@@ -30,8 +30,8 @@ public record DefaultPropertyDescriptor(
 
 	/**
 	 * Validates this {@link PropertyDescriptor}, mirroring the checks performed by
-	 * {@link Builder#build()}, so that the invariant holds regardless of whether this record is
-	 * constructed via the {@link Builder} or directly.
+	 * {@link PropertyDescriptorBuilder#validate()}, so that the invariant holds regardless of
+	 * whether this record is constructed via the {@link Builder} or directly.
 	 */
 	public DefaultPropertyDescriptor {
 		Asserts.notBlank(name, "Property name can not be blank");
@@ -54,13 +54,8 @@ public record DefaultPropertyDescriptor(
 		 * @return property descriptor, never {@literal null}.
 		 */
 		@Override
-		public DefaultPropertyDescriptor build() {
-
-			return new DefaultPropertyDescriptor(
-					Asserts.notBlank(name, "Property name can not be blank"),
-					Asserts.nonNull(schema, "Property value schema can not be null"),
-					Asserts.notBlank(typeName, "Property type name can not be blank"),
-					description, defaultValue, deprecation);
+		protected DefaultPropertyDescriptor instantiate() {
+			return new DefaultPropertyDescriptor(name, schema, typeName, description, defaultValue, deprecation);
 		}
 
 	}
