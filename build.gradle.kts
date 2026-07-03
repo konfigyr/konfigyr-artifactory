@@ -44,6 +44,17 @@ tasks.withType<JavaCompile>().configureEach {
     options.release = 21
 }
 
+tasks.jar {
+    manifest {
+        attributes(
+            "Automatic-Module-Name" to "com.konfigyr.artifactory",
+            "Implementation-Title" to project.name,
+            "Implementation-Version" to project.version,
+            "Implementation-Vendor" to "Konfigyr"
+        )
+    }
+}
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
 
