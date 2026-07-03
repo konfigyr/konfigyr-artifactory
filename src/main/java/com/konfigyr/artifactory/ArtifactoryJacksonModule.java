@@ -12,6 +12,7 @@ import tools.jackson.databind.module.SimpleModule;
 import tools.jackson.databind.ser.std.StdScalarSerializer;
 
 import java.util.Collection;
+import java.util.Locale;
 
 /**
  * Jackson module for {@code konfigyr-artifactory}.
@@ -134,7 +135,7 @@ public class ArtifactoryJacksonModule extends SimpleModule {
 
 		@Override
 		public void serialize(JsonSchemaType value, JsonGenerator gen, SerializationContext context) {
-			gen.writeString(value.name().toLowerCase(context.getLocale()));
+			gen.writeString(value.name().toLowerCase(Locale.ROOT));
 		}
 
 	}
@@ -147,7 +148,7 @@ public class ArtifactoryJacksonModule extends SimpleModule {
 
 		@Override
 		public JsonSchemaType deserialize(JsonParser parser, DeserializationContext context) {
-			return JsonSchemaType.valueOf(parser.getValueAsString().toUpperCase(context.getLocale()));
+			return JsonSchemaType.valueOf(parser.getValueAsString().toUpperCase(Locale.ROOT));
 		}
 	}
 
