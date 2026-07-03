@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -100,7 +102,7 @@ class ArtifactMetadataTest {
 
 	@Test
 	@DisplayName("should compute the checksum automatically when not explicitly provided")
-	void computesChecksumAutomatically() {
+	void computesChecksumAutomatically() throws Exception {
 		final var first = PropertyDescriptor.builder()
 				.name("spring.application.group")
 				.typeName("java.lang.String")
@@ -113,9 +115,19 @@ class ArtifactMetadataTest {
 				.schema(StringSchema.instance())
 				.build();
 
-		final var visitor = JsonSchemaDigestVisitor.of();
-		first.schema().accept(visitor);
-		second.schema().accept(visitor);
+		// properties are sorted by name, and each descriptor's own digest is combined into a
+		// single outer digest, mirroring ArtifactMetadataBuilder#checksum(List)
+		final var digest = MessageDigest.getInstance(JsonSchemaDigestVisitor.DEFAULT_ALGORITHM);
+
+		final var firstVisitor = JsonSchemaDigestVisitor.of();
+		firstVisitor.visit(first);
+		digest.update(firstVisitor.digest());
+
+		final var secondVisitor = JsonSchemaDigestVisitor.of();
+		secondVisitor.visit(second);
+		digest.update(secondVisitor.digest());
+
+		final var expected = Base64.getEncoder().encodeToString(digest.digest());
 
 		final var metadata = ArtifactMetadata.builder()
 				.groupId("com.konfigyr")
@@ -124,7 +136,7 @@ class ArtifactMetadataTest {
 				.properties(List.of(first, second))
 				.build();
 
-		assertThat(metadata.checksum()).isEqualTo(visitor.checksum());
+		assertThat(metadata.checksum()).isEqualTo(expected);
 	}
 
 	@Test
@@ -159,6 +171,34 @@ class ArtifactMetadataTest {
 				.checksum();
 
 		assertThat(checksum).isEqualTo(reordered);
+	}
+
+	@Test
+	@DisplayName("should compute a different checksum when a property is renamed but its schema is unchanged")
+	void checksumChangesWhenPropertyIsRenamed() {
+		final var original = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.property(PropertyDescriptor.builder()
+						.name("spring.datasource.url")
+						.typeName("java.lang.String")
+						.schema(StringSchema.instance())
+						.build())
+				.build();
+
+		final var renamed = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.property(PropertyDescriptor.builder()
+						.name("totally.different.name.for.the.same.slot")
+						.typeName("java.lang.String")
+						.schema(StringSchema.instance())
+						.build())
+				.build();
+
+		assertThat(original.checksum()).isNotEqualTo(renamed.checksum());
 	}
 
 	@Test

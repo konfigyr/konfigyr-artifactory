@@ -202,6 +202,27 @@ public final class JsonSchemaDigestVisitor implements JsonSchemaVisitor {
 		JsonSchemaVisitor.super.visit(schema);
 	}
 
+	/**
+	 * Visits a single {@link PropertyDescriptor}, feeding its identifying fields, {@code name},
+	 * {@code typeName}, {@code description}, {@code defaultValue}, and {@code deprecation}, into
+	 * the digest, followed by its {@link PropertyDescriptor#schema() schema}.
+	 * <p>
+	 * Unlike {@link #visit(JsonSchema)}, which only captures the shape and constraints of a
+	 * property's value, this method captures the descriptor's full identity, so that renaming,
+	 * retyping, redocumenting, or deprecating a property changes its digest even when its schema
+	 * does not.
+	 *
+	 * @param descriptor the property descriptor to visit, never {@literal null}.
+	 */
+	void visit(PropertyDescriptor descriptor) {
+		writeString(descriptor.name());
+		writeString(descriptor.typeName());
+		writeString(descriptor.description());
+		writeString(descriptor.defaultValue());
+		writeDeprecation(descriptor.deprecation());
+		visit(descriptor.schema());
+	}
+
 	@Override
 	public void visitObject(ObjectSchema schema) {
 		writeSchema(schema.propertyNames());
@@ -313,6 +334,16 @@ public final class JsonSchemaDigestVisitor implements JsonSchemaVisitor {
 	private void writeSchema(@Nullable JsonSchema schema) {
 		if (schema != null) {
 			visit(schema);
+		} else {
+			digest.update(NULL_MARKER);
+		}
+	}
+
+	private void writeDeprecation(@Nullable Deprecation deprecation) {
+		if (deprecation != null) {
+			digest.update(PRESENT_MARKER);
+			writeString(deprecation.reason());
+			writeString(deprecation.replacement());
 		} else {
 			digest.update(NULL_MARKER);
 		}

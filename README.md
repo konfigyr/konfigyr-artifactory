@@ -197,7 +197,7 @@ you would need to add `tools.jackson.core:jackson-databind` dependency to your p
 
 ```java
 final JsonMapper mapper = JsonMapper.builder()
-        .addModule(new KonfigyrJacksonModule())
+        .addModule(new ArtifactoryJacksonModule())
         .build();
 ```
 

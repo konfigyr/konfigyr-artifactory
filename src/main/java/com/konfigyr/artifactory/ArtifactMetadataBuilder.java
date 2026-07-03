@@ -2,7 +2,10 @@ package com.konfigyr.artifactory;
 
 import org.jspecify.annotations.Nullable;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -102,23 +105,40 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	}
 
 	/**
-	 * Computes the checksum of the given, already sorted, property descriptors by visiting each of
-	 * their {@link PropertyDescriptor#schema()} with a {@link JsonSchemaDigestVisitor}.
+	 * Computes the checksum of the given property descriptors.
+	 * <p>
+	 * Each descriptor is hashed independently, in isolation from the others, via its own
+	 * {@link JsonSchemaDigestVisitor#visit(PropertyDescriptor)}. The resulting per-descriptor
+	 * digests are then combined, in a canonical order, into a single digest that becomes the
+	 * returned checksum. Descriptors are sorted by this method regardless of the order in which
+	 * they were given, so the result depends only on the set of descriptors, never on the order
+	 * they happen to be supplied in.
 	 * <p>
 	 * Available to subclasses so that any {@link ArtifactMetadataBuilder} implementation can derive
 	 * a checksum consistently, without depending on {@link DefaultArtifactMetadata}.
 	 *
-	 * @param properties the sorted property descriptors to be hashed, never {@literal null}.
+	 * @param properties the property descriptors to be hashed, never {@literal null}.
 	 * @return the computed checksum, never {@literal null}.
 	 */
 	protected static String checksum(List<PropertyDescriptor> properties) {
-		final JsonSchemaDigestVisitor visitor = JsonSchemaDigestVisitor.of();
+		final List<PropertyDescriptor> sorted = new ArrayList<>(properties);
+		sorted.sort(PropertyDescriptor::compareTo);
 
-		for (PropertyDescriptor descriptor : properties) {
-			descriptor.schema().accept(visitor);
+		final MessageDigest digest;
+
+		try {
+			digest = MessageDigest.getInstance(JsonSchemaDigestVisitor.DEFAULT_ALGORITHM);
+		} catch (NoSuchAlgorithmException ex) {
+			throw new IllegalStateException("Can not create artifact metadata digest", ex);
 		}
 
-		return visitor.checksum();
+		for (PropertyDescriptor descriptor : sorted) {
+			final JsonSchemaDigestVisitor visitor = JsonSchemaDigestVisitor.of();
+			visitor.visit(descriptor);
+			digest.update(visitor.digest());
+		}
+
+		return Base64.getEncoder().encodeToString(digest.digest());
 	}
 
 }
