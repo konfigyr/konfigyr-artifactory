@@ -75,4 +75,18 @@ class PublicationTest {
 				.isCloseTo(Instant.now(), within(500, ChronoUnit.MILLIS));
 	}
 
+	@Test
+	@DisplayName("errors should treat a null iterable as a no-op")
+	void errorsIgnoresNullIterable() {
+		final var publication = Publication.builder()
+				.artifact(artifact)
+				.checksum("checksum")
+				.error("some publication error")
+				.errors(null)
+				.publishedAt(Instant.now())
+				.build();
+
+		assertThat(publication.errors()).containsExactly("some publication error");
+	}
+
 }

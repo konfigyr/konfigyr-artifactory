@@ -97,9 +97,11 @@ public abstract class PublicationBuilder<T extends Publication, B extends Public
 	 * @param errors the publication error messages
 	 * @return publication builder
 	 */
-	public B errors(Iterable<String> errors) {
-		for (String error : errors) {
-			error(error);
+	public B errors(@Nullable Iterable<String> errors) {
+		if (errors != null) {
+			for (String error : errors) {
+				error(error);
+			}
 		}
 
 		return myself();
