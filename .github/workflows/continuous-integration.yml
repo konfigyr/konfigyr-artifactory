@@ -36,9 +36,10 @@ jobs:
           cache-provider: basic
 
       - name: Test Reports
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@v7
         if: success() || failure()
         with:
+          report_type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Test coverage reports
