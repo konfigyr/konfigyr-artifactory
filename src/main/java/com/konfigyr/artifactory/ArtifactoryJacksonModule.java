@@ -78,6 +78,11 @@ import java.util.Locale;
  *     <li>{@link ObjectSchema}</li>
  *     <li>{@link StringSchema}</li>
  * </ul>
+ * <p>
+ * Instances are stateless once constructed: {@link #setupModule(SetupContext)} only registers the
+ * mappings above and does not retain any mutable state afterward. It is therefore safe to construct
+ * a single instance and share it across threads, e.g. as a singleton Spring bean registered on a
+ * shared {@code JsonMapper}/{@code ObjectMapper}.
  *
  * @author Vladimir Spasic
  * @since 1.0.0

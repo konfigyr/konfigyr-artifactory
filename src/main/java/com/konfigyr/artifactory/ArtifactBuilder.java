@@ -150,6 +150,7 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 *
 	 * @param repository artifact repository URL
 	 * @return artifact builder
+	 * @throws IllegalArgumentException If the given repository location violates RFC 2396
 	 */
 	public B repository(@Nullable String repository) {
 		return repository(repository == null ? null : URI.create(repository));
@@ -172,6 +173,9 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * <p>
 	 * Subclasses that introduce additional required properties should override this method, calling
 	 * {@code super.validate()} first so that the coordinate validation performed here still applies.
+	 *
+	 * @throws IllegalArgumentException if the {@code groupId}, {@code artifactId}, or
+	 *                                  {@code version} collected by this builder is missing or blank.
 	 */
 	protected void validate() {
 		Asserts.notBlank(groupId, "Artifact groupId can not be blank");
@@ -193,6 +197,8 @@ public abstract class ArtifactBuilder<T extends Artifact, B extends ArtifactBuil
 	 * result of this builder.
 	 *
 	 * @return the artifact instance, never {@literal null}.
+	 * @throws IllegalArgumentException if a required property collected by this builder is
+	 *                                  missing or invalid, see {@link #validate()}.
 	 */
 	public final T build() {
 		validate();

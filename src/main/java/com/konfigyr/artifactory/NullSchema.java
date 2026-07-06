@@ -19,7 +19,9 @@ public final class NullSchema extends JsonSchema {
 	private static final NullSchema INSTANCE = builder().build();
 
 	/**
-	 * Creates a new default {@link NullSchema} instance with only the {@code type} property set.
+	 * Returns the shared, immutable {@link NullSchema} instance with only the {@code type}
+	 * property set. This method always returns the same cached instance rather than creating a
+	 * new one.
 	 *
 	 * @return the null schema.
 	 */
@@ -30,7 +32,7 @@ public final class NullSchema extends JsonSchema {
 	/**
 	 * Creates a new {@link NullSchema.Builder} instance.
 	 *
-	 * @return the boolean schema builder.
+	 * @return the null schema builder.
 	 */
 	public static Builder builder() {
 		return new Builder();

@@ -42,7 +42,9 @@ public final class ObjectSchema extends JsonSchema {
 	private final @Nullable JsonSchema additionalProperties;
 
 	/**
-	 * Creates a new default {@link ObjectSchema} instance with only the {@code type} property set.
+	 * Returns the shared, immutable {@link ObjectSchema} instance with only the {@code type}
+	 * property set. This method always returns the same cached instance rather than creating a
+	 * new one.
 	 *
 	 * @return the object schema.
 	 */

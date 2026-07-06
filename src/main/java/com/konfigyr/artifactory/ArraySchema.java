@@ -41,7 +41,9 @@ public final class ArraySchema extends JsonSchema {
 	private final @Nullable Boolean uniqueItems;
 
 	/**
-	 * Creates a new default {@link ArraySchema} instance with only the {@code type} property set.
+	 * Returns the shared, immutable {@link ArraySchema} instance with only the {@code type}
+	 * property set. This method always returns the same cached instance rather than creating a
+	 * new one.
 	 *
 	 * @return the array schema.
 	 */
@@ -89,8 +91,7 @@ public final class ArraySchema extends JsonSchema {
 
 	/**
 	 * An array described by this schema is considered valid if the number of items it contains is greater than,
-	 * or equal to, the value of this method. The value returned by this myst must be a non-negative integer,
-	 * unless it is not {@code null}.
+	 * or equal to, the value of this method. When non-{@literal null}, this value must be a non-negative integer.
 	 *
 	 * @return the minimum number of items, can be {@literal null}.
 	 */
@@ -101,8 +102,7 @@ public final class ArraySchema extends JsonSchema {
 
 	/**
 	 * An array described by this schema is considered valid if the number of items it contains is lower than,
-	 * or equal to, the value of this method. The value returned by this myst must be a non-negative integer,
-	 * unless it is not {@code null}.
+	 * or equal to, the value of this method. When non-{@literal null}, this value must be a non-negative integer.
 	 *
 	 * @return the maximum number of items, can be {@literal null}.
 	 */

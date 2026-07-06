@@ -19,7 +19,9 @@ public final class NumberSchema extends NumericalSchema<Double> {
 	private static final NumberSchema INSTANCE = builder().build();
 
 	/**
-	 * Creates a new default {@link NumberSchema} instance with only the {@code type} property set.
+	 * Returns the shared, immutable {@link NumberSchema} instance with only the {@code type}
+	 * property set. This method always returns the same cached instance rather than creating a
+	 * new one.
 	 *
 	 * @return the number schema.
 	 */

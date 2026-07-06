@@ -36,6 +36,13 @@ import java.util.Comparator;
  *   <li>{@link #builder()}: a fluent builder API for constructing rich {@link DefaultArtifact} instances.</li>
  * </ul>
  *
+ * <h2>Implementing this interface</h2>
+ * This interface is not sealed, but {@link #of(String, String, String)} and {@link #builder()} always
+ * produce a {@link DefaultArtifact}: this SDK does not expose a supported way to plug in an alternate
+ * implementation through them. A caller who implements this interface directly is expected to preserve
+ * the same contract as {@link DefaultArtifact}: immutability, value-based {@code equals}/{@code hashCode}
+ * semantics derived from the Maven coordinates, and safety for concurrent read access.
+ *
  * @author : Vladimir Spasic
  * @see PropertyDescriptor
  * @see Publication

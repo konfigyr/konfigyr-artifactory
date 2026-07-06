@@ -2,6 +2,7 @@
 [![codecov](https://codecov.io/gh/konfigyr/konfigyr-artifactory/graph/badge.svg?token=8F51325ZV5)](https://codecov.io/gh/konfigyr/konfigyr-artifactory)
 [![Latest Release](https://img.shields.io/maven-central/v/com.konfigyr/konfigyr-artifactory?style=flat)](https://central.sonatype.com/search?q=g%3Acom.konfigyr)
 ![Java 21+](https://img.shields.io/badge/java-21+-lightgray.svg)
+[![Javadoc](https://javadoc.io/badge2/com.konfigyr/konfigyr-artifactory/javadoc.svg)](https://javadoc.io/doc/com.konfigyr/konfigyr-artifactory)
 
 # Konfigyr Artifactory SDK
 
@@ -29,6 +30,13 @@ This SDK provides a shared, stable contract between:
 - The Gradle and Maven plugins that upload metadata.
 - External systems integrating with Konfigyr’s configuration repository.
 
+### Requirements
+
+- Java 21 or later.
+- No required runtime dependency on Spring Boot. The `Artifact`, `PropertyDescriptor`, and related types are
+  plain Java abstractions; Spring Boot's `spring-boot-configuration-processor` is only needed at build time
+  if you want to auto-generate `ArtifactMetadata` from `@ConfigurationProperties`.
+
 ### Getting Started
 
 ```xml
@@ -47,8 +55,8 @@ implementation("com.konfigyr:konfigyr-artifactory:1.0.0")
 
 ### Related projects
 
-- **Konfigyr Maven Plugin**: Uploads artifact metadata during Maven builds.
-- **Konfigyr Gradle Plugin**: Automates metadata extraction for Gradle projects.
+- **[Konfigyr Maven Plugin](https://github.com/konfigyr/konfigyr-plugin#maven-plugin)**: Uploads artifact metadata during Maven builds.
+- **[Konfigyr Gradle Plugin](https://github.com/konfigyr/konfigyr-plugin#gradle-plugin)**: Automates metadata extraction for Gradle projects.
 
 ### Core Interfaces
 
@@ -84,7 +92,7 @@ PropertyDescriptor descriptor = PropertyDescriptor.builder()
     .typeName("java.lang.Integer")
     .description("Port on which the HTTP server listens.")
     .defaultValue("8080")
-    .schema(NumberSchema.builder().minimum(0).maximum(65535).build())
+    .schema(NumberSchema.builder().minimum(0.0).maximum(65535.0).build())
     .build();
 ```
 
@@ -202,6 +210,11 @@ final JsonMapper mapper = JsonMapper.builder()
 ```
 
 This Jackson module will register all the necessary converters for all the types defined in this library.
+
+### Contributing
+
+Pull requests are more than welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to get started.
+Found a bug or have a feature request? Please [open an issue](https://github.com/konfigyr/konfigyr-artifactory/issues).
 
 ### Licence
 

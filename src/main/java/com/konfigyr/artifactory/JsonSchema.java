@@ -8,9 +8,25 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Represents a sealed abstract type for creating specific JSON Schema types.
+ * Represents a single node of a JSON Schema (draft 2020-12) tree, as used by
+ * {@link PropertyDescriptor#schema()} to describe the structure and validation rules of a
+ * configuration property's value.
+ * <p>
+ * This class holds the keywords common to every JSON Schema type: {@link #title()},
+ * {@link #description()}, {@link #defaultValue()}, {@link #deprecated()}, {@link #examples()}, and
+ * {@link #enumerations()}. Type-specific keywords, such as {@code minLength} for strings or
+ * {@code properties} for objects, are declared by the corresponding subtype: {@link ArraySchema},
+ * {@link BooleanSchema}, {@link IntegerSchema}, {@link NullSchema}, {@link NumberSchema},
+ * {@link ObjectSchema}, and {@link StringSchema}.
+ * <p>
+ * Instances are immutable and are constructed through each subtype's own {@code builder()}.
+ * Traversal of a schema tree, e.g. for validation or serialization, is done via the
+ * {@link JsonSchemaVisitor} accepted by {@link #accept(JsonSchemaVisitor)}.
  *
  * @author Vladimir Spasic
+ * @see JsonSchemaVisitor
+ * @see PropertyDescriptor
+ * @see <a href="https://json-schema.org/draft/2020-12/json-schema-core.html">JSON Schema</a>
  * @since 1.0.0
  */
 public sealed abstract class JsonSchema implements Serializable permits ArraySchema, BooleanSchema,
@@ -70,18 +86,24 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 	}
 
 	/**
-	 * Returns the {@link JsonSchema} of the schema.
+	 * Returns the {@link JsonSchemaType} of this schema, identifying which JSON Schema data type
+	 * it represents.
 	 *
-	 * @return the schema type.
+	 * @return the schema type, never {@literal null}.
 	 */
 	public JsonSchemaType type() {
 		return type;
 	}
 
 	/**
-	 * Contains a short description about the schema.
+	 * Returns a short, human-readable label for this schema (the JSON Schema {@code title} keyword),
+	 * intended for display next to the value it describes.
+	 * <p>
+	 * Distinct from {@link #description()}, which provides a longer explanation of the value's
+	 * purpose rather than a short label.
 	 *
 	 * @return the schema title, can be {@literal null}.
+	 * @see #description()
 	 */
 	@Nullable
 	public String title() {
@@ -89,9 +111,13 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 	}
 
 	/**
-	 * Provides an explanation about the purpose of the instance described by this schema about the schema.
+	 * Returns a longer, human-readable explanation of the purpose or intended usage of the value
+	 * described by this schema (the JSON Schema {@code description} keyword).
+	 * <p>
+	 * Distinct from {@link #title()}, which provides a short label rather than a full explanation.
 	 *
 	 * @return the schema description, can be {@literal null}.
+	 * @see #title()
 	 */
 	@Nullable
 	public String description() {

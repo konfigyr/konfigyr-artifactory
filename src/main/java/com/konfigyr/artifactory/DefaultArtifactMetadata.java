@@ -17,7 +17,7 @@ import java.util.List;
  * @param website     external URL for documentation or homepage, may be {@literal null}.
  * @param repository  source control repository reference (SCM URL), may be {@literal null}.
  * @param checksum    checksum identifying this specific metadata, can't be {@literal null}.
- * @param properties  property definitions for the artifact, can't {@literal null}
+ * @param properties  property definitions for the artifact, can't be {@literal null} or empty.
  * @author Vladimir Spasic
  * @since 1.0.0
  */

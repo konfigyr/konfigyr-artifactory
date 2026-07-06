@@ -126,6 +126,7 @@ public final class JsonSchemaDigestVisitor implements JsonSchemaVisitor {
 	 *
 	 * @param algorithm the name of the digest algorithm, must not be {@literal null}.
 	 * @return the digest visitor, never {@literal null}.
+	 * @throws IllegalStateException if the named {@code algorithm} is not available.
 	 */
 	public static JsonSchemaDigestVisitor of(String algorithm) {
 		try {
@@ -142,6 +143,7 @@ public final class JsonSchemaDigestVisitor implements JsonSchemaVisitor {
 	 * @param algorithm the name of the digest algorithm, must not be {@literal null}.
 	 * @param provider  the name of the security provider, must not be {@literal null}.
 	 * @return the digest visitor, never {@literal null}.
+	 * @throws IllegalStateException if the named {@code algorithm} or {@code provider} is not available.
 	 */
 	public static JsonSchemaDigestVisitor of(String algorithm, String provider) {
 		try {

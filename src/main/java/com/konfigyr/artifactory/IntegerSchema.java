@@ -19,7 +19,9 @@ public final class IntegerSchema extends NumericalSchema<Long> {
 	private static final IntegerSchema INSTANCE = builder().build();
 
 	/**
-	 * Creates a new default {@link IntegerSchema} instance with only the {@code type} property set.
+	 * Returns the shared, immutable {@link IntegerSchema} instance with only the {@code type}
+	 * property set. This method always returns the same cached instance rather than creating a
+	 * new one.
 	 *
 	 * @return the integer schema.
 	 */
