@@ -76,7 +76,7 @@ public class DeployPlugin implements Plugin<Project> {
 		pom.developers(developers -> developers.developer(developer -> {
 			developer.getId().set("vspasic");
 			developer.getName().set("Vladimir Spasic");
-			developer.getEmail().set("Vladimir Spasic");
+			developer.getEmail().set("vladimir.spasic.86@gmail.com");
 			developer.getRoles().add("Project lead");
 		}));
 		pom.issueManagement(issue -> {

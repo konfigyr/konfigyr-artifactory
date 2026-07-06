@@ -1,8 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +40,6 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	 * @param descriptors the property descriptors to be added
 	 * @return a new immutable {@link ArtifactMetadata} instance, never {@literal null}.
 	 */
-	@NonNull
 	static ArtifactMetadata of(String groupId, String artifactId, String version, PropertyDescriptor... descriptors) {
 		return builder()
 				.groupId(groupId)
@@ -54,22 +50,25 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	}
 
 	/**
-	 * Creates a new instance of the {@link DefaultArtifactMetadata.Builder} used to create a new instance of
-	 * the {@link DefaultArtifactMetadata} using the fluent builder API.
+	 * Creates a new instance of the {@link ArtifactMetadataBuilder} used to create a new instance of
+	 * the default {@link ArtifactMetadata} implementation using the fluent builder API.
 	 *
 	 * @return default artifact metadata builder, never {@literal null}.
 	 */
-	static DefaultArtifactMetadata.Builder builder() {
+	static ArtifactMetadataBuilder<? extends ArtifactMetadata, ?> builder() {
 		return new DefaultArtifactMetadata.Builder();
 	}
 
 	/**
 	 * Returns the {@code Base64} encoded string of SHA-256 checksum that is generated based on
 	 * the artifact metadata.
+	 * <p>
+	 * Metadata can not be created without a checksum: unless one is explicitly supplied to the
+	 * {@link DefaultArtifactMetadata.Builder}, it is derived automatically from the {@link #properties()}
+	 * using a {@link JsonSchemaDigestVisitor}.
 	 *
-	 * @return checksum of the artifact metadata, may be {@literal null}.
+	 * @return checksum of the artifact metadata, never {@literal null}.
 	 */
-	@Nullable
 	String checksum();
 
 	/**
@@ -78,10 +77,8 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	 *
 	 * @return the configuration property metadata extracted from the build, never {@literal null}.
 	 */
-	@NonNull
 	List<PropertyDescriptor> properties();
 
-	@NonNull
 	@Override
 	default Iterator<PropertyDescriptor> iterator() {
 		return properties().iterator();

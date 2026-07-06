@@ -1,10 +1,9 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
  * @param description textual description of the artifact, may be {@literal null}.
  * @param website     external URL for documentation or homepage, may be {@literal null}.
  * @param repository  source control repository reference (SCM URL), may be {@literal null}.
- * @param checksum    checksum identifying this specific metadata, may be {@literal null}.
+ * @param checksum    checksum identifying this specific metadata, can't be {@literal null}.
  * @param properties  property definitions for the artifact, can't {@literal null}
  * @author Vladimir Spasic
  * @since 1.0.0
@@ -26,16 +25,30 @@ public record DefaultArtifactMetadata(
 		String groupId,
 		String artifactId,
 		String version,
-		String name,
-		String description,
-		URI website,
-		URI repository,
+		@Nullable String name,
+		@Nullable String description,
+		@Nullable URI website,
+		@Nullable URI repository,
 		String checksum,
 		List<PropertyDescriptor> properties
 ) implements ArtifactMetadata {
 
 	@Serial
 	private static final long serialVersionUID = 5969189079506443729L;
+
+	/**
+	 * Validates this {@link ArtifactMetadata}, mirroring the checks performed by
+	 * {@link ArtifactBuilder#validate()} and {@link ArtifactMetadataBuilder#validate()}, so that the
+	 * invariant holds regardless of whether this record is constructed via the {@link Builder} or
+	 * directly.
+	 */
+	public DefaultArtifactMetadata {
+		Asserts.notBlank(groupId, "Artifact groupId can not be blank");
+		Asserts.notBlank(artifactId, "Artifact artifactId can not be blank");
+		Asserts.notBlank(version, "Artifact version can not be blank");
+		Asserts.notBlank(checksum, "Artifact metadata checksum can not be blank");
+		Asserts.notEmpty(properties, "Artifact metadata must contain at least one property descriptor");
+	}
 
 	/**
 	 * Builder class used to create new instances of the {@link DefaultArtifactMetadata}.
@@ -47,30 +60,20 @@ public record DefaultArtifactMetadata(
 		}
 
 		/**
-		 * Creates the {@link DefaultArtifact} as a result of this builder.
+		 * Creates the {@link DefaultArtifactMetadata} as a result of this builder.
 		 *
-		 * @return artifact, never {@literal null}.
+		 * @return artifact metadata, never {@literal null}.
 		 */
-		@NonNull
 		@Override
-		public DefaultArtifactMetadata build() {
-			if (groupId == null || groupId.isBlank()) {
-				throw new IllegalArgumentException("Artifact groupId can not be blank");
-			}
-			if (artifactId == null || artifactId.isBlank()) {
-				throw new IllegalArgumentException("Artifact artifactId can not be blank");
-			}
-			if (version == null || version.isBlank()) {
-				throw new IllegalArgumentException("Artifact version can not be blank");
-			}
-			if (properties.isEmpty()) {
-				throw new IllegalArgumentException("Artifact metadata must contain at least one property descriptor");
-			}
-
+		protected DefaultArtifactMetadata instantiate() {
 			properties.sort(PropertyDescriptor::compareTo);
 
+			if (checksum == null || checksum.isBlank()) {
+				checksum = checksum(properties);
+			}
+
 			return new DefaultArtifactMetadata(groupId, artifactId, version, name, description,
-					website, repository, checksum, Collections.unmodifiableList(properties));
+					website, repository, checksum, List.copyOf(properties));
 		}
 
 	}

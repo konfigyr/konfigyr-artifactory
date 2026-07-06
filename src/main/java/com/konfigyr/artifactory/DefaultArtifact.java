@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
@@ -20,9 +19,9 @@ import java.net.URI;
  * @since 1.0.0
  */
 public record DefaultArtifact(
-		@NonNull String groupId,
-		@NonNull String artifactId,
-		@NonNull String version,
+		String groupId,
+		String artifactId,
+		String version,
 		@Nullable String name,
 		@Nullable String description,
 		@Nullable URI website,
@@ -30,7 +29,18 @@ public record DefaultArtifact(
 ) implements Artifact {
 
 	@Serial
-	private static final long serialVersionUID = 8548427370636592022L;
+	private static final long serialVersionUID = 7475803035172028135L;
+
+	/**
+	 * Validates the Maven coordinates of this {@link Artifact}, mirroring the checks performed
+	 * by {@link ArtifactBuilder#validate()}, so that the invariant holds regardless of whether
+	 * this record is constructed via the {@link Builder} or directly.
+	 */
+	public DefaultArtifact {
+		Asserts.notBlank(groupId, "Artifact groupId can not be blank");
+		Asserts.notBlank(artifactId, "Artifact artifactId can not be blank");
+		Asserts.notBlank(version, "Artifact version can not be blank");
+	}
 
 	/**
 	 * Builder class used to create new instances of the {@link DefaultArtifact}.
@@ -46,19 +56,8 @@ public record DefaultArtifact(
 		 *
 		 * @return artifact, never {@literal null}.
 		 */
-		@NonNull
 		@Override
-		public DefaultArtifact build() {
-			if (groupId == null || groupId.isBlank()) {
-				throw new IllegalArgumentException("Artifact groupId can not be blank");
-			}
-			if (artifactId == null || artifactId.isBlank()) {
-				throw new IllegalArgumentException("Artifact artifactId can not be blank");
-			}
-			if (version == null || version.isBlank()) {
-				throw new IllegalArgumentException("Artifact version can not be blank");
-			}
-
+		protected DefaultArtifact instantiate() {
 			return new DefaultArtifact(groupId, artifactId, version, name, description, website, repository);
 		}
 

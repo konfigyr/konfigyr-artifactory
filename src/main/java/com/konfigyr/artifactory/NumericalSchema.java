@@ -23,32 +23,32 @@ public sealed abstract class NumericalSchema<T extends Number> extends JsonSchem
 	/**
 	 * The format of the numerical value defined by this schema.
 	 */
-	private final String format;
+	private final @Nullable String format;
 
 	/**
 	 * Specifies the minimum numerical value defined by this schema.
 	 */
-	private final T minimum;
+	private final @Nullable T minimum;
 
 	/**
 	 * Specifies the maximum numerical value defined by this schema.
 	 */
-	private final T maximum;
+	private final @Nullable T maximum;
 
 	/**
 	 * Used to check if the numerical value is a multiple of the given divisor.
 	 */
-	private final Double multipleOf;
+	private final @Nullable Double multipleOf;
 
 	/**
 	 * When set to {@code true}, the minimum value, if set, would be exclusive.
 	 */
-	private final Boolean exclusiveMinimum;
+	private final @Nullable Boolean exclusiveMinimum;
 
 	/**
 	 * When set to {@code true}, the maximum value, if set, would be exclusive.
 	 */
-	private final Boolean exclusiveMaximum;
+	private final @Nullable Boolean exclusiveMaximum;
 
 	/**
 	 * Creates a new instance of the {@link NumericalSchema} class using the values from the given builder.
@@ -186,12 +186,12 @@ public sealed abstract class NumericalSchema<T extends Number> extends JsonSchem
 	 */
 	protected static abstract class Builder<T extends Number, B extends Builder<T, B>> extends JsonSchema.Builder<NumericalSchema<T>, B> {
 
-		private String format;
-		private T minimum;
-		private T maximum;
-		private Double multipleOf;
-		private Boolean exclusiveMinimum;
-		private Boolean exclusiveMaximum;
+		private @Nullable String format;
+		private @Nullable T minimum;
+		private @Nullable T maximum;
+		private @Nullable Double multipleOf;
+		private @Nullable Boolean exclusiveMinimum;
+		private @Nullable Boolean exclusiveMaximum;
 
 		/**
 		 * Creates a new instance of the abstract numerical {@link Builder} class with the given

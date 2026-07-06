@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -82,7 +84,9 @@ class ArtifactMetadataTest {
 				.schema(StringSchema.instance())
 				.build();
 
-		assertThatObject(builder.property(property).build())
+		final var metadata = builder.property(property).build();
+
+		assertThatObject(metadata)
 				.isNotNull()
 				.returns("com.konfigyr", Artifact::groupId)
 				.returns("konfigyr-artifactory", Artifact::artifactId)
@@ -91,8 +95,110 @@ class ArtifactMetadataTest {
 				.returns(null, Artifact::description)
 				.returns(null, Artifact::website)
 				.returns(null, Artifact::repository)
-				.returns(null, ArtifactMetadata::checksum)
 				.returns(List.of(property), ArtifactMetadata::properties);
+
+		assertThat(metadata.checksum()).isNotBlank();
+	}
+
+	@Test
+	@DisplayName("should compute the checksum automatically when not explicitly provided")
+	void computesChecksumAutomatically() throws Exception {
+		final var first = PropertyDescriptor.builder()
+				.name("spring.application.group")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		final var second = PropertyDescriptor.builder()
+				.name("spring.application.name")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		// properties are sorted by name, and each descriptor's own digest is combined into a
+		// single outer digest, mirroring ArtifactMetadataBuilder#checksum(List)
+		final var digest = MessageDigest.getInstance(JsonSchemaDigestVisitor.DEFAULT_ALGORITHM);
+
+		final var firstVisitor = JsonSchemaDigestVisitor.of();
+		firstVisitor.visit(first);
+		digest.update(firstVisitor.digest());
+
+		final var secondVisitor = JsonSchemaDigestVisitor.of();
+		secondVisitor.visit(second);
+		digest.update(secondVisitor.digest());
+
+		final var expected = Base64.getEncoder().encodeToString(digest.digest());
+
+		final var metadata = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.properties(List.of(first, second))
+				.build();
+
+		assertThat(metadata.checksum()).isEqualTo(expected);
+	}
+
+	@Test
+	@DisplayName("should compute the same checksum regardless of property descriptor insertion order")
+	void computedChecksumIgnoresPropertyOrder() {
+		final var first = PropertyDescriptor.builder()
+				.name("spring.application.group")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		final var second = PropertyDescriptor.builder()
+				.name("spring.application.name")
+				.typeName("java.lang.String")
+				.schema(StringSchema.instance())
+				.build();
+
+		final var checksum = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.properties(List.of(first, second))
+				.build()
+				.checksum();
+
+		final var reordered = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.properties(List.of(second, first))
+				.build()
+				.checksum();
+
+		assertThat(checksum).isEqualTo(reordered);
+	}
+
+	@Test
+	@DisplayName("should compute a different checksum when a property is renamed but its schema is unchanged")
+	void checksumChangesWhenPropertyIsRenamed() {
+		final var original = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.property(PropertyDescriptor.builder()
+						.name("spring.datasource.url")
+						.typeName("java.lang.String")
+						.schema(StringSchema.instance())
+						.build())
+				.build();
+
+		final var renamed = ArtifactMetadata.builder()
+				.groupId("com.konfigyr")
+				.artifactId("konfigyr-artifactory")
+				.version("1.0.0")
+				.property(PropertyDescriptor.builder()
+						.name("totally.different.name.for.the.same.slot")
+						.typeName("java.lang.String")
+						.schema(StringSchema.instance())
+						.build())
+				.build();
+
+		assertThat(original.checksum()).isNotEqualTo(renamed.checksum());
 	}
 
 	@Test

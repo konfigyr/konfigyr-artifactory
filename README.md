@@ -16,8 +16,11 @@ The Konfigyr Artifactory SDK defines the core interfaces and types that describe
 - **Artifacts**: Spring Boot or JVM components that define configuration metadata.
 - **Property descriptors**: Configuration properties exposed by artifacts.
 - **Artifact metadata**: Aggregates all configuration metadata for a specific artifact.
-- **Releases**: Versioned upload states managed by the Artifactory backend.
-- **Manifests**: Lists of artifacts currently used by a service within a namespace.
+- **Publications**: Versioned upload states managed by the Artifactory backend.
+- **Manifests**: Lists of manifest entries currently used by a service within a namespace, each
+  carrying the checksum and provenance of its captured metadata.
+- **Service releases**: Process reports of a service's publish build, tracking per-artifact upload
+  status separately from the service's published manifest content.
 - **JsonSchema**: JSON Schema used by the Konfigyr UI for type-safe validation.
 
 This SDK provides a shared, stable contract between:
@@ -88,7 +91,7 @@ PropertyDescriptor descriptor = PropertyDescriptor.builder()
 ##### ArtifactMetadata
 
 Aggregates all property definitions for a single artifact version. This object is uploaded to the Artifactory
-backend via REST API, where it creates a new `Release` and triggers batch ingestion.
+backend via REST API, where it creates a new `Publication` and triggers batch ingestion.
 
 This object is typically produced automatically by the Konfigyr Gradle or Maven plugin during the build process.
 
@@ -101,22 +104,88 @@ ArtifactMetadata metadata = ArtifactMetadata.builder()
     .build();
 ```
 
-##### Release
+##### Publication
 
-Represents a version change event for a specific Konfigyr Artifact. Releases are created when new artifact metadata
-is uploaded to the Konfigyr Artifactory. Each release transitions through the following lifecycle states: `PENDING` → `RELEASED` → `FAILED`
+Represents a version change event for a specific Konfigyr Artifact. Publications are created when new artifact
+metadata is uploaded to the Konfigyr Artifactory. Each publication transitions through the following lifecycle
+states: `PENDING` → `PUBLISHED` → `FAILED`
 
 ##### Manifest
 
 Represents the current state of a Konfigyr service. Manifests allow Konfigyr to detect differences between
-environments and ensure configuration consistency across releases.
+environments and ensure configuration consistency across releases. A `Manifest` is a content snapshot: it
+holds the list of `ManifestEntry` instances currently in use by the service.
 
 ```java
 Manifest manifest = Manifest.builder()
     .id("service-id")
     .name("payments-service")
+    .artifact(ManifestEntry.builder()
+        .artifact(Artifact.of("com.example", "auth-lib", "1.4.2"))
+        .checksum("checksum")
+        .source(ArtifactSource.ARTIFACTORY)
+        .resolvedAt(Instant.now())
+        .build())
+    .build();
+```
+
+##### ManifestEntry
+
+Represents a single, settled entry within a `Manifest`: an `Artifact` together with the checksum and
+`ArtifactSource` of the metadata that was captured for it. Unlike `Publication`, a `ManifestEntry` carries
+no processing state — once a `Manifest` is published, every entry in it is equally present.
+
+```java
+ManifestEntry entry = ManifestEntry.builder()
     .artifact(Artifact.of("com.example", "auth-lib", "1.4.2"))
-    .artifact(Artifact.of("com.example", "core-utils", "2.0.0"))
+    .checksum("checksum")
+    .source(ArtifactSource.LOCAL)
+    .resolvedAt(Instant.now())
+    .build();
+```
+
+##### ServiceRelease
+
+Reports what happened the last time a service attempted to publish its `Manifest`: a transient process
+report, kept separate from `Manifest` itself so that content (what the service currently publishes) and
+process (what happened the last time someone tried to publish it) never get mixed together. Each
+`ServiceRelease` transitions through the following lifecycle states: `PENDING` → `RELEASED` → `FAILED`
+
+```java
+ServiceRelease release = ServiceRelease.builder()
+    .id("release-id")
+    .state(ReleaseState.PENDING)
+    .artifact(ServiceReleaseEntry.builder()
+        .artifact(Artifact.of("com.example", "auth-lib", "1.4.2"))
+        .status(ArtifactUploadStatus.UPLOAD_REQUIRED)
+        .build())
+    .build();
+```
+
+##### ServiceReleaseEntry
+
+Reports whether the build plugin still needs to upload a single artifact's metadata as part of a
+`ServiceRelease`. Like `ManifestEntry`, it is an `Artifact` plus one extra field — here, an
+`ArtifactUploadStatus`.
+
+```java
+ServiceReleaseEntry entry = ServiceReleaseEntry.builder()
+    .artifact(Artifact.of("com.example", "auth-lib", "1.4.2"))
+    .status(ArtifactUploadStatus.SKIP)
+    .build();
+```
+
+##### ServiceReleaseCandidate
+
+A single artifact coordinate paired with the checksum of its locally resolved metadata, submitted by
+the build plugin as part of the request to create a new `ServiceRelease`. It is the request-side
+counterpart of `ServiceReleaseEntry`: an `Artifact` plus one extra field — here, a `checksum` instead
+of an `ArtifactUploadStatus`.
+
+```java
+ServiceReleaseCandidate candidate = ServiceReleaseCandidate.builder()
+    .artifact(Artifact.of("com.example", "auth-lib", "1.4.2"))
+    .checksum("checksum")
     .build();
 ```
 
@@ -128,7 +197,7 @@ you would need to add `tools.jackson.core:jackson-databind` dependency to your p
 
 ```java
 final JsonMapper mapper = JsonMapper.builder()
-        .addModule(new KonfigyrJacksonModule())
+        .addModule(new ArtifactoryJacksonModule())
         .build();
 ```
 

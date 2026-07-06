@@ -1,7 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -40,7 +38,7 @@ import java.util.Comparator;
  *
  * @author : Vladimir Spasic
  * @see PropertyDescriptor
- * @see Release
+ * @see Publication
  * @since 1.0.0
  **/
 public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Serializable {
@@ -64,21 +62,20 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 * @param version    the Maven {@code version}, e.g. {@code 3.3.1}.
 	 * @return a new immutable {@link Artifact} instance, never {@literal null}.
 	 */
-	@NonNull
 	static Artifact of(String groupId, String artifactId, String version) {
 		return builder().groupId(groupId).artifactId(artifactId).version(version).build();
 	}
 
 	/**
-	 * Creates a new instance of the {@link DefaultArtifact.Builder} used to create a new instance of
-	 * the {@link DefaultArtifact} using the fluent builder API.
+	 * Creates a new instance of the {@link ArtifactBuilder} used to create a new instance of
+	 * the default {@link Artifact} implementation using the fluent builder API.
 	 * <p>
 	 * This builder allows additional metadata such as {@link #name()}, {@link #description()},
 	 * {@link #website()}, and {@link #repository()} to be specified.
 	 *
 	 * @return default artifact builder, never {@literal null}.
 	 */
-	static DefaultArtifact.Builder builder() {
+	static ArtifactBuilder<? extends Artifact, ?> builder() {
 		return new DefaultArtifact.Builder();
 	}
 
@@ -99,19 +96,23 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 *
 	 * @return the {@code version} coordinate of the artifact, never {@literal null} and never empty
 	 */
-	@NonNull
 	String version();
 
 	/**
 	 * Creates an {@link ArtifactMetadata} for this {@link Artifact} with the given collection
 	 * of {@link PropertyDescriptor property descriptors}.
+	 * <p>
+	 * The checksum of the created metadata is derived automatically from the given {@code descriptors},
+	 * see {@link ArtifactMetadata#checksum()}.
 	 *
 	 * @param descriptors property descriptors used to prepare the artifact metadata instance, never {@literal null}.
 	 * @return artifact metadata, never {@literal null}
 	 */
-	@NonNull
-	default ArtifactMetadata toMetadata(@NonNull Collection<? extends PropertyDescriptor> descriptors) {
-		return ArtifactMetadata.builder().artifact(this).properties(descriptors).build();
+	default ArtifactMetadata toMetadata(Collection<? extends PropertyDescriptor> descriptors) {
+		return ArtifactMetadata.builder()
+				.artifact(this)
+				.properties(descriptors)
+				.build();
 	}
 
 	/**
@@ -127,7 +128,7 @@ public interface Artifact extends ArtifactDescriptor, Comparable<Artifact>, Seri
 	 * less than, equal to, or greater than the specified artifact.
 	 */
 	@Override
-	default int compareTo(@NonNull Artifact other) {
+	default int compareTo(Artifact other) {
 		return Comparator.comparing(Artifact::groupId)
 				.thenComparing(Artifact::artifactId)
 				.thenComparing(Artifact::version)

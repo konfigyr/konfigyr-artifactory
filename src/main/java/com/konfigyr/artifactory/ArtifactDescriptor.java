@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serializable;
@@ -55,7 +54,6 @@ public interface ArtifactDescriptor extends Serializable {
 	 *
 	 * @return the {@code groupId} coordinate of the artifact, never {@literal null}.
 	 */
-	@NonNull
 	String groupId();
 
 	/**
@@ -68,7 +66,6 @@ public interface ArtifactDescriptor extends Serializable {
 	 *
 	 * @return the {@code artifactId} coordinate of the artifact, never {@literal null}.
 	 */
-	@NonNull
 	String artifactId();
 
 	/**

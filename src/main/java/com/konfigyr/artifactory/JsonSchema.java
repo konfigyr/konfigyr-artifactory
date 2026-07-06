@@ -1,6 +1,5 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -23,28 +22,27 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 	/**
 	 * The type of this JSON schema instance.
 	 */
-	@NonNull
 	protected final JsonSchemaType type;
 
 	/**
 	 * The title for this JSON schema instance.
 	 */
-	protected final String title;
+	protected final @Nullable String title;
 
 	/**
 	 * The description for this JSON schema instance.
 	 */
-	protected final String description;
+	protected final @Nullable String description;
 
 	/**
 	 * The default value for this JSON schema instance.
 	 */
-	protected final Object defaultValue;
+	protected final @Nullable Object defaultValue;
 
 	/**
 	 * Is this JSON schema instance deprecated?
 	 */
-	protected final Boolean deprecated;
+	protected final @Nullable Boolean deprecated;
 
 	/**
 	 * Collection of examples for this JSON schema instance.
@@ -61,7 +59,7 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 	 *
 	 * @param builder the builder instance, never {@literal null}.
 	 */
-	protected JsonSchema(@NonNull Builder<?, ?> builder) {
+	protected JsonSchema(Builder<?, ?> builder) {
 		this.type = builder.type;
 		this.title = builder.title;
 		this.description = builder.description;
@@ -76,7 +74,6 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 	 *
 	 * @return the schema type.
 	 */
-	@NonNull
 	public JsonSchemaType type() {
 		return type;
 	}
@@ -146,7 +143,7 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 	 *
 	 * @param visitor The visitor implementation to execute, never {@literal null}.
 	 */
-	public void accept(@NonNull JsonSchemaVisitor visitor) {
+	public void accept(JsonSchemaVisitor visitor) {
 		visitor.visit(this);
 	}
 
@@ -202,10 +199,10 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 		if (deprecated != null) {
 			builder.append(", deprecated=").append(deprecated);
 		}
-		if (examples != null && !examples.isEmpty()) {
+		if (!examples.isEmpty()) {
 			builder.append(", examples=").append(examples);
 		}
-		if (enumerations != null && !enumerations.isEmpty()) {
+		if (!enumerations.isEmpty()) {
 			builder.append(", enum=").append(enumerations);
 		}
 		return builder;
@@ -317,7 +314,7 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 		 * @param deprecated the deprecated flag, can be {@literal null}.
 		 * @return the builder instance.
 		 */
-		public B deprecated(Boolean deprecated) {
+		public B deprecated(@Nullable Boolean deprecated) {
 			this.deprecated = deprecated;
 			return myself();
 		}

@@ -1,6 +1,6 @@
 package com.konfigyr.artifactory;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -22,22 +22,22 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	/**
 	 * The unique identifier of the service manifest.
 	 */
-	protected String id;
+	protected @Nullable String id;
 
 	/**
 	 * The name of the service manifest.
 	 */
-	protected String name;
+	protected @Nullable String name;
 
 	/**
-	 * Collection of artifacts that are part of the manifest.
+	 * Collection of manifest entries that are part of the manifest.
 	 */
-	protected final List<Artifact> artifacts;
+	protected final List<ManifestEntry> artifacts;
 
 	/**
 	 * Timestamp marking the creation of the manifest.
 	 */
-	protected Instant createdAt;
+	protected @Nullable Instant createdAt;
 
 	/**
 	 * Creates a new {@link ManifestBuilder} instance.
@@ -52,7 +52,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 *
 	 * @return the type-self builder return value, never {@literal null}.
 	 */
-	@NonNull
 	@SuppressWarnings("unchecked")
 	protected B myself() {
 		return (B) this;
@@ -64,7 +63,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param id the service identifier.
 	 * @return this builder instance.
 	 */
-	@NonNull
 	public B id(String id) {
 		this.id = id;
 		return myself();
@@ -76,7 +74,6 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param name the service name.
 	 * @return this builder instance.
 	 */
-	@NonNull
 	public B name(String name) {
 		this.name = name;
 		return myself();
@@ -88,48 +85,71 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * @param createdAt creation timestamp.
 	 * @return this builder instance.
 	 */
-	@NonNull
-	public B createdAt(Instant createdAt) {
+	public B createdAt(@Nullable Instant createdAt) {
 		this.createdAt = createdAt;
 		return myself();
 	}
 
 	/**
-	 * Adds a single artifact entry to the manifest.
+	 * Adds a single manifest entry to the manifest.
 	 *
-	 * @param artifact a manifest artifact entry.
+	 * @param entry a manifest entry.
 	 * @return this builder instance.
 	 */
-	@NonNull
-	public B artifact(Artifact artifact) {
-		if (artifact != null) {
-			this.artifacts.add(artifact);
+	public B artifact(@Nullable ManifestEntry entry) {
+		if (entry != null) {
+			this.artifacts.add(entry);
 		}
 		return myself();
 	}
 
 	/**
-	 * Adds multiple artifact entries to the manifest.
+	 * Adds multiple manifest entries to the manifest.
 	 *
-	 * @param artifacts list of manifest artifact entries.
+	 * @param entries list of manifest entries.
 	 * @return this builder instance.
 	 */
-	@NonNull
-	public B artifacts(Iterable<? extends Artifact> artifacts) {
-		if (artifacts != null) {
-			for (Artifact artifact : artifacts) {
-				artifact(artifact);
+	public B artifacts(@Nullable Iterable<? extends ManifestEntry> entries) {
+		if (entries != null) {
+			for (ManifestEntry entry : entries) {
+				artifact(entry);
 			}
 		}
 		return myself();
 	}
 
 	/**
-	 * Builds a new immutable {@link Manifest} instance.
+	 * Validates the properties collected by this builder, throwing an {@link IllegalArgumentException}
+	 * when a required property is missing or invalid, and applying defaults for optional properties
+	 * that were left unset.
+	 */
+	protected void validate() {
+		Asserts.notBlank(id, "Service identifier can not be blank");
+		Asserts.notBlank(name, "Service name can not be blank");
+
+		if (createdAt == null) {
+			createdAt = Instant.now();
+		}
+	}
+
+	/**
+	 * Creates the {@link Manifest} instance using the properties collected by this builder.
+	 * <p>
+	 * Called by {@link #build()} only once {@link #validate()} has completed without throwing.
+	 *
+	 * @return the manifest instance, never {@literal null}.
+	 */
+	protected abstract T instantiate();
+
+	/**
+	 * Validates the properties collected by this builder and builds a new immutable {@link Manifest}
+	 * instance.
 	 *
 	 * @return a fully initialized manifest, never {@literal null}.
 	 */
-	@NonNull
-	abstract T build();
+	public final T build() {
+		validate();
+		return instantiate();
+	}
 
 }
