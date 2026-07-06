@@ -156,6 +156,8 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * Validates the properties collected by this builder, throwing an {@link IllegalArgumentException}
 	 * when a required property is missing or invalid, and applying defaults for optional properties
 	 * that were left unset.
+	 *
+	 * @throws IllegalArgumentException if the {@code id} collected by this builder is missing or blank.
 	 */
 	protected void validate() {
 		Asserts.notBlank(id, "Service release identifier can not be blank");
@@ -178,6 +180,8 @@ public abstract class ServiceReleaseBuilder<T extends ServiceRelease, B extends 
 	 * result of this builder.
 	 *
 	 * @return the service release instance, never {@literal null}.
+	 * @throws IllegalArgumentException if a required property collected by this builder is
+	 *                                  missing or invalid, see {@link #validate()}.
 	 */
 	public final T build() {
 		validate();

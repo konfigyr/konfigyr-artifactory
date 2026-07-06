@@ -42,7 +42,9 @@ public final class StringSchema extends JsonSchema {
 	private final @Nullable String pattern;
 
 	/**
-	 * Creates a new default {@link StringSchema} instance with only the {@code type} property set.
+	 * Returns the shared, immutable {@link StringSchema} instance with only the {@code type}
+	 * property set. This method always returns the same cached instance rather than creating a
+	 * new one.
 	 *
 	 * @return the string schema.
 	 */

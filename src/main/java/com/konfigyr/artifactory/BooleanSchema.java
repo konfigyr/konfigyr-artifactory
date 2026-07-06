@@ -20,7 +20,9 @@ public final class BooleanSchema extends JsonSchema {
 	private static final BooleanSchema INSTANCE = builder().build();
 
 	/**
-	 * Creates a new default {@link BooleanSchema} instance with only the {@code type} property set.
+	 * Returns the shared, immutable {@link BooleanSchema} instance with only the {@code type}
+	 * property set. This method always returns the same cached instance rather than creating a
+	 * new one.
 	 *
 	 * @return the boolean schema.
 	 */

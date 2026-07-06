@@ -122,6 +122,9 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * Validates the properties collected by this builder, throwing an {@link IllegalArgumentException}
 	 * when a required property is missing or invalid, and applying defaults for optional properties
 	 * that were left unset.
+	 *
+	 * @throws IllegalArgumentException if the {@code id} or {@code name} collected by this builder
+	 *                                  is missing or blank.
 	 */
 	protected void validate() {
 		Asserts.notBlank(id, "Service identifier can not be blank");
@@ -146,6 +149,8 @@ public abstract class ManifestBuilder<T extends Manifest, B extends ManifestBuil
 	 * instance.
 	 *
 	 * @return a fully initialized manifest, never {@literal null}.
+	 * @throws IllegalArgumentException if a required property collected by this builder is
+	 *                                  missing or invalid, see {@link #validate()}.
 	 */
 	public final T build() {
 		validate();

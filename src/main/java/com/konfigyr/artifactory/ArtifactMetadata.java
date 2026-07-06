@@ -75,7 +75,8 @@ public interface ArtifactMetadata extends Artifact, Iterable<PropertyDescriptor>
 	 * Returns the sorted collection of {@link PropertyDescriptor property descriptors} that
 	 * are extracted from the build and should be uploaded to the {@code Artifactory}.
 	 *
-	 * @return the configuration property metadata extracted from the build, never {@literal null}.
+	 * @return the configuration property metadata extracted from the build, never {@literal null}
+	 * or empty: an {@link ArtifactMetadata} must contain at least one property descriptor.
 	 */
 	List<PropertyDescriptor> properties();
 

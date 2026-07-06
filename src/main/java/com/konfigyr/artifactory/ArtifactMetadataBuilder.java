@@ -119,6 +119,8 @@ public abstract class ArtifactMetadataBuilder<T extends ArtifactMetadata, B exte
 	 *
 	 * @param properties the property descriptors to be hashed, never {@literal null}.
 	 * @return the computed checksum, never {@literal null}.
+	 * @throws IllegalStateException if the {@link JsonSchemaDigestVisitor#DEFAULT_ALGORITHM} digest
+	 *                               algorithm is not available.
 	 */
 	protected static String checksum(List<PropertyDescriptor> properties) {
 		final List<PropertyDescriptor> sorted = new ArrayList<>(properties);
