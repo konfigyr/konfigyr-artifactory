@@ -31,6 +31,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: basic
+          cache-read-only: true
 
       - name: Check
         run: ./gradlew --no-daemon --no-parallel --continue assemble check
