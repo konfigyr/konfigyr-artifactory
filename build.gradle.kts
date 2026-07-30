@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.konfigyr"
-version = "1.0.0-RC5"
+version = "1.0.0-RC6"
 description = "Library that defines the main building blocks of the Konfigyr Artifactory."
 
 repositories {

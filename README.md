@@ -43,14 +43,14 @@ This SDK provides a shared, stable contract between:
 <dependency>
   <groupId>com.konfigyr</groupId>
   <artifactId>konfigyr-artifactory</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-RC6</version>
 </dependency>
 ```
 
 Or with Gradle:
 
 ```kotlin
-implementation("com.konfigyr:konfigyr-artifactory:1.0.0")
+implementation("com.konfigyr:konfigyr-artifactory:1.0.0-RC6")
 ```
 
 ### Related projects
