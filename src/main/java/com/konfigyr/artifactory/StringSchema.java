@@ -192,6 +192,17 @@ public final class StringSchema extends JsonSchema {
 		}
 
 		/**
+		 * Specify the format of the string value.
+		 *
+		 * @param format the string value format, can be {@literal null}.
+		 * @return the builder instance.
+		 * @throws IllegalArgumentException if the given format is not valid for {@link JsonSchemaType#STRING}.
+		 */
+		public Builder format(@Nullable JsonSchemaFormat format) {
+			return format(requireFormat(format, JsonSchemaType.STRING));
+		}
+
+		/**
 		 * Specify the regular expression that the string value must match.
 		 *
 		 * @param pattern the regular expression, can be {@literal null}

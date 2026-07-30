@@ -302,6 +302,28 @@ public sealed abstract class JsonSchema implements Serializable permits ArraySch
 		}
 
 		/**
+		 * Resolves the wire-level value of the given {@link JsonSchemaFormat}, validating that it is
+		 * valid for the given schema type.
+		 *
+		 * @param format the format to resolve, can be {@literal null}.
+		 * @param type the schema type the format must be valid for, never {@literal null}.
+		 * @return the format's wire-level value, or {@literal null} if the given format was {@literal null}.
+		 * @throws IllegalArgumentException if the given format is not valid for the given schema type.
+		 */
+		protected static @Nullable String requireFormat(@Nullable JsonSchemaFormat format, JsonSchemaType type) {
+			if (format == null) {
+				return null;
+			}
+			if (format.type() != type) {
+				throw new IllegalArgumentException(
+						"Format '%s' is not valid for the '%s' schema type, it is only valid for the '%s' schema type"
+								.formatted(format.value(), type.name().toLowerCase(), format.type().name().toLowerCase())
+				);
+			}
+			return format.value();
+		}
+
+		/**
 		 * Specify a short description of the schema that is being built by this builder.
 		 *
 		 * @param title the schema title, can be {@literal null}.
