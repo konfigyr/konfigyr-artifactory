@@ -37,7 +37,7 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = "13.7.0"
+    toolVersion = "13.9.0"
 }
 
 tasks.withType<JavaCompile>().configureEach {
