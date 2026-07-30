@@ -215,6 +215,17 @@ public sealed abstract class NumericalSchema<T extends Number> extends JsonSchem
 		}
 
 		/**
+		 * Specify the format of the numerical value.
+		 *
+		 * @param format the numerical value format, can be {@literal null}.
+		 * @return the builder instance.
+		 * @throws IllegalArgumentException if the given format is not valid for this builder's {@link #type}.
+		 */
+		public B format(@Nullable JsonSchemaFormat format) {
+			return format(requireFormat(format, type));
+		}
+
+		/**
 		 * Specify the minimum allowed value described by this schema.
 		 * <p>
 		 * If the {@link #exclusiveMinimum()} is set to {@literal true}, then the minimum value is exclusive.
